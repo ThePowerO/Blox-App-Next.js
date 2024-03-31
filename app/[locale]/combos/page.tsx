@@ -1,11 +1,17 @@
+//import { sendMail } from '@/lib/mail'
 import React from 'react'
 
-const Combos = () => {
+export default async function Combos () {
+
+  //await sendMail({
+  //  to: "helloynduarte@gmail.com",
+  //  subject: "Test Tittle",
+  //  body: "Test Body"
+  //});
+
   return (
     <div>
       Combos Page
     </div>
   )
 }
-
-export default Combos

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslations } from 'next-intl'
 
-const About = () => {
+export default function About() {
 
   const t = useTranslations("AboutPage");
 
@@ -11,5 +11,3 @@ const About = () => {
     </div>
   )
 }
-
-export default About

@@ -26,5 +26,13 @@
         "withgoogle": "Sign In with Google",
         "withroblox": "Sign In with Roblox",
         "withdiscord": "Sign In with Discord"
+    },
+    "SignUpPage": {
+        "h1": "Register",
+        "CreateBtn": "Create Account",
+        "TextLinkToSignIn": "Already have an account? ",
+        "SpanSignIn": "Sign In",
+        "pTerms": "I accept the ",
+        "LinkToTerms": "Terms"
     }
 }

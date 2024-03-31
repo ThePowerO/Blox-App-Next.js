@@ -10,6 +10,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { LocaleProvider } from '@/LocaleContext'
 import { NextIntlClientProvider, useMessages } from 'next-intl'
+import { ThemeProvider } from '@/components/ThemeProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -40,12 +41,14 @@ export default function RootLayout({
         <Providers>
           <LocaleProvider locale={locale}>
             <NextIntlClientProvider locale={locale} messages={messages}>
-              <div className='container'>
+              <ThemeProvider attribute='class' defaultTheme='Light' enableSystem disableTransitionOnChange>
                 <NavBar locale={locale} />
-                {children}
-                <ToastContainer />
+                <div className='layout-container'>
+                  {children}
+                  <ToastContainer />
+                </div>
                 <Footer />
-              </div>
+              </ThemeProvider>
             </NextIntlClientProvider>
           </LocaleProvider>
         </Providers>

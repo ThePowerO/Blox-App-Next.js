@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { sendMail } from "@/lib/mail";
 
 export default function Home() {
 

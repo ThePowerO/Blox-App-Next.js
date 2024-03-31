@@ -5,11 +5,10 @@ import React from 'react'
 import { IoEye } from "react-icons/io5";
 import { IoEyeOff } from "react-icons/io5";
 import { useState } from 'react';
-import { Checkbox, Input, Link as CLink } from '@nextui-org/react';
 import { useLocale } from '@/LocaleContext';
 import { FcGoogle } from "react-icons/fc";
 import RobloxImg from "@/public/Roblox.png";
-import DiscordImg from "@/public/Discord.png";
+import DiscordImg from "@/public/Icons/Discord.png";
 import { signIn, useSession, signOut } from 'next-auth/react';
 import { z } from 'zod';
 import Image from 'next/image';
@@ -18,13 +17,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
+import { Separator } from '../ui/separator';
+import { Loader2 } from 'lucide-react';
 
 const SignIn = () => {
   
   const t2 = useTranslations("AuthErrorMessages");
   
   const FormSchema = z.object({
-    emailusername: z
+    name: z
       .string()
       .min(1, `${t2("EmailMinimum")}`)
       .email(`${t2("InvalidEmail")}`),
@@ -39,7 +42,7 @@ const SignIn = () => {
 
   const t = useTranslations("SignInPage");
   const router = useRouter();
-  const { register, handleSubmit, formState: { errors } } = useForm<InputType>({
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<InputType>({
     resolver: zodResolver(FormSchema),
   })
 
@@ -51,7 +54,7 @@ const SignIn = () => {
   const onSubmit: SubmitHandler<InputType> = async (data) => {
     const result = await signIn("credentials", {
       redirect: false,
-      username: data.emailusername,
+      name: data.name,
       password: data.password,
     });
     if (!result?.ok) {
@@ -61,77 +64,71 @@ const SignIn = () => {
     router.push("/");
   }
 
+  const LoginWithGoogle = () => {
+    signIn("google", { callbackUrl: `/${locale}/` })
+  }
+
+  const LoginWithDIscord = () => {
+    signIn("discord", { callbackUrl: `/${locale}/` })
+  }
+
   return (
-    <div className=" grid place-items-center">
-      <div className="bg-[#212529] shadow-lg p-5 rounded-lg border-t-4 border-[#3d95ec]">
-        <h1 className="text-xl font-bold my-4">
-          {t("h1")}
-        </h1>
+    <div className='p-2 grid grid-cols-1 place-items-center mt-[55px]'>
+      <div className=' bg-stone-50 dark:bg-zinc-800 p-5 w-full tiny:max-w-[400px] sm:max-w-[400px] md:max-w-[400px] border-t-4 border-[#3d95ec] rounded-lg shadow-lg'>
+        <div className='flex flex-col gap-[10px]'>
+          <h1>{t("h1")}</h1>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3 outline-none text-white">
-          <Input
-            {...register('emailusername')}
-            errorMessage={errors.emailusername?.message}
-            type="email" placeholder="Email or Username"
-            className="w-[400px] rounded-lg text-slate-900"
-          />
-          <Input
-            {...register('password')}
-            errorMessage={errors.password?.message}
-            type={isVisiblePass ? "text" : "password"}
-            placeholder="Password" className="w-[400px] rounded-lg text-slate-900"
-            endContent={isVisiblePass ? <IoEyeOff className="cursor-pointer w-[24px] h-[24px]"
-            onClick={togglePass} /> : <IoEye className="cursor-pointer w-[24px] h-[24px]" onClick={togglePass} />}
-          />
+          <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-[10px]'>
+            <Input {...register("name")} className='dark:border-1 dark:border-stone-100' type='email' placeholder='Email' />
+            {!!errors.name && <p className='text-red-500 text-sm'>{errors.name.message}</p>}
+            <div className='relative'>
+              <Input {...register("password")} type={isVisiblePass ? "text" : "password"} className='dark:border-1 dark:border-stone-100' placeholder='Password' />
+              <span
+                onClick={togglePass}
+                className='absolute justify-end right-3 top-1/2 -translate-y-1/2
+                text-2xl cursor-pointer'
+              >
+                {isVisiblePass ? <IoEyeOff /> : <IoEye />}
+              </span>
+            </div>
+            {!!errors.password && <p className='text-red-500 text-sm'>{errors.password.message}</p>}
+            <div>
+              <Link href={`/${locale}/forgot-password`}>
+                <span className="text-sm underline text-[#3d95ec]">Forgot Password</span>
+              </Link>
+            </div>
+            <Button disabled={isSubmitting} className='bg-[#3d95ec] text-white hover:bg-[#386da1]' type='submit'>
+              {isSubmitting? <Loader2 className="w-6 h-6 animate-spin" />: `${t("button")}`}
+            </Button>
 
+            <Separator className='bg-gray-300 my-[10px] dark:bg-white' />
+
+            <div className='flex flex-col gap-[5px] w-full'>
+              <Button
+                onClick={LoginWithGoogle}
+                className='flex gap-[5px] text-black hover:text-black dark:bg-[#fff]
+                border border-input dark:hover:bg-stone-200 transition-all'
+                variant="outline"
+              >
+                <FcGoogle className='text-2xl' />
+                {t("withgoogle")}
+              </Button>
+              <Button
+                onClick={LoginWithDIscord}
+                className='flex gap-[5px] text-white hover:bg-[#2c396e] transition-all
+                border border-[#42599f] bg-[#42599f]'
+              >
+                <Image width={25} height={25} src={DiscordImg} alt="" className="invert cursor-pointer ml-[5px]" />
+                {t("withdiscord")}
+              </Button>
+            </div>
+          </form>
           <div>
-            <Link className="text-sm mt-3 text-left" href={`/${locale}/forgot-password`}>
-              <span className="underline text-[#3d95ec]">Forgot Password</span>
+            <Link className="text-sm mt-3 text-right" href={`/${locale}/sign-up`}>
+              {t("text")} <span className="underline text-[#3d95ec]">Sign Up</span>
             </Link>
           </div>
-
-          <button
-            type="submit"
-            className="bg-[#3d95ec] hover:bg-[#51a8ff] transition-all font-bold cursor-pointer px-6 py-2">
-            {t("button")}
-          </button>
-
-          <div className="flex justify-center text-sm mt-[10px]">
-            <span className="text-gray-300">
-              {t("signinwith")}
-            </span>
-          </div>
-
-          <div className='w-full'>
-            <button
-              className="flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition-all
-              text-black rounded-lg mt-[7px] w-full p-1"
-              >
-                {t("withgoogle")}<FcGoogle className="w-[20px] h-[20px] cursor-pointer ml-[5px]"
-              />
-            </button>
-            <button
-              className="flex items-center justify-center border-[2px] border-slate-900 bg-slate-900
-              hover:bg-slate-800 transition-all text-white rounded-lg mt-[7px] w-full p-1"
-              >
-                {t("withroblox")}<Image width={25} height={25} src={RobloxImg} alt="" className="cursor-pointer ml-[5px]"
-              />
-            </button>
-            <button
-              className="flex items-center justify-center border border-[#42599f] bg-[#42599f]
-              hover:bg-[#2c396e] transition-all text-white rounded-lg mt-[7px] w-full p-1"
-              >
-                {t("withdiscord")}<Image width={25} height={25} src={DiscordImg} alt="" className="invert cursor-pointer ml-[5px]"
-              />
-            </button>
-          </div>
-
-          <hr className="mb-4 mt-4 text-CustomBlack" />
-
-        </form>
-        <Link className="text-sm mt-3 text-right" href={`/${locale}/sign-up`}>
-          {t("text")} <span className="underline text-[#3d95ec]">Sign Up</span>
-        </Link>
+        </div>
       </div>
     </div>
   )

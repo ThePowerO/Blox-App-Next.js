@@ -21,11 +21,19 @@
     "SignInPage": {
         "h1": "Login",
         "button": "Login",
-        "text": "Não tem possui conta?",
+        "text": "Não possui uma conta?",
         "signinwith": "Entrar com",
         "withgoogle": "Logar com o Google",
         "withroblox": "Logar com o Roblox",
         "withdiscord": "Logar com o Discord"
+    },
+    "SignUpPage": {
+        "h1": "Registrar",
+        "CreateBtn": "Criar Conta",
+        "TextLinkToSignIn": "Não possui uma conta? ",
+        "SpanSignIn": "Login",
+        "pTerms": "Eu aceito os ",
+        "LinkToTerms": "Termos"
     }
     
 }

@@ -1,4 +1,7 @@
+import Handlebars from 'handlebars/dist/handlebars.js';
 import nodemailer from 'nodemailer';
+import { ActivationTemplate } from './emailTemplates/activation';
+import { resetPasswordTemplate } from './emailTemplates/resetPass';
 
 export async function sendMail({to, subject, body}: {to:string, subject:string, body:string}) {
     // send email
@@ -17,4 +20,27 @@ export async function sendMail({to, subject, body}: {to:string, subject:string, 
     } catch (error) {
         console.log(error);
     }
+    try {
+        const sendResult = await transport.sendMail({
+            from: SMPT_EMAIL,
+            to,
+            subject,
+            html: body,
+        });
+        console.log({ sendResult })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export function compileActivationTemplate(name: string, url: string) {
+    const template = Handlebars.compile(ActivationTemplate);
+    const htmlBody = template({name, url});
+    return htmlBody;
+}
+
+export function compileResetPasswordTemplate(name: string, url: string) {
+    const template = Handlebars.compile(resetPasswordTemplate);
+    const htmlBody = template({name, url})
+    return htmlBody;
 }

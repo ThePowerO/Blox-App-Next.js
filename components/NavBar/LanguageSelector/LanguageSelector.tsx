@@ -3,14 +3,14 @@
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import { IoLanguageSharp } from "react-icons/io5";
-import USImg from '@/public/US.png'
-import FRImg from '@/public/FR.png'
-import ITImg from '@/public/IT.png'
-import BRImg from '@/public/BR.png'
-import CNImg from '@/public/CN.png'
-import KRImg from '@/public/KR.png'
-import JPImg from '@/public/JP.png'
-import DEImg from '@/public/DE.png'
+import USImg from '@/public/LanguageImages/US.png'
+import FRImg from '@/public/LanguageImages/FR.png'
+import ITImg from '@/public/LanguageImages/IT.png'
+import BRImg from '@/public/LanguageImages/BR.png'
+import CNImg from '@/public/LanguageImages/CN.png'
+import KRImg from '@/public/LanguageImages/KR.png'
+import JPImg from '@/public/LanguageImages/JP.png'
+import DEImg from '@/public/LanguageImages/DE.png'
 import { Link, usePathname, useRouter } from "@/navigation";
 
 const LanguageSelector = ({ item, locale }: { item: { title: string; path: string }; locale: string }) => {
@@ -105,7 +105,7 @@ const LanguageSelector = ({ item, locale }: { item: { title: string; path: strin
                 <div ref={imgRef}>
                 {selectedLanguage ? (
                         <Image
-                            className="rounded-full hover:bg-gray-500 p-[10px] cursor-pointer"
+                            className="rounded-full hover:bg-gray-500 p-[10px] cursor-pointer transition-all"
                             onClick={() => setOpenMenu((prev) => !prev)}
                             src={selectedLanguage}
                             alt="Selected Language"
@@ -121,7 +121,7 @@ const LanguageSelector = ({ item, locale }: { item: { title: string; path: strin
                 </div>
                 {
                     openMenu && (
-                        <div ref={menuRef} className="bg-[#212529] p-4 w-[170px] shadow-lg absolute -left-[57px] top-[60px] rounded-lg">
+                        <div ref={menuRef} className="bg-[#212529] text-white p-4 w-[170px] shadow-lg absolute -left-[57px] top-[50px] rounded-lg">
                             <ul>
                                 {Languages.map((idiom) => (
                                     <Link href={pathname} locale={idiom.locale as "en" | "pt" | "fr" | "de" | "it" | "jp" | "kr" | "cn" | undefined} onClick={() => handleLanguageClick(idiom.img.src)} className="flex p-[10px] items-center cursor-pointer gap-[10px] hover:bg-gray-500 rounded-lg" key={idiom.title}>

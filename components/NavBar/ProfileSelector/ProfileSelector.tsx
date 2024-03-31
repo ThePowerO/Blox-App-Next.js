@@ -1,6 +1,6 @@
 'use client';
 
-import NoAvatar from "@/public/noavatar.png"
+import NoAvatar from "@/public/Icons/noavatar.png"
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
@@ -38,9 +38,7 @@ const ProfileSelector = ({ locale }: { locale: string }) => {
     };
 
     const handleSignOut = async () => {
-        await signOut();
-
-        router.push(`/${locale}/sign-in`);
+        await signOut({ callbackUrl: `/${locale}/sign-in` });	
     };
 
     const router = useRouter();
@@ -57,18 +55,20 @@ const ProfileSelector = ({ locale }: { locale: string }) => {
     ]
 
   return (
-    <div className="flex justify-center">
+    <div className="justify-center">
         <div className="relative">
             <Image
                 alt=""
                 ref={imgRef}
-                src={NoAvatar}
+                src={session?.user?.image || NoAvatar}
+                width={40}
+                height={40}
                 onClick={() => setOpenMenu((prev) => !prev)}
                 className="w-[40px] h-[40px] rounded-full border-[2px] hover:border-gray-500 border-cyan-300 cursor-pointer"
             />
             {
                 openMenu && (
-                    <div ref={menuRef} className="bg-[#212529] p-4 w-[140px] shadow-lg absolute -left-[45px] top-[60px] rounded-lg">
+                    <div ref={menuRef} className="z-[50] text-white bg-[#212529] p-4 w-[140px] shadow-lg absolute -left-[95px] top-[50px] rounded-lg">
                         <ul>
                            {session && session.user ? (
                                <>
@@ -76,7 +76,7 @@ const ProfileSelector = ({ locale }: { locale: string }) => {
                                     <Link href={`/${locale}${menu.path}`} className="flex rounded-lg cursor-pointer p-[5px] hover:bg-gray-600" key={menu.title}>{menu.title}</Link>
                                 ))}
                                 <button onClick={handleSignOut} className="flex rounded-lg cursor-pointer p-[5px] hover:bg-gray-600">Sign Out</button>
-                                <p>{session.user.username}</p>
+                                <p>{session.user.name}</p>
                                </>
                            ) : (
                                 <div className="">
