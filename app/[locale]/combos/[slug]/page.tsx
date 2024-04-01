@@ -18,14 +18,17 @@ export default async function page({ params }: Props) {
   console.log(combo)
 
   return (
-    <div>
+    <div className='p-2 md:p-0'>
       <div>
-        <div className='flex justify-end p-2'>
-          <div className='flex w-[400px] items-center gap-2 border rounded-[8px] p-2'>
+        <div className='flex justify-between'>
+          <h1 className='text-[24px] font-bold'>
+            {combo?.combotitle}
+          </h1>
+          <div className='flex w-[300px] items-center gap-2 border rounded-[8px] p-2'>
             <AvatarDemo userImg={session?.user.image} userNickName={session?.user.name} />
             <div className='grow'>
               <p className='text-[16px] font-bold'>@{session?.user.name}</p>
-              <p className='text-[12px] text-truncate-500'>{session?.user.email}</p>
+              <p className='text-[12px]'>You are viewing the combo {combo?.combotitle}</p>
             </div>
           </div>
         </div>
