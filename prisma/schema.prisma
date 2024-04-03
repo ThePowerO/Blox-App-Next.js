@@ -38,7 +38,7 @@ model User {
   name          String?     @unique
   email         String?     @unique
   password      String?
-  createdAt     DateTime    @default(now())
+  createdAt     DateTime    @unique @default(now())
   updatedAt     DateTime    @updatedAt
   emailVerified DateTime?
   image         String?
@@ -70,6 +70,9 @@ model Like {
 model Combo {
   id               String      @id @default(cuid())
   author           String
+  authorImage      String
+  authorEmail      String
+  authorCreatedAt  DateTime
   combotitle       String
   combodescription String
   fightingstyle    String
@@ -82,7 +85,7 @@ model Combo {
   comboVideo       String
   createdAt        DateTime    @default(now())
   updatedAt        DateTime    @updatedAt
-  user             User        @relation(fields: [author], references: [name], onDelete: Cascade)
+  user             User        @relation(fields: [authorCreatedAt], references: [createdAt], onDelete: Cascade)
   comboLikes       Like[]
   favorites        Favorite[]
 }

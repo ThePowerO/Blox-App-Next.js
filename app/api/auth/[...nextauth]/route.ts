@@ -65,6 +65,8 @@ export const authOptions: AuthOptions = {
               email: user.email,
               name: user.name,
               image: user.image,
+              createdAt: new Date(),
+              updatedAt: new Date(),
               // ...
             },
           });

@@ -13,7 +13,20 @@ export const POST = async (req: Request) => {
     const session = await getServerSession();
 
     try {
-        const { combotitle, combodescription, specialty, fightingstyle, weapon, fruit, sword, author, race, mainStats, comboVideo } = await req.json();
+        const {
+            combotitle,
+            combodescription,
+            specialty,
+            fightingstyle,
+            weapon,
+            fruit,
+            sword,
+            author,
+            race,
+            mainStats,
+            comboVideo,
+            authorCreatedAt
+        } = await req.json();
 
         if (!session?.user) {
             return NextResponse.json({ message: 'User session not available' }, { status: 401 });
@@ -31,7 +44,10 @@ export const POST = async (req: Request) => {
                 weapon,
                 fruit,
                 sword,
-                author,
+                author: session?.user?.name!,
+                authorImage: session?.user?.image || "",
+                authorEmail: session?.user?.email || "",
+                authorCreatedAt,
                 user: {
                     connect: {
                         id: session?.user?.id,
