@@ -69,6 +69,7 @@ model Like {
 
 model Combo {
   id               String      @id @default(cuid())
+  slug             String      @unique
   author           String
   authorImage      String
   authorEmail      String

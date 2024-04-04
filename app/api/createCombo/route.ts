@@ -3,6 +3,7 @@ import prisma from "@/lib/prisma";
 import { Combo } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
+import slugify from 'slugify';
 
 export const POST = async (req: Request) => {
 
@@ -21,16 +22,17 @@ export const POST = async (req: Request) => {
             weapon,
             fruit,
             sword,
-            author,
             race,
             mainStats,
             comboVideo,
-            authorCreatedAt
+            authorCreatedAt,
         } = await req.json();
 
         if (!session?.user) {
             return NextResponse.json({ message: 'User session not available' }, { status: 401 });
         }
+
+        const slug = slugify(combotitle, { lower: true, strict: true });
 
         const result = await prisma.combo.create({
             data: {
