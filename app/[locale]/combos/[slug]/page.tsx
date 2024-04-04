@@ -1,4 +1,4 @@
- import { AvatarDemo } from '@/components/HtmlComponents/AvatarDemo';
+import { AvatarDemo } from '@/components/HtmlComponents/AvatarDemo';
 import { HoverComboAuthor } from '@/components/HtmlComponents/HoverComboAuthor';
 import MoreVerticalBtn from '@/components/HtmlComponents/MoreVertical';
 import AddLikeButton, { AddFavoriteButton, RemoveFavoriteButton, RemoveLikeButton } from '@/components/HtmlComponents/SubmitButtons';
