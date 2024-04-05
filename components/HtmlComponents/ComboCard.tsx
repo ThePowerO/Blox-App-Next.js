@@ -29,6 +29,7 @@ interface iAppProps {
   comboCreatedAt: Date;
   pathName: string;
   specialty: string;
+  comboSlug: string;
   comboLikes: ComboLike[];
 }
 
@@ -49,6 +50,7 @@ export async function ComboCard({
   specialty,
   isInFavoriteList,
   favoriteId,
+  comboSlug,
 }: iAppProps) {
 
   const session = await getServerSession();
@@ -144,7 +146,7 @@ export async function ComboCard({
                   </form>
                 )}
                 <p title={`${comboLikes.length} likes`} className='text-[12px] mt-[-10px]'>{formatNumber(likes)}</p>
-                <MoreVerticalBtn comboTitle={comboTitle} pathName={pathName || ''} comboId={comboId} />
+                <MoreVerticalBtn comboSlug={comboSlug} pathName={pathName || ''} comboId={comboId} />
               </div>
             )}
           </div>

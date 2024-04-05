@@ -28,6 +28,7 @@ async function getCombos({
       sword: true,
       specialty: true,
       createdAt: true,
+      slug: true,
       favorites: {
         where: {
           userId: userId ?? undefined,
@@ -116,6 +117,7 @@ export default async function YourCombos({
               comboTitle={combo.combotitle}
               comboDescription={combo.combodescription}
               comboCreatedAt={combo.createdAt}
+              comboSlug={combo.slug}
             />
           ))
         )}

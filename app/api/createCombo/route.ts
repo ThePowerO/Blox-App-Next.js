@@ -32,10 +32,11 @@ export const POST = async (req: Request) => {
             return NextResponse.json({ message: 'User session not available' }, { status: 401 });
         }
 
-        const slug = slugify(combotitle, { lower: true, strict: true });
+        const slugTitle = slugify(combotitle, { lower: true, strict: true });
 
         const result = await prisma.combo.create({
             data: {
+                slug: slugTitle,
                 combotitle,
                 combodescription,
                 specialty,

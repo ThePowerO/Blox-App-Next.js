@@ -8,6 +8,14 @@ import { headers } from 'next/headers';
 import Image from 'next/image';
 import React from 'react'
 import prisma from '@/lib/prisma';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import ReactPlayer from 'react-player';
+import ComboVideo from '@/components/HtmlComponents/ComboVideo';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { SendHorizonalIcon } from 'lucide-react';
+import TextareaAutosize from 'react-textarea-autosize';
+import TextAreaAutoize from '@/components/HtmlComponents/TextAreaAutoize';
 
 interface ComboLike {
   id: string;
@@ -36,6 +44,9 @@ interface Combo {
   author: string
   authorImage: string
   authorCreatedAt: Date
+  race: string
+  mainStats: string
+  comboVideo: string
   comboLikes: ComboLike[];
   favorites: Favorite[];
 }
@@ -162,17 +173,36 @@ export default async function page({ params }: Props) {
             </div>
           )}
         </div>
-        {/*
-        <div className='flex items-center justify-between gap-2 border rounded-[8px] p-2'>
-          <div className='avatar rounded-full min-h-12 min-w-12 bg-emerald-500 text-white font-[700] flex items-center justify-center'>
-              <p>SD</p>
-          </div>
-          <div className='grow'>
-            <p className='text-[16px] font-bold'>UserName</p>
-            <p className='text-[12px] text-truncate-500'>UserName@gmail.com</p>
-          </div>
+        <div className='flex flex-col gap-[5px]'>
+          <p className='grid place-items-center'>Description:</p>
+          <ScrollArea className='w-full text-sm border rounded-lg p-1 h-[80px]'>
+            {combo?.combodescription}
+          </ScrollArea>
         </div>
-        */}
+        <div className='grid grid-cols-2 text-sm gap-y-[4px] p-1'>
+          <p>Dificulty: Hard</p>
+          <p>Stats: {combo?.mainStats}</p>
+          <p>Race: {combo?.race}</p>
+          <p>Specialty: {combo?.specialty}</p>
+        </div>
+        <div>
+          <p>Combo Video:</p>
+          <ComboVideo comboVideo={combo?.comboVideo} />
+        </div>
+      </div>
+      <div className='flex flex-col mt-[20px]'>
+        <h2 className='text-[18px] font-bold mb-[6px]'>Comments:</h2>
+        <div className='flex w-full items-center gap-2 border rounded-[8px] p-2'>
+          <div className='flex shrink-[0]'>
+            <AvatarDemo userImg={session?.user.image} userNickName={session?.user.name} />
+          </div>
+          <div className='grow relative'>
+            <p className='text-sm font-bold'>@{session?.user.name}</p>
+            <TextAreaAutoize />
+            <Button className='petit:hidden absolute top-0 right-0 bg-black text-white rounded-[8px] px-2 py-1'><SendHorizonalIcon size={20} /></Button>
+          </div>
+            <Button className='hidden petit:block bg-black text-white rounded-[8px] px-2 py-1'><SendHorizonalIcon size={20} /></Button>
+        </div>
       </div>
     </div>
   )
