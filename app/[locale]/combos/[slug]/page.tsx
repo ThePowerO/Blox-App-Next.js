@@ -1,6 +1,4 @@
-import { AvatarDemo } from '@/components/HtmlComponents/AvatarDemo';
 import { HoverComboAuthor } from '@/components/HtmlComponents/HoverComboAuthor';
-import MoreVerticalBtn from '@/components/HtmlComponents/MoreVertical';
 import AddLikeButton, { AddFavoriteButton, RemoveFavoriteButton, RemoveLikeButton } from '@/components/HtmlComponents/SubmitButtons';
 import { addComboLike, addFavoriteCombo, getCombo, removeComboLike, removeFavoriteCombo } from '@/lib/actions/comboActions';
 import { getServerSession } from 'next-auth';
@@ -8,14 +6,11 @@ import { headers } from 'next/headers';
 import Image from 'next/image';
 import React from 'react'
 import prisma from '@/lib/prisma';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import ReactPlayer from 'react-player';
-import ComboVideo from '@/components/HtmlComponents/ComboVideo';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { SendHorizonalIcon } from 'lucide-react';
-import TextareaAutosize from 'react-textarea-autosize';
-import TextAreaAutoize from '@/components/HtmlComponents/TextAreaAutoize';
+import Comments from '@/components/HtmlComponents/Comments';
+import ComboInformation from '@/components/HtmlComponents/ComboInformation';
+import ComboVideo from '@/components/HtmlComponents/ComboVideo';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface ComboLike {
   id: string;
@@ -89,7 +84,6 @@ export default async function page({ params }: Props) {
     }
   };
 
-
   return (
     <div className='p-2 md:p-0'>
       <div className='flex flex-col gap-[10px]'>
@@ -101,7 +95,7 @@ export default async function page({ params }: Props) {
           </div>
         </div>
         <div className=''>
-          <div className='flex w-fit gap-2'>
+          <div className='flex justify-center gap-2'>
             <Image
               src={combo?.fightingstyle || ''}
               className='border rounded-[8px]'
@@ -179,29 +173,18 @@ export default async function page({ params }: Props) {
             {combo?.combodescription}
           </ScrollArea>
         </div>
-        <div className='grid grid-cols-2 text-sm gap-y-[4px] p-1'>
-          <p>Dificulty: Hard</p>
-          <p>Stats: {combo?.mainStats}</p>
-          <p>Race: {combo?.race}</p>
-          <p>Specialty: {combo?.specialty}</p>
-        </div>
+        <ComboInformation mainStats={combo?.mainStats!} race={combo?.race!} specialty={combo?.specialty!} />
         <div>
           <p>Combo Video:</p>
-          <ComboVideo comboVideo={combo?.comboVideo} />
-        </div>
-      </div>
-      <div className='flex flex-col mt-[20px]'>
-        <h2 className='text-[18px] font-bold mb-[6px]'>Comments:</h2>
-        <div className='flex w-full items-center gap-2 border rounded-[8px] p-2'>
-          <div className='flex shrink-[0]'>
-            <AvatarDemo userImg={session?.user.image} userNickName={session?.user.name} />
+          <div suppressHydrationWarning>
+            <video
+              src={combo?.comboVideo}
+              className=""
+              width="100%"
+              height="350px"
+              controls
+            />
           </div>
-          <div className='grow relative'>
-            <p className='text-sm font-bold'>@{session?.user.name}</p>
-            <TextAreaAutoize />
-            <Button className='petit:hidden absolute top-0 right-0 bg-black text-white rounded-[8px] px-2 py-1'><SendHorizonalIcon size={20} /></Button>
-          </div>
-            <Button className='hidden petit:block bg-black text-white rounded-[8px] px-2 py-1'><SendHorizonalIcon size={20} /></Button>
         </div>
       </div>
     </div>

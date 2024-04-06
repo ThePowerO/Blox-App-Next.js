@@ -3,7 +3,7 @@
 import React from 'react'
 import TextareaAutosize from 'react-textarea-autosize';
 
-const TextAreaAutoize = () => {
+const TextAreaAutosize = () => {
   return (
     <TextareaAutosize
       suppressHydrationWarning
@@ -17,4 +17,4 @@ const TextAreaAutoize = () => {
   )
 }
 
-export default TextAreaAutoize
+export default TextAreaAutosize
