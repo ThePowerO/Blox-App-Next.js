@@ -101,6 +101,7 @@ export async function getCombo(slug: string) {
         where: { slug: slug },
         select: {
             id: true,
+            difficulty: true,
             author: true,
             authorCreatedAt: true,
             authorImage: true,

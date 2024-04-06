@@ -44,6 +44,7 @@ interface Combo {
   comboVideo: string
   comboLikes: ComboLike[];
   favorites: Favorite[];
+  difficulty: string
 }
 
 interface Props {
@@ -169,11 +170,11 @@ export default async function page({ params }: Props) {
         </div>
         <div className='flex flex-col gap-[5px]'>
           <p className='grid place-items-center'>Description:</p>
-          <ScrollArea className='w-full text-sm border rounded-lg p-1 h-[80px]'>
+          <ScrollArea className='w-full text-sm border rounded-lg p-1 h-[130px]'>
             {combo?.combodescription}
           </ScrollArea>
         </div>
-        <ComboInformation mainStats={combo?.mainStats!} race={combo?.race!} specialty={combo?.specialty!} />
+        <ComboInformation difficulty={combo?.difficulty!} mainStats={combo?.mainStats!} race={combo?.race!} specialty={combo?.specialty!} />
         <div>
           <p>Combo Video:</p>
           <div suppressHydrationWarning>

@@ -1,64 +1,29 @@
 import React from 'react'
 import { Badge } from '../ui/badge';
+import { DifficultyBadge, RaceBadge, SpecialtyBadge, StatsBadge } from './ComboBadges';
 
 interface Combo {
   mainStats: string
   race: string
   specialty: string
+  difficulty: string
 }
 
-const ComboInformation = ({ mainStats, race, specialty }: Combo) => {
-
-  const handleStats = (stats: string) => {
-    if (stats === 'Main Gun') {
-      return "gunmain"
-    } else if (stats === 'Hybrid') {
-      return "hybrid"
-    } else if (stats === 'Main Sword') {
-      return "swordmain"
-    } else if (stats === 'Main Fruit') {
-      return "fruitmain"
-    }
-  }
-
-  const handleSpecialty = (specialty: string) => {
-    if (specialty === "PVP") {
-      return "pvp"
-    } else if (specialty === "PVE") {
-      return "pve"
-    } else if (specialty === "Grind") {
-      return "grind"
-    }
-  }
-
-  const handleRace = (race: string) => {
-    if (race === "Human") {
-      return "human"
-    } else if (race === "Ghoul") {
-      return "ghoul"
-    } else if (race === "Fishman") {
-      return "fishman"
-    } else if (race === "Cyborg") {
-      return "cyborg"
-    } else if (race === "Skypian") {
-      return "skypian"
-    } else if (race === "Mink") {
-      return "mink"
-    }
-  }
-
+const ComboInformation = ({ mainStats, race, specialty, difficulty }: Combo) => {
   return (
     <>
       <div className='grid grid-cols-2 text-sm gap-y-[4px] p-1'>
-        <div>Dificulty: Hard</div>
+        <div>Dificulty: 
+          <DifficultyBadge difficulty={difficulty || ""} />
+        </div>
         <div>Stats: 
-          <Badge variant={handleStats(mainStats as string) as any}>{mainStats}</Badge>
+          <StatsBadge stats={mainStats || ""} />
         </div>
         <div>Race: 
-          <Badge variant={handleRace(race as string) as any}>{race}</Badge>
+          <RaceBadge race={race || ""} />
         </div>
-        <div className=' bg-'>Specialty: 
-          <Badge variant={handleSpecialty(specialty as string) as any}>{specialty}</Badge>
+        <div className=''>Specialty: 
+          <SpecialtyBadge specialty={specialty || ""} />
         </div>
       </div>
     </>
@@ -66,3 +31,4 @@ const ComboInformation = ({ mainStats, race, specialty }: Combo) => {
 }
 
 export default ComboInformation
+

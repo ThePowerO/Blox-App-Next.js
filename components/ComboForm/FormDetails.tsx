@@ -37,6 +37,7 @@ export default function ComboFormDetails() {
 
   const [selectedSpecialty, setSelectedSpecialty] = useState("");
   const [selectedMainStats, setSelectedMainStats] = useState("");
+  const [selectedDificulty, setSelectedDificulty] = useState("");
   //const [videoFilePath, setVideoFilePath] = useState<string | null>(null);
   const [videoUrl, setVideoUrl] = useState('');
   const [isEditing, setIsEditing] = useState(false);
@@ -50,7 +51,7 @@ export default function ComboFormDetails() {
       .min(1, 'Please enter a combo name'),
     combodescription: z
       .string()
-      .max(250, 'Description must be less than 250 characters'),
+      .max(500, 'Description must be less than 500 characters'),
     specialty: z
       .string(),
     race: z
@@ -58,6 +59,8 @@ export default function ComboFormDetails() {
     mainStats: z
       .string(),
     comboVideo: z
+      .string(),
+    difficulty: z
       .string()
   })
 
@@ -89,7 +92,7 @@ export default function ComboFormDetails() {
       const result = await newCombo.json();
       console.log(result);
       reset();
-      //window.location.replace(`/${locale}/create-combo`);
+      window.location.replace(`/${locale}/create-combo`);
       toast.success('Combo created successfully');
     } catch (error) {
       console.error(error);
@@ -109,6 +112,11 @@ export default function ComboFormDetails() {
 
   const handleRaceChange = (value: string) => {
     setValue('race', value);
+  }
+
+  const handledifficultyChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setValue('difficulty', e.currentTarget.value);
+    setSelectedDificulty(e.currentTarget.value);
   }
 
   const ComboSpecialtys = [
@@ -136,6 +144,18 @@ export default function ComboFormDetails() {
     {
       Stats: "Hybrid",
       padding: true,
+    },
+  ]
+
+  const ComboDifficulty = [
+    {
+      difficulty: "No Skill",
+    },
+    {
+      difficulty: "Medium",
+    },
+    {
+      difficulty: "Hard",
     },
   ]
 
@@ -279,6 +299,27 @@ export default function ComboFormDetails() {
                 )}
               </div>
               <h3 className='text-sm'>Combo type:</h3>
+              <ul
+                className="items-center w-full text-sm font-medium border rounded-lg grid grid-cols-3 petit:flex
+                bg-gray-900 border-gray-600 text-white"
+              >
+                {ComboDifficulty.map((difficulty) => (
+                  <li key={difficulty.difficulty} className="w-full border-b petit:border-b-0 border-r border-gray-600">
+                    <div className="flex items-center ps-3">
+                      <input
+                        id={difficulty.difficulty}
+                        type="radio"
+                        value={difficulty.difficulty}
+                        checked={selectedDificulty === difficulty.difficulty}
+                        onChange={handledifficultyChange}
+                        name="list-difficulty-group"
+                        className="w-4 h-4 text-blue-600 bg-gray-600 border-gray-500"
+                      />
+                      <label htmlFor={difficulty.difficulty} className="w-full py-3 ms-2 text-sm font-medium text-gray-300">{difficulty.difficulty}</label>
+                    </div>
+                  </li>
+                ))}
+              </ul>
               <ul
                 className="items-center w-full text-sm font-medium border rounded-lg grid grid-cols-3 petit:flex
                 bg-gray-900 border-gray-600 text-white"

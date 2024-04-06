@@ -26,6 +26,7 @@ export const POST = async (req: Request) => {
             mainStats,
             comboVideo,
             authorCreatedAt,
+            difficulty,
         } = await req.json();
 
         if (!session?.user) {
@@ -37,6 +38,7 @@ export const POST = async (req: Request) => {
         const result = await prisma.combo.create({
             data: {
                 slug: slugTitle,
+                difficulty,
                 combotitle,
                 combodescription,
                 specialty,
