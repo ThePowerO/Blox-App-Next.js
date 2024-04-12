@@ -116,7 +116,7 @@ const CommentsComponent = ({ selectedFilterType }: { selectedFilterType: string 
                 <div>
                   {fullComment? (
                     <div>
-                      {/*talvez tirar a o comment.lenght < 400 pois comment é certeza que é > 400*/}
+                      {/*talvez tirar o comment.lenght < 400 pois comment é certeza que é > 400*/}
                       {comment.length < 400 ? (
                         <p className='petitmax:text-[13px]'>{comment}</p>
                       ) : (
