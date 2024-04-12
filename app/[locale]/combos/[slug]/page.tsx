@@ -6,11 +6,11 @@ import { headers } from 'next/headers';
 import Image from 'next/image';
 import React from 'react'
 import prisma from '@/lib/prisma';
-import { SendHorizonalIcon } from 'lucide-react';
-import Comments from '@/components/HtmlComponents/Comments';
 import ComboInformation from '@/components/HtmlComponents/ComboInformation';
 import ComboVideo from '@/components/HtmlComponents/ComboVideo';
 import { ScrollArea } from '@/components/ui/scroll-area';
+
+import CommentsComponent from '@/components/HtmlComponents/TextAreaAutosize';
 
 interface ComboLike {
   id: string;
@@ -53,13 +53,15 @@ interface Props {
   }
 }
 
-export default async function page({ params }: Props) {
+export default async function page({ params, searchParams }: Props & { searchParams: { [key: string]: string | string[] | undefined } }) {
   const session = await getServerSession();
   const user = await prisma.user.findUnique({
     where: {
       email: session?.user.email!
     },
   })
+
+  const selectedFilterType = (searchParams.filter || 'Recent') as string
 
   const heads = headers()
   const pathname = heads ? heads.get('next-url') : '';
@@ -86,7 +88,7 @@ export default async function page({ params }: Props) {
   };
 
   return (
-    <div className='p-2 md:p-0'>
+    <div className='p-4 md:p-0'>
       <div className='flex flex-col gap-[10px]'>
         <div className='flex justify-between'>
           <div className='flex w-full items-center gap-2 border rounded-[8px] p-2'>
@@ -175,7 +177,7 @@ export default async function page({ params }: Props) {
           </ScrollArea>
         </div>
         <ComboInformation difficulty={combo?.difficulty!} mainStats={combo?.mainStats!} race={combo?.race!} specialty={combo?.specialty!} />
-        <div>
+        <div className='mb-2'>
           <p>Combo Video:</p>
           <div suppressHydrationWarning>
             <video
@@ -187,6 +189,7 @@ export default async function page({ params }: Props) {
             />
           </div>
         </div>
+        <CommentsComponent selectedFilterType={selectedFilterType} />
       </div>
     </div>
   )

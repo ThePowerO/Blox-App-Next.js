@@ -15,6 +15,7 @@ export default withUt({
     screens: {
       petit: "350px",
       tinymax: {'max': '400px'},
+      petitmax: {'max': '350px'},
       tiny: "400px",
       sm: "640px",
       md: "768px",
