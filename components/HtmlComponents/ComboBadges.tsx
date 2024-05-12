@@ -21,23 +21,23 @@ type DifficultyBadgeProps = {
 export const StatsBadge = ({ stats }: StatsBadgeProps) => {
     if (stats === 'Main Sword') {
         return (
-            <Badge variant="swordmain">Main Sword</Badge>
+            <Badge className='w-fit' variant="swordmain"><div className='flex gap-1'><p>Main</p><p>Sword</p></div></Badge>
         )
     } else if (stats === 'Main Fruit') {
         return (
-            <Badge variant="fruitmain">Main Fruit</Badge>
+            <Badge className='w-fit' variant="fruitmain"><div className='flex gap-1'><p>Main</p><p>Fruit</p></div></Badge>
         )
     } else if (stats === 'Hybrid') {
         return (
-            <Badge variant="hybrid">Hybrid</Badge>
+            <Badge className='w-fit' variant="hybrid">Hybrid</Badge>
         )
     } else if (stats === 'Main Gun') {
         return (
-            <Badge variant="gunmain">Main Gun</Badge>
+            <Badge className='w-fit' variant="gunmain"><div className='flex gap-1'><p>Main</p><p>Gun</p></div></Badge>
         )
     } else {
         return (
-            <Badge variant="default">None</Badge>
+            <Badge className='w-fit' variant="default">None</Badge>
         )
     }
 }
@@ -45,19 +45,19 @@ export const StatsBadge = ({ stats }: StatsBadgeProps) => {
 export const SpecialtyBadge = ({ specialty }: SpecialtyBadgeProps) => {
     if (specialty === 'PVP') {
         return (
-            <Badge variant="pvp">PVP</Badge>
+            <Badge className='w-fit' variant="pvp">PVP</Badge>
         )
     } else if (specialty === 'PVE') {
         return (
-            <Badge variant="pve">PVE</Badge>
+            <Badge className='w-fit' variant="pve">PVE</Badge>
         )
     } else if (specialty === 'Grind') {
         return (
-            <Badge variant="grind">Grind</Badge>
+            <Badge className='w-fit' variant="grind">Grind</Badge>
         )
     } else {
         return (
-            <Badge variant="default">None</Badge>
+            <Badge className='w-fit' variant="default">None</Badge>
         )
     }
 }
@@ -65,31 +65,31 @@ export const SpecialtyBadge = ({ specialty }: SpecialtyBadgeProps) => {
 export const RaceBadge = ({ race }: RaceBadgeProps) => {
     if (race === 'Human') {
         return (
-            <Badge variant="human">Human</Badge>
+            <Badge className='w-fit' variant="human">Human</Badge>
         )
     } else if (race === 'Ghoul') {
         return (
-            <Badge variant="ghoul">Ghoul</Badge>
+            <Badge className='w-fit' variant="ghoul">Ghoul</Badge>
         )
     } else if (race === 'Fishman') {
         return (
-            <Badge variant="fishman">Fishman</Badge>
+            <Badge className='w-fit' variant="fishman">Fishman</Badge>
         )
     } else if (race === 'Cyborg') {
         return (
-            <Badge variant="cyborg">Cyborg</Badge>
+            <Badge className='w-fit' variant="cyborg">Cyborg</Badge>
         )
     } else if (race === 'Skypian') {
         return (
-            <Badge variant="skypian">Skypian</Badge>
+            <Badge className='w-fit' variant="skypian">Skypian</Badge>
         )
     } else if (race === 'Mink') {
         return (
-            <Badge variant="mink">Mink</Badge>
+            <Badge className='w-fit' variant="mink">Mink</Badge>
         )
     } else {
         return (
-            <Badge variant="default">None</Badge>
+            <Badge className='w-fit' variant="default">None</Badge>
         )
     }
 }
@@ -97,19 +97,19 @@ export const RaceBadge = ({ race }: RaceBadgeProps) => {
 export const DifficultyBadge = ({ difficulty }: DifficultyBadgeProps) => {
     if (difficulty === 'No Skill') {
         return (
-            <Badge variant="noskill">No Skill</Badge>
+            <Badge className='w-fit' variant="noskill"><div className='flex gap-1'><p>No</p><p>Skill</p></div></Badge>
         )
     } else if (difficulty === 'Medium') {
         return (
-            <Badge variant="medium">Medium</Badge>
+            <Badge className='w-fit' variant="medium">Medium</Badge>
         )
     } else if (difficulty === 'Hard') {
         return (
-            <Badge variant="hard">Hard</Badge>
+            <Badge className='w-fit' variant="hard">Hard</Badge>
         )
     } else {
         return (
-            <Badge variant="default">None</Badge>
+            <Badge className='w-fit' variant="default">None</Badge>
         )
     }
 }

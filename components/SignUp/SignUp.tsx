@@ -75,7 +75,6 @@ const SignUp = () => {
       verticalAlign: 'middle',
       width: '16px', // Largura da caixa simulada
       height: '16px', // Altura da caixa simulada
-      border: '1px solid #ccc', // Borda da caixa simulada
       borderRadius: '4px', // Raio da borda para criar cantos arredondados
     },
   };
@@ -88,9 +87,9 @@ const SignUp = () => {
 
           <form onSubmit={handleSubmit(saveUser)} className='flex flex-col gap-[10px]'>
             <Input {...register("email")} className='dark:border-1 dark:border-stone-100' type='email' placeholder='Email' />
-            {!!errors.name && <p className='text-red-500 text-sm'>{errors.email?.message}</p>}
+            {!!errors.email && <p className='text-red-500 text-sm'>{errors.email?.message}</p>}
             <Input {...register("name")} className='dark:border-1 dark:border-stone-100' type='text' placeholder='Username' />
-            {!!errors.email && <p className='text-red-500 text-sm'>{errors.name?.message}</p>}
+            {!!errors.name && <p className='text-red-500 text-sm'>{errors.name?.message}</p>}
             <div className='relative'>
               <Input {...register("password")} type={isVisiblePass ? "text" : "password"} className='z-[1] dark:border-1 dark:border-stone-100' placeholder='Password' />
               <span
@@ -103,12 +102,12 @@ const SignUp = () => {
             </div>
             {errors.password && <p className='text-red-500 text-sm'>{errors.password.message}</p>}
             <div className='relative'>
-            <div className='absolute left-[9px] top-[12px] bg-[#3d95ec] dark:bg-white' style={customStyles.checkboxWrapper}></div>
+            <div className='absolute left-[9px] top-[12px] bg-[#3d95ec] dark:bg-[#3d95ec]' style={customStyles.checkboxWrapper}></div>
               <Controller  control={control} name="accepted" render={({ field }) =>
-                <Checkbox className="" checked={field.value} onChange={field.onChange} onBlur={field.onBlur} id="terms" >
+                <Checkbox checked={field.value} onChange={field.onChange} onBlur={field.onBlur} id="terms" >
                   <label
                   htmlFor="terms"
-                  className="text-sm ml-[5px] font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  className="text-sm ml-[5px] font-medium "
                   >
                     {t("pTerms")}
                     <Link href={`/`} className="text-[#3d95ec] underline">{t("LinkToTerms")}</Link>

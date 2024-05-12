@@ -5,10 +5,12 @@ import prisma from '../prisma';
 import * as bcrypt from 'bcrypt';
 import { compileActivationTemplate, compileResetPasswordTemplate, sendMail } from '../mail';
 import { signJwt, verifyJwt } from '../jwt';
+import NoAvatar from '@/public/Icons/noavatar.png';
 
-export async function registerUser( user: Omit<User, "id" | "image" | "emailVerified" | "name" | "createdAt" | "updatedAt"> ) {
+export async function registerUser( user: Omit<User, "id" | "image" | "emailVerified" | "createdAt" | "updatedAt"> ) {
   const result = await prisma.user.create({
     data: {
+      image: NoAvatar.src,
       ...user,
       password: await bcrypt.hash(user.password!, 11),
     }

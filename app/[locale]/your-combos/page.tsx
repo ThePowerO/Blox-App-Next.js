@@ -4,6 +4,8 @@ import { ComboCard } from '@/components/HtmlComponents/ComboCard';
 import { headers } from "next/headers";
 import Link from 'next/link';
 import { AlertDestructive } from '@/components/HtmlComponents/ErrorAlert';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { User } from '@prisma/client';
 
 const combosType = ["All", "PVP", "PVE", "Grind"];
 
@@ -12,11 +14,10 @@ async function getCombos({
 }: {
   userId: string
 }) {
-  const session = await getServerSession()
-
+  const session = await getServerSession(authOptions)
   const data = await prisma.combo.findMany({
     where: {
-      author: session?.user.name!,
+      author: session?.user?.name!,
     },
     select: {
       id: true,
@@ -34,11 +35,11 @@ async function getCombos({
           userId: userId ?? undefined,
         }
       },
-      comboLikes: {
+      likes: {
         where: {
           userId: userId ?? undefined,
         }
-      }
+      },
     }
   })
 
@@ -53,7 +54,7 @@ export default async function YourCombos({
   const heads = headers()
   const pathname = heads ? heads.get('next-url') : '';
   const session = await getServerSession()
-  const combos = await getCombos({userId: session?.user.id!, });
+  const combos = await getCombos({userId: session?.user?.id, });
 
   const selectedComboType = (searchParams.specialty || 'All') as string
 
@@ -100,14 +101,14 @@ export default async function YourCombos({
         ) : (
           filteredCombo.map((combo) => (
             <ComboCard
-              userId={session?.user.id!}
+              userId={session?.user?.id}
               key={combo.id}
               pathName={pathname as string}
               specialty={combo.specialty}
-              comboLikes={combo.comboLikes}
-              isInLikeList={Array.isArray(combo.comboLikes) && combo.comboLikes.length > 0}
+              comboLikes={combo.likes}
+              isInLikeList={Array.isArray(combo.likes) && combo.likes.length > 0}
               isInFavoriteList={Array.isArray(combo.favorites) && combo.favorites.length > 0}
-              likeId={combo.comboLikes && combo.comboLikes[0]?.id}
+              likeId={combo.likes && combo.likes[0]?.id}
               favoriteId={combo.favorites && combo.favorites[0]?.id}
               comboId={combo.id}
               comboFittingStyle={combo.fightingstyle}

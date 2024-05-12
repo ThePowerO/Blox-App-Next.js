@@ -5,7 +5,7 @@ import { FormProvider } from '@/components/FormContext'
 import { FormStep } from '@/components/FormStep';
 import React from 'react'
 
-const YourCombos = () => {
+const CreateCombo = () => {
   return (
     <FormProvider>
       <FormStep />
@@ -13,4 +13,4 @@ const YourCombos = () => {
   )
 }
 
-export default YourCombos
+export default CreateCombo

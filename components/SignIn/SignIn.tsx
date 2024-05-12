@@ -105,6 +105,7 @@ const SignIn = () => {
 
             <div className='flex flex-col gap-[5px] w-full'>
               <Button
+                type='button'
                 onClick={LoginWithGoogle}
                 className='flex gap-[5px] text-black hover:text-black dark:bg-[#fff]
                 border border-input dark:hover:bg-stone-200 transition-all'
@@ -114,6 +115,7 @@ const SignIn = () => {
                 {t("withgoogle")}
               </Button>
               <Button
+                type='button'
                 onClick={LoginWithDIscord}
                 className='flex gap-[5px] text-white hover:bg-[#2c396e] transition-all
                 border border-[#42599f] bg-[#42599f]'

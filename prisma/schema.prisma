@@ -44,9 +44,28 @@ model User {
   image         String?
   accounts      Account[]
   Combo         Combo[]
-  comboLikes    Like[]
   sessions      Session[]
   favorites     Favorite[]
+  comments      Comment[]
+  likedCombos   Like[]
+  commentLikes  CommentLike[]
+
+  @@unique([id, image, name])
+}
+
+model Comment {
+  id            String   @id @default(cuid())
+  userId        String
+  comboId       String
+  userName      String
+  userImage     String
+  text          String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime    @updatedAt
+  likes         CommentLike[]
+
+  combo         Combo   @relation(fields: [comboId], references: [id], onDelete: Cascade)
+  user          User    @relation(fields: [userId, userImage, userName], references: [id, image, name], onDelete: Cascade)
 }
 
 model Favorite {
@@ -58,13 +77,24 @@ model Favorite {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model Like {
+model CommentLike {
   id        String   @id @default(cuid())
-  comboId   String
+  commentId String
   userId    String
   createdAt DateTime @default(now())
-  combo     Combo    @relation(fields: [comboId], references: [id], onDelete: Cascade)
+
+  comment   Comment     @relation(fields: [commentId], references: [id], onDelete: Cascade)
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Like {
+  comboId  String
+  userId   String
+  createdAt DateTime @default(now())
+  combo    Combo    @relation(fields: [comboId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([comboId, userId])
 }
 
 model Combo {
@@ -88,8 +118,9 @@ model Combo {
   createdAt        DateTime    @default(now())
   updatedAt        DateTime    @updatedAt
   user             User        @relation(fields: [authorCreatedAt], references: [createdAt], onDelete: Cascade)
-  comboLikes       Like[]
+  likes            Like[]
   favorites        Favorite[]
+  comments         Comment[]
 }
 
 model VerificationToken {

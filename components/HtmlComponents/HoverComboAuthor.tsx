@@ -18,7 +18,7 @@ export function HoverComboAuthor({comboAuthor, authorImage, authorCreatedAt}: an
       <HoverCardTrigger asChild>
         <Button className="m-0 ml-1 p-0 underline" variant="link">@{comboAuthor}</Button>
       </HoverCardTrigger>
-      <HoverCardContent className="w-80">
+      <HoverCardContent className="w-[280px] petit:w-80">
         <div className="flex justify-between space-x-4">
           <Avatar>
             <AvatarImage src={authorImage} />

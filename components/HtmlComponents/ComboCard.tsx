@@ -5,6 +5,7 @@ import AddLikeButton, { AddFavoriteButton, RemoveFavoriteButton, RemoveLikeButto
 import { addComboLike, addFavoriteCombo, removeComboLike, removeFavoriteCombo } from '@/lib/actions/comboActions';
 import Image from 'next/image';
 import MoreVerticalBtn from './MoreVertical';
+import { SpecialtyBadge } from './ComboBadges';
 
 interface ComboLike {
   id: string;
@@ -109,9 +110,12 @@ export async function ComboCard({
             <h2>{comboTitle}</h2>
             <div>
               <p className=''>{comboCreatedAt.toDateString().split(' ').slice(1).join(' ')}</p>
-              {specialty ? (
-                <p>Specialty: <span className='font-bold'>{specialty}</span></p>
-              ) : (<p>Specialty: <span className='font-bold'>None</span></p>)}
+              <div className='flex gap-2'>
+                <p>Specialty:</p>
+                {specialty && (
+                  <SpecialtyBadge specialty={specialty} />
+                )}
+              </div>
             </div>
           </div>
         </div>

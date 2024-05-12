@@ -6,6 +6,7 @@ import prisma from "@/lib/prisma"
 import CredentialsProvider from "next-auth/providers/credentials"
 import * as bcrypt from 'bcrypt';
 import { User } from "@prisma/client";
+import NoAvatar from '@/public/Icons/noavatar.png';
 
 export const authOptions: AuthOptions = {
   pages: {
@@ -23,8 +24,8 @@ export const authOptions: AuthOptions = {
     CredentialsProvider({
         name: 'Credentials',
         credentials: {
-            name: { label: 'Username Here', type: 'text', placeholder: 'Username' },
-            password: { label: 'Password', type: 'password'}
+          name: { label: 'Username Here', type: 'text', placeholder: 'Username' },
+          password: { label: 'Password', type: 'password'}
         },
         async authorize(credentials) {
             const user = await prisma.user.findUnique({
@@ -62,12 +63,7 @@ export const authOptions: AuthOptions = {
         if (!existingUser) {
           await prisma.user.create({
             data: {
-              email: user.email,
-              name: user.name,
-              image: user.image,
-              createdAt: new Date(),
-              updatedAt: new Date(),
-              // ...
+              ...user,
             },
           });
         }
@@ -75,8 +71,8 @@ export const authOptions: AuthOptions = {
       return token;
     },
 
-    async session({ token, session }) {
-      session.user = token.user;
+    async session({ token, session, user }) {
+      if (token) session.user = token.user as User;
       return session;
     }
   }
