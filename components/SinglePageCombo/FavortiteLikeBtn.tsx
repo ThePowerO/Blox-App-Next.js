@@ -3,7 +3,7 @@ import React from "react";
 import AddLikeButton, { AddFavoriteButton, RemoveFavoriteButton, RemoveLikeButton } from "../HtmlComponents/SubmitButtons";
 import { addComboLike, addFavoriteCombo, removeComboLike, removeFavoriteCombo } from "@/lib/actions/comboActions";
 import { Combo } from "@/lib/types";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 
 type Props = {
   combo: Combo;

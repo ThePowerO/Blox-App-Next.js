@@ -14,7 +14,7 @@ import {
 } from "../HtmlComponents/ComboBadges";
 import ComboVideo from "../HtmlComponents/ComboVideo";
 import { Separator } from "../ui/separator";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 
 type Props = {
   combo: Combo;

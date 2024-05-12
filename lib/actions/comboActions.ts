@@ -3,7 +3,7 @@
 import { getServerSession} from "next-auth";
 import prisma from "../prisma";
 import { revalidatePath } from "next/cache";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { Combo } from "../types";
 
 export async function addComboLike(FormData: FormData) {
