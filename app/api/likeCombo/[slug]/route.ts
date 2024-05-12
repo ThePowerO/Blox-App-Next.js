@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../../auth/[...nextauth]/authOptions";
 
-export async function POST(request: NextRequest, { params }: any) {
+export async function POST({ params }: any) {
 
     const comboId = params.slug
     const session: any = await getServerSession(authOptions);
