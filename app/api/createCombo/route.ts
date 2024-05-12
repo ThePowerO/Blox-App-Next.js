@@ -8,10 +8,6 @@ import { authOptions } from "../auth/[...nextauth]/authOptions";
 
 export const POST = async (req: Request) => {
 
-    if (req.method !== "POST") {
-        return NextResponse.json({ message: 'Method Not Allowed' }, { status: 405 });
-    }
-
     const session: any = await getServerSession(authOptions);
 
     try {
