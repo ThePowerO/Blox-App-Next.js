@@ -6,9 +6,9 @@ import { addComboLike, addFavoriteCombo, removeComboLike, removeFavoriteCombo } 
 import Image from 'next/image';
 import MoreVerticalBtn from './MoreVertical';
 import { SpecialtyBadge } from './ComboBadges';
+import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
 
-interface ComboLike {
-  id: string;
+type ComboLike = {
   comboId: string;
   userId: string;
   createdAt: Date;
@@ -54,7 +54,7 @@ export async function ComboCard({
   comboSlug,
 }: iAppProps) {
 
-  const session = await getServerSession();
+  const session: any = await getServerSession(authOptions);
 
   function formatNumber(num: number): string {
     if (num < 1000) {
