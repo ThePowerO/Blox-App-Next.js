@@ -4,6 +4,7 @@ import { Combo } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import slugify from 'slugify';
+import { authOptions } from "../auth/[...nextauth]/authOptions";
 
 export const POST = async (req: Request) => {
 
@@ -11,7 +12,7 @@ export const POST = async (req: Request) => {
         return NextResponse.json({ message: 'Method Not Allowed' }, { status: 405 });
     }
 
-    const session = await getServerSession();
+    const session: any = await getServerSession(authOptions);
 
     try {
         const {
@@ -59,9 +60,6 @@ export const POST = async (req: Request) => {
                         email: session?.user?.email!,
                         image: session?.user?.image!,
                         name: session?.user?.name!,
-                        password: session?.user?.password!,
-                        createdAt: session?.user?.createdAt!,
-                        updatedAt: session?.user?.updatedAt!,
                     }
                 },
             },
