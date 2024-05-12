@@ -19,7 +19,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { revalidatePath } from "next/cache";
 import { useRouter } from "next/router";
-import { createComment } from "@/lib/actions/commentActions";
 import { toast } from "react-toastify";
 import { SendHorizonal } from "lucide-react";
 import { z } from "zod";
