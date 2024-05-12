@@ -81,7 +81,7 @@ export default function ComboFormDetails() {
     };
 
     try {
-      const newCombo = await fetch(`${process.env.NEXTAUTH_URL}}/api/createCombo`, {
+      const newCombo = await fetch(`${process.env.NEXTAUTH_URL}/api/createCombo`, {
         method: 'POST',
         body: JSON.stringify(formDataToSend),
         headers: {
