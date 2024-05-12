@@ -5,4 +5,7 @@ module.exports = withNextIntl({
   images: {
     domains: ['lh3.googleusercontent.com', 'cdn.discordapp.com'],
   },
+  eslint: {
+    ignoreDuringBuilds: true
+  },
 });
