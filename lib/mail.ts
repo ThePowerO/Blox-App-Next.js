@@ -1,4 +1,4 @@
-import Handlebars from 'handlebars/dist/handlebars.js';
+import Handlebars from 'handlebars';
 import nodemailer from 'nodemailer';
 import { ActivationTemplate } from './emailTemplates/activation';
 import { resetPasswordTemplate } from './emailTemplates/resetPass';
