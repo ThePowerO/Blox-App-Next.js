@@ -53,3 +53,20 @@ export const createComment = async (FormData: FormData) => {
     }
 
 }
+
+export const DeleteCommentAction = async (FormData: FormData) => {
+    const session: any = await getServerSession(authOptions);
+    const commentId = FormData.get("commentId") as string
+    const comboId = FormData.get("comboId") as string
+    const pathName = FormData.get("pathName") as string;
+
+    await prisma.comment.delete({
+        where: {
+            id: commentId,
+            comboId,
+            userId: session?.user?.id
+        }
+    });
+
+    revalidatePath(pathName);
+}

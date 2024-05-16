@@ -61,7 +61,7 @@ export default function CommentText({ comment }: Props) {
           <Reply className="size-[16px]" />
         </div>
         <div className="cursor-pointer p-[2px] h-fit hover:bg-stone-200 dark:hover:bg-zinc-600 rounded-full">
-          <MoreHorizontalIcon className="size-[16px]" />
+          <MoreHorizontallBtn comment={comment} />
         </div>
       </div>
     </>

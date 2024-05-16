@@ -11,7 +11,7 @@ type Props = {
 export default function CommentsDisplay({ comments }: Props) {
   return (
     <>
-      {comments.length === 0 && comments.length === 0 ? (
+      {comments.length === 0? (
         <div className="w-full border rounded-lg p-4 mt-[45px] flex justify-center">
           <h1 className="text-bold place-self-center">No comments to show.</h1>
         </div>
@@ -34,6 +34,7 @@ export default function CommentsDisplay({ comments }: Props) {
                 />
               </Link>
               <div className="flex flex-col justify-between text-sm w-full">
+                <span className="text-sm font-bold">{comment.user.name}</span>
                 <CommentText comment={comment} />
               </div>
             </div>

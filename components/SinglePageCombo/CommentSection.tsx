@@ -30,6 +30,9 @@ import { usePathname } from "next/navigation";
 import { text } from "node:stream/consumers";
 import CommentFilter from "./CommentFilter";
 import CommentsDisplay from "./CommentsDisplay";
+import { useOptimistic } from "react";
+import { Comment } from "@/lib/types";
+import { CommentLike } from "@/lib/types";
 
 const FormSchema = z.object({
   text: z.string().min(1, {
@@ -54,10 +57,18 @@ export default function CommentSection({ combo }: Props) {
   const isLoading = form.formState.isSubmitting;
 
   const { data: session } = useSession();
+  const currentUser: any = session?.user;
   const [isCommenting, setIsCommenting] = useState(false);
   const [showEmojiList, setShowEmojiList] = useState(false);
   const pathName = usePathname();
   const formRef = useRef<HTMLFormElement>(null);
+
+  const [optimisticComments, addOptimisticComment] = useOptimistic(
+    combo.comments,
+    (state, newComment: Comment) => {
+      return [...state, newComment];
+    }
+  );
 
   const handleCommenting = () => {
     setIsCommenting((prevState) => !prevState);
@@ -81,11 +92,31 @@ export default function CommentSection({ combo }: Props) {
 
         {isCommenting ? (
           <Form {...form}>
-            <form ref={formRef} action={async (FormData) => {
-              handleCommenting();
-              form.reset();
-              await createComment(FormData);
-            }} className="flex flex-col p-1 w-full">
+            <form
+              ref={formRef}
+              action={async (FormData) => {
+                const comment = {
+                  id: "",
+                  text: form.getValues("text"),
+                  comboId: combo.id,
+                  userId: currentUser.id,
+                  createdAt: new Date(),
+                  updatedAt: new Date(),
+                  likes: [], // * TODO: value to insert and then - 1 when displaying *
+                  user: {
+                    id: currentUser.id,
+                    name: session?.user?.name || "",
+                    image: session?.user?.image || "",
+                  },
+                };
+
+                handleCommenting();
+                form.reset();
+                addOptimisticComment(comment);
+                await createComment(FormData);
+              }}
+              className="flex flex-col p-1 w-full"
+            >
               <input type="hidden" name="comboId" value={combo.id} />
               <input type="hidden" name="pathName" value={pathName} />
               <FormField
@@ -108,9 +139,7 @@ export default function CommentSection({ combo }: Props) {
                   </FormItem>
                 )}
               />
-              <div
-                className={`justify-end flex w-full items-center`}
-              >
+              <div className={`justify-end flex w-full items-center`}>
                 <div className={`flex`}>
                   <button
                     type="button"
@@ -157,7 +186,7 @@ export default function CommentSection({ combo }: Props) {
         )}
       </div>
       <CommentFilter />
-      <CommentsDisplay comments={combo.comments} />
+      <CommentsDisplay comments={optimisticComments} />
     </div>
   );
 }
