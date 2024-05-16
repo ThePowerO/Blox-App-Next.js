@@ -187,6 +187,7 @@ export async function getSlugCombo(slug: string) {
             slug: true,
             authorCreatedAt: true,
             authorImage: true,
+            authorEmail: true,
             combotitle: true,
             combodescription: true,
             fightingstyle: true,
@@ -195,6 +196,7 @@ export async function getSlugCombo(slug: string) {
             sword: true,
             specialty: true,
             createdAt: true,
+            updatedAt: true,
             mainStats: true,
             comboVideo: true,
             race: true,
@@ -202,16 +204,17 @@ export async function getSlugCombo(slug: string) {
                 select: {
                     id: true,
                     text: true,
-                    userName: true,
-                    userImage: true,
                     createdAt: true,
+                    updatedAt: true,
                     user: {
                         select: {
                             name: true,
                             image: true,
                             id: true
                         }
-                    },
+                    }, 
+                    userId: true,
+                    comboId: true,
                     likes: {
                         select: {
                             id: true,
@@ -219,7 +222,7 @@ export async function getSlugCombo(slug: string) {
                             userId: true,
                             createdAt: true,
                         }
-                    }
+                    },
                 }
             },
             user: {

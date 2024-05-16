@@ -1,3 +1,5 @@
+'use client';
+
 import { CalendarDays } from "lucide-react"
 
 import {
@@ -12,7 +14,13 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
 
-export function HoverComboAuthor({comboAuthor, authorImage, authorCreatedAt}: any) {
+type Props = {
+  comboAuthor: string;
+  authorImage: string;
+  authorCreatedAt: Date;
+}
+
+export function HoverComboAuthor({comboAuthor, authorImage, authorCreatedAt}: Props) {
   return (
     <HoverCard>
       <HoverCardTrigger asChild>
@@ -32,7 +40,7 @@ export function HoverComboAuthor({comboAuthor, authorImage, authorCreatedAt}: an
             <div className="flex items-center pt-2">
               <CalendarDays className="mr-2 h-4 w-4 opacity-70" />{" "}
               <span className="text-xs text-muted-foreground">
-                Joined at {authorCreatedAt}
+                Joined at {authorCreatedAt.toString().slice(0, 15)}
               </span>
             </div>
           </div>

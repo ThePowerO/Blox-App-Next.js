@@ -34,12 +34,12 @@ model Session {
 }
 
 model User {
-  id            String      @id @default(cuid())
-  name          String?     @unique
-  email         String?     @unique
+  id            String        @id @default(cuid())
+  name          String?       @unique
+  email         String?       @unique
   password      String?
-  createdAt     DateTime    @unique @default(now())
-  updatedAt     DateTime    @updatedAt
+  createdAt     DateTime      @unique @default(now())
+  updatedAt     DateTime      @updatedAt
   emailVerified DateTime?
   image         String?
   accounts      Account[]
@@ -50,22 +50,20 @@ model User {
   likedCombos   Like[]
   commentLikes  CommentLike[]
 
-  @@unique([id, image, name])
+  @@unique([id, image, email])
 }
 
 model Comment {
-  id            String   @id @default(cuid())
-  userId        String
-  comboId       String
-  userName      String
-  userImage     String
-  text          String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime    @updatedAt
-  likes         CommentLike[]
+  id        String        @id @default(cuid())
+  userId    String
+  comboId   String
+  text      String
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  likes     CommentLike[]
 
-  combo         Combo   @relation(fields: [comboId], references: [id], onDelete: Cascade)
-  user          User    @relation(fields: [userId, userImage, userName], references: [id, image, name], onDelete: Cascade)
+  combo Combo @relation(fields: [comboId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Favorite {
@@ -83,28 +81,28 @@ model CommentLike {
   userId    String
   createdAt DateTime @default(now())
 
-  comment   Comment     @relation(fields: [commentId], references: [id], onDelete: Cascade)
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comment Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Like {
-  comboId  String
-  userId   String
+  comboId   String
+  userId    String
   createdAt DateTime @default(now())
-  combo    Combo    @relation(fields: [comboId], references: [id])
+  combo     Combo    @relation(fields: [comboId], references: [id])
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([comboId, userId])
 }
 
 model Combo {
-  id               String      @id @default(cuid())
-  slug             String      @unique
+  id               String     @id @default(cuid())
+  slug             String     @unique
   difficulty       String
   author           String
-  authorImage      String
-  authorEmail      String
-  authorCreatedAt  DateTime
+  authorImage      String //deletar dps
+  authorEmail      String //deletar dps
+  authorCreatedAt  DateTime //deletar dps
   combotitle       String
   combodescription String
   fightingstyle    String
@@ -115,9 +113,9 @@ model Combo {
   race             String
   mainStats        String
   comboVideo       String
-  createdAt        DateTime    @default(now())
-  updatedAt        DateTime    @updatedAt
-  user             User        @relation(fields: [authorCreatedAt], references: [createdAt], onDelete: Cascade)
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+  user             User       @relation(fields: [authorCreatedAt], references: [createdAt], onDelete: Cascade)
   likes            Like[]
   favorites        Favorite[]
   comments         Comment[]

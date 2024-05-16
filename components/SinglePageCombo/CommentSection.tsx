@@ -24,22 +24,30 @@ import { SendHorizonal } from "lucide-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-const FilterTypes = ["Recent", "Old", "Top"];
+import { createComment } from "@/lib/actions/commentActions";
+import { Combo } from "@/lib/types";
+import { usePathname } from "next/navigation";
+import { text } from "node:stream/consumers";
+import CommentFilter from "./CommentFilter";
+import CommentsDisplay from "./CommentsDisplay";
 
 const FormSchema = z.object({
-  CommentText: z.string().min(1, {
+  text: z.string().min(1, {
     message: "Comment is required",
   }),
 });
 
 type InputValue = z.infer<typeof FormSchema>;
 
-export default function CommentSection() {
+type Props = {
+  combo: Combo;
+};
+
+export default function CommentSection({ combo }: Props) {
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      CommentText: "",
+      text: "",
     },
   });
 
@@ -48,13 +56,12 @@ export default function CommentSection() {
   const { data: session } = useSession();
   const [isCommenting, setIsCommenting] = useState(false);
   const [showEmojiList, setShowEmojiList] = useState(false);
+  const pathName = usePathname();
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleCommenting = () => {
     setIsCommenting((prevState) => !prevState);
   };
-
-  const selectedFilterType = FilterTypes[0];
 
   return (
     <div className="p-2">
@@ -74,9 +81,15 @@ export default function CommentSection() {
 
         {isCommenting ? (
           <Form {...form}>
-            <form ref={formRef} className="flex flex-col p-1 w-full">
+            <form ref={formRef} action={async (FormData) => {
+              handleCommenting();
+              form.reset();
+              await createComment(FormData);
+            }} className="flex flex-col p-1 w-full">
+              <input type="hidden" name="comboId" value={combo.id} />
+              <input type="hidden" name="pathName" value={pathName} />
               <FormField
-                name="CommentText"
+                name="text"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
@@ -101,7 +114,10 @@ export default function CommentSection() {
                 <div className={`flex`}>
                   <button
                     type="button"
-                    onClick={handleCommenting}
+                    onClick={() => {
+                      handleCommenting();
+                      form.reset();
+                    }}
                     className="cursor-pointer px-4 py-1 mr-1 dark:hover:bg-stone-800 hover:bg-stone-300 rounded-2xl"
                   >
                     Cancel
@@ -140,29 +156,8 @@ export default function CommentSection() {
           </div>
         )}
       </div>
-      <div className="mt-[20px] flex flex-col">
-        <div className="flex w-full tinymax:px-[10px] px-[40px] py-2 items-center border rounded-xl dark:border-none dark:bg-[#212529]">
-          <div className="flex tinymax:gap-1 gap-4 items-center text-sm">
-            <p className="text-zinc-400">Filter by:</p>
-            {FilterTypes.map((filterType) => (
-              <Link
-                key={filterType}
-                href={`?${new URLSearchParams({
-                  filter: filterType,
-                })}`}
-                scroll={false}
-                className={`cursor-pointer ${
-                  filterType === selectedFilterType
-                    ? "bg-zinc-500 text-white"
-                    : "hover:bg-stone-200 dark:hover:bg-zinc-600"
-                } text-center place-content-center w-[60px] p-1 rounded-sm`}
-              >
-                {filterType}
-              </Link>
-            ))}
-          </div>
-        </div>
-      </div>
+      <CommentFilter />
+      <CommentsDisplay comments={combo.comments} />
     </div>
   );
 }

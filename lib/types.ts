@@ -2,6 +2,7 @@ export type Combo = {
   id: string;
   authorImage: string;
   authorCreatedAt: Date;
+  authorEmail: string;
   difficulty: string;
   author: string;
   combotitle: string;
@@ -13,6 +14,7 @@ export type Combo = {
   slug: string;
   specialty: string;
   createdAt: Date;
+  updatedAt: Date;
   mainStats: string;
   race: string;
   comboVideo: string;
@@ -26,7 +28,33 @@ export type Combo = {
   };
 };
 
-type Comment = {
+export type Comment = {
+  id: string;
+  text: string;
+  comboId: string;
+  userId: string;
+  user: {
+    name: string | null;
+    image: string | null;
+    id: string;
+  };
+  likes: CommentLike[];
+  updatedAt: Date;
+  createdAt: Date;
+}
+
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+  image: string;
+  createdAt: Date;
+  updatedAt: Date;
+  emailVerified: Date;
+  favorites: Favorite[];
+  comments: Comment[];
+  likedCombos: Like[];
+  commentLikes: CommentLike[];
 
 }
 

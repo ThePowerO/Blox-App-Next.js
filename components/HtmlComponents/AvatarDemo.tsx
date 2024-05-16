@@ -10,7 +10,7 @@ import {
   
   export function AvatarDemo({ userImg, userNickName }: any) {
     return (
-      <Avatar>
+      <Avatar className=" flex-none">
         <AvatarImage src={userImg} alt={`@${userNickName}`} />
         <AvatarFallback></AvatarFallback>
       </Avatar>
