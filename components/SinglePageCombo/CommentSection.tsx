@@ -44,9 +44,10 @@ type InputValue = z.infer<typeof FormSchema>;
 
 type Props = {
   combo: Combo;
+  userId: string;
 };
 
-export default function CommentSection({ combo }: Props) {
+export default function CommentSection({ combo, userId }: Props) {
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -57,7 +58,6 @@ export default function CommentSection({ combo }: Props) {
   const isLoading = form.formState.isSubmitting;
 
   const { data: session } = useSession();
-  const currentUser: any = session?.user;
   const [isCommenting, setIsCommenting] = useState(false);
   const [showEmojiList, setShowEmojiList] = useState(false);
   const pathName = usePathname();
@@ -99,12 +99,12 @@ export default function CommentSection({ combo }: Props) {
                   id: "",
                   text: form.getValues("text"),
                   comboId: combo.id,
-                  userId: currentUser.id,
+                  userId: userId,
                   createdAt: new Date(),
                   updatedAt: new Date(),
                   likes: [], // * TODO: value to insert and then - 1 when displaying *
                   user: {
-                    id: currentUser.id,
+                    id: userId,
                     name: session?.user?.name || "",
                     image: session?.user?.image || "",
                   },
@@ -186,7 +186,7 @@ export default function CommentSection({ combo }: Props) {
         )}
       </div>
       <CommentFilter />
-      <CommentsDisplay comments={optimisticComments} />
+      <CommentsDisplay userId={userId} comments={combo.comments} />
     </div>
   );
 }

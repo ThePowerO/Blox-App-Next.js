@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   MoreVertical,
   Trash2,
@@ -71,12 +71,11 @@ export default function MoreVerticalBtn({
 
 type Props = {
   comment: Comment;
+  toggleEditing: (commentId: string) => void;
 };
 
-export function MoreHorizontallBtn({ comment }: Props) {
-
+export function MoreHorizontallBtn({ comment, toggleEditing }: Props) {
   const pathName = usePathname();
-  const router = useRouter();
 
   return (
     <div>
@@ -85,9 +84,12 @@ export function MoreHorizontallBtn({ comment }: Props) {
           <MoreHorizontal className="size-[16px]" />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <form action="" className="p-1">
-            <EditCommentBtn />
-          </form>
+          <div className="p-1">
+            <Button onClick={() => toggleEditing(comment.id)} variant="outline" className="flex w-full items-center gap-1">
+              <Pencil width={18} height={18} />
+              <span>Edit Comment</span>
+            </Button>
+          </div>
           <form action={async (FormData) => {
             toast.success("Comment Deleted");
             setTimeout(() => {

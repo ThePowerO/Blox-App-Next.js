@@ -1,14 +1,17 @@
+'use client';
+
 import { Comment } from "@/lib/types";
-import React from "react";
+import React, { useState } from "react";
 import { AvatarDemo } from "../HtmlComponents/AvatarDemo";
 import { Link } from "@/navigation";
 import CommentText from "./CommentText";
 
 type Props = {
   comments: Comment[];
+  userId: string;
 };
 
-export default function CommentsDisplay({ comments }: Props) {
+export default function CommentsDisplay({ comments, userId }: Props) {
   return (
     <>
       {comments.length === 0? (
@@ -35,7 +38,7 @@ export default function CommentsDisplay({ comments }: Props) {
               </Link>
               <div className="flex flex-col justify-between text-sm w-full">
                 <span className="text-sm font-bold">{comment.user.name}</span>
-                <CommentText comment={comment} />
+                <CommentText userId={userId} comment={comment} />
               </div>
             </div>
           </div>

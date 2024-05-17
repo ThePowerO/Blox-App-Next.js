@@ -70,3 +70,20 @@ export const DeleteCommentAction = async (FormData: FormData) => {
 
     revalidatePath(pathName);
 }
+
+export const UpdateCommentText = async (FormData: FormData) => {
+    const commentId = FormData.get("commentId") as string
+    const text = FormData.get("text") as string
+    const pathName = FormData.get("pathName") as string;
+
+    await prisma.comment.update({
+        where: {
+            id: commentId,
+        },
+        data: {
+            text
+        }
+    })
+
+    revalidatePath(pathName);
+}
