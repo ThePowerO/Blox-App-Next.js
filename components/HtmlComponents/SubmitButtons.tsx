@@ -1,6 +1,6 @@
 "use client";
 
-import { Heart, Loader, Star, Trash2 } from "lucide-react";
+import { Heart, Loader, LoaderIcon, Star, Trash2 } from "lucide-react";
 import { useFormStatus } from "react-dom";
 import { Button } from "../ui/button";
 import { useState } from "react";
@@ -9,12 +9,7 @@ import { Combo } from "@/lib/types";
 export function AddLikeParagraph({ combo }: { combo: Combo }) {
   const { pending } = useFormStatus();
   return (
-    <p
-      title={`${
-        combo.likes.length
-      } likes`}
-      className="text-[14px]"
-    >
+    <p title={`${combo.likes.length} likes`} className="text-[14px]">
       {pending ? combo.likes.length + 1 : combo.likes.length}
     </p>
   );
@@ -23,12 +18,7 @@ export function AddLikeParagraph({ combo }: { combo: Combo }) {
 export function RemoveLikeParagraph({ combo }: { combo: Combo }) {
   const { pending } = useFormStatus();
   return (
-    <p
-      title={`${
-        combo.likes.length
-      } likes`}
-      className="text-[14px]"
-    >
+    <p title={`${combo.likes.length} likes`} className="text-[14px]">
       {pending ? combo.likes.length - 1 : combo.likes.length}
     </p>
   );
@@ -233,3 +223,54 @@ export function RemoveCommentLike(comment: Comment) {
     </>
   );
 }
+
+export function SaveEditCommentBtn() {
+  const { pending } = useFormStatus();
+  return (
+    <>
+      {pending ? (
+        <div className="cursor-not-allowed">
+          <Button
+            disabled={pending}
+            type="button"
+            variant="outline"
+            className="rounded-lg dark:text-black w-[50px] h-[30px] bg-slate-300"
+            >
+              <Loader width={18} height={18} className="animate-spin" />
+          </Button>
+        </div>
+      ) : (
+        <Button
+          type="submit"
+          variant="outline"
+          className="rounded-lg w-[50px] hover:dark:text-black dark:text-black
+          hover:bg-cyan-500 h-[30px] bg-cyan-300 shadow-md shadow-cyan-500/50"
+        >
+          <span>Save</span>
+        </Button>
+      )}
+    </>
+  );
+}
+
+export function DeleteCommentBtn() {
+
+  const { pending } = useFormStatus();
+
+  return (
+    <Button disabled={pending} variant="destructive" className="flex w-full items-center gap-1">
+      {pending ? (
+        <>
+          <LoaderIcon className="animate-spin" width={18} height={18} />
+          <span>Deleting Comment...</span>
+        </>
+      ) : (
+        <>
+
+          <Trash2 width={18} height={18} />
+          <span>Delete Comment</span>
+        </>
+      )}
+    </Button>
+  );
+};

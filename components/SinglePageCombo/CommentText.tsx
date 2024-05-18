@@ -1,10 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  DeleteCommentBtn,
-  MoreHorizontallBtn,
-} from "../HtmlComponents/MoreVertical";
 import { MoreHorizontal, Pencil, Reply } from "lucide-react";
 import { Comment } from "@/lib/types";
 import TextareaAutosize from "react-textarea-autosize";
@@ -34,6 +30,7 @@ import { Button } from "../ui/button";
 import { useSession } from "next-auth/react";
 import { DeleteCommentAction, UpdateCommentText } from "@/lib/actions/commentActions";
 import { usePathname } from "next/navigation";
+import { DeleteCommentBtn, SaveEditCommentBtn } from "../HtmlComponents/SubmitButtons";
 
 type Props = {
   comment: Comment;
@@ -43,6 +40,7 @@ type Props = {
 export default function CommentText({ comment, userId }: Props) {
   const [fullComment, setFullComment] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [textValue, setTextValue] = useState("");
 
   const toggleEditing = () => {
     setIsEditing((prev) => !prev);
@@ -64,9 +62,6 @@ export default function CommentText({ comment, userId }: Props) {
 
   const form = useForm<InputType>({
     resolver: zodResolver(EditFormSchema),
-    defaultValues: {
-      text: comment.text,
-    },
   });
 
   const isSubmitting = form.formState.isSubmitting;
@@ -76,6 +71,8 @@ export default function CommentText({ comment, userId }: Props) {
       {isEditing ? (
         <Form {...form}>
           <form action={async (FormData) => {
+            form.reset();
+            setTextValue("");
             toggleEditing();
             await UpdateCommentText(FormData);
           }}>
@@ -88,6 +85,14 @@ export default function CommentText({ comment, userId }: Props) {
                   <FormControl>
                     <TextareaAutosize
                       {...field}
+                      value={textValue}
+                      autoFocus
+                      required
+                      onChange={(e) => {
+                        setTextValue(e.target.value);
+                      }}
+                      minRows={1}
+                      maxLength={4000}
                       className="w-full p-2 rounded-md focus:outline-none border focus:ring-2 focus:ring-cyan-300 focus:border-transparent"
                     />
                   </FormControl>
@@ -96,29 +101,28 @@ export default function CommentText({ comment, userId }: Props) {
             />
             <div className="w-full flex justify-end gap-2">
               <Button
-                onClick={toggleEditing}
+                onClick={() => {
+                  form.reset();
+                  toggleEditing();
+                }}
                 variant="outline"
-                className="rounded-lg w-[60px] h-[30px] hover:bg-cyan-300"
+                className="rounded-lg w-[60px] h-[30px] dark:hover:bg-stone-800 hover:bg-stone-300"
               >
                 <span>Cancel</span>
               </Button>
-              {!form.formState.isValid && isSubmitting ? (
-                <Button
-                  disabled
-                  type="button"
-                  variant="outline"
-                  className="rounded-lg w-[50px] h-[30px] bg-slate-300"
-                >
-                  <span>Save</span>
-                </Button>
+              {textValue === comment.text ? (
+                <div className="cursor-not-allowed">
+                  <Button
+                    disabled
+                    type="button"
+                    variant="outline"
+                    className="rounded-lg w-[50px] h-[30px] bg-slate-300"
+                  >
+                    <span className="dark:text-black">Save</span>
+                  </Button>
+                </div>
               ) : (
-                <Button
-                  type="submit"
-                  variant="outline"
-                  className="rounded-lg w-[50px] h-[30px] hover:bg-cyan-300"
-                >
-                  <span>Save 2</span>
-                </Button>
+                <SaveEditCommentBtn />
               )}
             </div>
           </form>
@@ -180,7 +184,11 @@ export default function CommentText({ comment, userId }: Props) {
                 <DropdownMenuItem>
                   <div className="w-full">
                     <Button
-                      onClick={toggleEditing}
+                      onClick={() => {
+                        setTextValue(comment.text);
+                        form.reset();
+                        toggleEditing();
+                      }}
                       variant="outline"
                       className="flex w-full items-center gap-1"
                     >
@@ -190,12 +198,7 @@ export default function CommentText({ comment, userId }: Props) {
                   </div>
                 </DropdownMenuItem>
                 <form
-                  action={async (FormData) => {
-                    setTimeout(() => {
-                      window.location.reload();
-                    }, 1000);
-                    await DeleteCommentAction(FormData);
-                  }}
+                  action={DeleteCommentAction}
                   className="p-1"
                 >
                   <input type="hidden" name="commentId" value={comment.id} />

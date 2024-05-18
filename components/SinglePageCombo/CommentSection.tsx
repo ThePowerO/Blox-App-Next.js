@@ -163,7 +163,7 @@ export default function CommentSection({ combo, userId }: Props) {
                     ) : (
                       <button
                         disabled={isLoading}
-                        className="flex text-black justify-center w-[60px] px-2 py-1 cursor-pointer rounded-2xl bg-cyan-400 hover:bg-cyan-500"
+                        className="flex shadow-md shadow-cyan-500/50 text-black justify-center w-[60px] px-2 py-1 cursor-pointer rounded-2xl bg-cyan-400 hover:bg-cyan-500"
                         type="submit"
                       >
                         <SendHorizonal className="size-6" />

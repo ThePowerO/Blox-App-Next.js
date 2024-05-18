@@ -3,8 +3,8 @@ import Links from "./navLinks/Links";
 import LanguageSelector from "./LanguageSelector/LanguageSelector";
 import ProfileSelector from "./ProfileSelector/ProfileSelector";
 import { Menu } from 'lucide-react';
-import { ModeToggle } from "./ModeToggle";
-import MobileNavBar from "../HtmlComponents/MobileNavBar";
+import { ThemeModeToggle } from "./ThemeModeToggle";
+import MobileNavBar from "./MobileNavBar";
 
 const NavBar = ({ locale }: { locale: string }) => {
 
@@ -40,7 +40,7 @@ const NavBar = ({ locale }: { locale: string }) => {
         </div>
         <div className="flex">
           <LanguageSelector item={links[0]} locale={locale} />
-          <ModeToggle />
+          <ThemeModeToggle />
           <ProfileSelector locale={locale} />
         </div>
       </nav>

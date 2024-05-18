@@ -7,7 +7,8 @@ import { User } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 export const createComment = async (FormData: FormData) => {
-    const session: any = await getServerSession(authOptions);
+    const session = await getServerSession(authOptions);
+    const userSession = session?.user as User    
     const text = FormData.get("text") as string;
     const comboId = FormData.get("comboId") as string;
     const pathName = FormData.get("pathName") as string;
@@ -15,7 +16,7 @@ export const createComment = async (FormData: FormData) => {
     try {
         const user = await prisma.user.findUnique({
             where: {
-                id: session?.user?.id
+                id: userSession.id,
             }
         });
 
@@ -55,16 +56,15 @@ export const createComment = async (FormData: FormData) => {
 }
 
 export const DeleteCommentAction = async (FormData: FormData) => {
-    const session: any = await getServerSession(authOptions);
+    const session = await getServerSession(authOptions);
+    const userSession = session?.user as User
     const commentId = FormData.get("commentId") as string
-    const comboId = FormData.get("comboId") as string
     const pathName = FormData.get("pathName") as string;
 
     await prisma.comment.delete({
         where: {
             id: commentId,
-            comboId,
-            userId: session?.user?.id
+            userId: userSession.id,
         }
     });
 

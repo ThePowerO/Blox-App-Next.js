@@ -1,11 +1,12 @@
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import React from "react";
 
 export const FilterTypes = ["Recent", "Old", "Top"];
 
-const selectedFilterType = FilterTypes[0]; // test
-
 export default function CommentFilter() {
+  const SearchParams = useSearchParams();
+  const selectedFilter = SearchParams.get("filter");
   return (
     <div className="mt-[20px] flex flex-col">
       <div className="flex w-full tinymax:px-[10px] px-[40px] py-2 items-center border rounded-xl dark:border-none dark:bg-[#212529]">
@@ -19,7 +20,7 @@ export default function CommentFilter() {
               })}`}
               scroll={false}
               className={`cursor-pointer ${
-                filterType === selectedFilterType
+                filterType === selectedFilter
                   ? "bg-zinc-500 text-white"
                   : "hover:bg-stone-200 dark:hover:bg-zinc-600"
               } text-center place-content-center w-[60px] p-1 rounded-sm`}

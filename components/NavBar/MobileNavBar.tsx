@@ -16,7 +16,7 @@ import {
     SheetTrigger,
 } from "@/components/ui/sheet"
 import { Button } from '../ui/button'
-import MobileActiveLink from '../NavBar/navLinks/ActiveLink/MobileActiveLink';
+import MobileActiveLink from './navLinks/ActiveLink/MobileActiveLink';
 
 export default function MobileNavBar({locale}: {locale: string}) {
     const links = [
