@@ -70,7 +70,7 @@ export default function CommentReply({ comment }: Props) {
       part === userName ? (
         <span key={index} className="text-cyan-500">{part}</span>
       ) : (
-        <span key={index} className="text-white">{part}</span>
+        <span key={index} className="dark:text-white text-black">{part}</span>
       )
     );
   };
