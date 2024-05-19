@@ -31,6 +31,7 @@ import { useSession } from "next-auth/react";
 import { DeleteCommentAction, UpdateCommentText } from "@/lib/actions/commentActions";
 import { usePathname } from "next/navigation";
 import { DeleteCommentBtn, SaveEditCommentBtn } from "../HtmlComponents/SubmitButtons";
+import CommentReply from "./CommentReply";
 
 type Props = {
   comment: Comment;
@@ -40,10 +41,15 @@ type Props = {
 export default function CommentText({ comment, userId }: Props) {
   const [fullComment, setFullComment] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [isReplying, setIsReplying] = useState(false);
   const [textValue, setTextValue] = useState("");
 
   const toggleEditing = () => {
     setIsEditing((prev) => !prev);
+  };
+
+  const toggleReplying = () => {
+    setIsReplying((prev) => !prev);
   };
 
   const pathName = usePathname();
@@ -63,8 +69,6 @@ export default function CommentText({ comment, userId }: Props) {
   const form = useForm<InputType>({
     resolver: zodResolver(EditFormSchema),
   });
-
-  const isSubmitting = form.formState.isSubmitting;
 
   return (
     <>
@@ -171,7 +175,7 @@ export default function CommentText({ comment, userId }: Props) {
         </div>
       )}
       <div className="flex gap-2">
-        <div className="cursor-pointer p-[2px] h-fit hover:bg-stone-200 dark:hover:bg-zinc-600 rounded-full">
+        <div onClick={toggleReplying} className="cursor-pointer p-[2px] h-fit hover:bg-stone-200 dark:hover:bg-zinc-600 rounded-full">
           <Reply className="size-[16px]" />
         </div>
         {comment.user.id === userId && (
@@ -210,6 +214,9 @@ export default function CommentText({ comment, userId }: Props) {
           </div>
         )}
       </div>
+      {isReplying && (
+        <CommentReply comment={comment} />
+      )}
     </>
   );
 }

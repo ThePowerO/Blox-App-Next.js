@@ -4,7 +4,7 @@ import { Heart, Loader, LoaderIcon, Star, Trash2 } from "lucide-react";
 import { useFormStatus } from "react-dom";
 import { Button } from "../ui/button";
 import { useState } from "react";
-import { Combo } from "@/lib/types";
+import { Combo, Comment } from "@/lib/types";
 
 export function AddLikeParagraph({ combo }: { combo: Combo }) {
   const { pending } = useFormStatus();
@@ -235,8 +235,8 @@ export function SaveEditCommentBtn() {
             type="button"
             variant="outline"
             className="rounded-lg dark:text-black w-[50px] h-[30px] bg-slate-300"
-            >
-              <Loader width={18} height={18} className="animate-spin" />
+          >
+            <Loader width={18} height={18} className="animate-spin" />
           </Button>
         </div>
       ) : (
@@ -254,11 +254,14 @@ export function SaveEditCommentBtn() {
 }
 
 export function DeleteCommentBtn() {
-
   const { pending } = useFormStatus();
 
   return (
-    <Button disabled={pending} variant="destructive" className="flex w-full items-center gap-1">
+    <Button
+      disabled={pending}
+      variant="destructive"
+      className="flex w-full items-center gap-1"
+    >
       {pending ? (
         <>
           <LoaderIcon className="animate-spin" width={18} height={18} />
@@ -266,11 +269,64 @@ export function DeleteCommentBtn() {
         </>
       ) : (
         <>
-
           <Trash2 width={18} height={18} />
           <span>Delete Comment</span>
         </>
       )}
     </Button>
   );
-};
+}
+
+export function AddCommentLkeBtn(comments: Comment) {
+  const { pending } = useFormStatus();
+  return (
+    <>
+      {pending ? (
+        <button type="button">
+          <span
+            className="bg-slate-600 border cursor-pointer hover:border-lime-400
+          text-white py-1 px-4 h-fit rounded-full text-center"
+          >
+            +{comments.likes.length + 1}
+          </span>
+        </button>
+      ) : (
+        <button type="submit">
+          <span
+            className="bg-slate-600 border cursor-pointer hover:border-lime-400
+          text-white py-1 px-4 h-fit rounded-full text-center"
+          >
+            +{comments.likes.length}
+          </span>
+        </button>
+      )}
+    </>
+  );
+}
+
+export function RemoveCommentLikeBtn(comments: Comment) {
+  const { pending } = useFormStatus();
+  return (
+    <>
+      {pending ? (
+        <button type="button">
+          <span
+            className="bg-slate-600 border cursor-pointer hover:border-lime-400
+          text-white py-1 px-4 h-fit rounded-full text-center"
+          >
+            +{comments.likes.length - 1}
+          </span>
+        </button>
+      ) : (
+        <button type="submit">
+          <span
+            className="bg-slate-600 border cursor-pointer hover:border-lime-400
+          text-white py-1 px-4 h-fit rounded-full text-center"
+          >
+            +{comments.likes.length}
+          </span>
+        </button>
+      )}
+    </>
+  );
+}

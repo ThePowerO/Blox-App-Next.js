@@ -62,6 +62,10 @@ model Comment {
   updatedAt DateTime      @updatedAt
   likes     CommentLike[]
 
+  children Comment[] @relation("comment_children")
+  parent   Comment? @relation("comment_children", fields: [parentId], references: [id])
+  parentId String?
+
   combo Combo @relation(fields: [comboId], references: [id], onDelete: Cascade)
   user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -83,6 +87,8 @@ model CommentLike {
 
   comment Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
   user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([commentId, userId])
 }
 
 model Like {

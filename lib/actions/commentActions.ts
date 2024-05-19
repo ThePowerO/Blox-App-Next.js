@@ -12,6 +12,7 @@ export const createComment = async (FormData: FormData) => {
     const text = FormData.get("text") as string;
     const comboId = FormData.get("comboId") as string;
     const pathName = FormData.get("pathName") as string;
+    const parentId = FormData.get("parentId") as string; // Comment ID
 
     try {
         const user = await prisma.user.findUnique({
@@ -37,7 +38,14 @@ export const createComment = async (FormData: FormData) => {
                     connect: {
                         id: comboId
                     }
-                }
+                },
+                ...(parentId && {
+                    parent: {
+                        connect: {
+                            id: parentId,
+                        },
+                    }
+                })
             },
             include: {
                 combo: true,
@@ -84,6 +92,51 @@ export const UpdateCommentText = async (FormData: FormData) => {
             text
         }
     })
+
+    revalidatePath(pathName);
+}
+
+export const LikeCommentAction = async (FormData: FormData) => {
+    const session = await getServerSession(authOptions);
+    const userSession = session?.user as User
+    const commentId = FormData.get("commentId") as string
+    const pathName = FormData.get("pathName") as string;
+
+    const comment = await prisma.comment.findUnique({
+        where: {
+            id: commentId,
+        },
+        include: {
+            likes: true
+        }
+    })
+
+    if (!comment) return;
+
+    await prisma.commentLike.create({
+        data: {
+            commentId,
+            userId: userSession.id,
+        }
+    });
+
+    revalidatePath(pathName);
+}
+
+export const UnlikeCommentAction = async (FormData: FormData) => {
+    const session = await getServerSession(authOptions);
+    const userSession = session?.user as User
+    const commentId = FormData.get("commentId") as string
+    const pathName = FormData.get("pathName") as string;
+
+    await prisma.commentLike.delete({
+        where: {
+            commentId_userId: {
+                commentId,
+                userId: userSession.id
+            }
+        }
+    });
 
     revalidatePath(pathName);
 }
