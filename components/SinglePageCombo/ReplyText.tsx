@@ -1,7 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import { ChevronDown, ChevronUp, ChevronsUpDown, MoreHorizontal, Pencil, Reply } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronUp,
+  ChevronsUpDown,
+  MoreHorizontal,
+  Pencil,
+  Reply,
+} from "lucide-react";
 import { Comment, Replies } from "@/lib/types";
 import TextareaAutosize from "react-textarea-autosize";
 
@@ -28,22 +35,27 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../ui/button";
 import { useSession } from "next-auth/react";
-import { DeleteComment, UpdateCommentText } from "@/lib/actions/commentActions";
+import { DeleteReply, UpdateReplyText } from "@/lib/actions/commentActions";
 import { usePathname } from "next/navigation";
-import { DeleteCommentBtn, SaveEditCommentBtn } from "../HtmlComponents/SubmitButtons";
+import {
+  DeleteCommentBtn,
+  SaveEditCommentBtn,
+} from "../HtmlComponents/SubmitButtons";
 import CommentReply from "./CommentReply";
 
 type Props = {
+  replies: Replies;
   comment: Comment;
   userId: string;
 };
 
-export default function CommentText({ comment, userId }: Props) {
+export default function ReplyText({ comment, replies, userId }: Props) {
   const [fullComment, setFullComment] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
   const [replyUserName, setReplyUserName] = useState("" as string | null);
   const [textValue, setTextValue] = useState("");
+
 
   const toggleEditing = () => {
     setIsEditing((prev) => !prev);
@@ -53,9 +65,9 @@ export default function CommentText({ comment, userId }: Props) {
     setIsReplying((prev) => !prev);
   };
 
- const catchUserName = (userName: string | null) => {
-   setReplyUserName(userName);
- }
+  const catchUserName = (userName: string | null) => {
+    setReplyUserName(userName);
+  };
 
   const pathName = usePathname();
 
@@ -79,13 +91,15 @@ export default function CommentText({ comment, userId }: Props) {
     <>
       {isEditing ? (
         <Form {...form}>
-          <form action={async (FormData) => {
-            form.reset();
-            setTextValue("");
-            toggleEditing();
-            await UpdateCommentText(FormData);
-          }}>
-            <input type="hidden" name="commentId" value={comment.id} />
+          <form
+            action={async (FormData) => {
+              form.reset();
+              setTextValue("");
+              toggleEditing();
+              await UpdateReplyText(FormData);
+            }}
+          >
+            <input type="hidden" name="replyId" value={replies.id} />
             <input type="hidden" name="pathName" value={pathName} />
             <FormField
               name="text"
@@ -119,7 +133,7 @@ export default function CommentText({ comment, userId }: Props) {
               >
                 <span>Cancel</span>
               </Button>
-              {textValue === comment.text ? (
+              {textValue === replies.text ? (
                 <div className="cursor-not-allowed">
                   <Button
                     disabled
@@ -142,7 +156,7 @@ export default function CommentText({ comment, userId }: Props) {
             <>
               <TextareaAutosize
                 readOnly
-                value={comment.text}
+                value={replies.text}
                 className="petitmax:text-[13px] break-all w-full bg-transparent outline-none resize-none"
               />
               <p
@@ -154,25 +168,25 @@ export default function CommentText({ comment, userId }: Props) {
             </>
           ) : (
             <>
-              {comment.text && comment.text.length < 429 ? (
+              {replies.text && replies.text.length < 429 ? (
                 <TextareaAutosize
                   readOnly
-                  value={comment.text}
+                  value={replies.text}
                   className="petitmax:text-[13px] w-full bg-transparent outline-none resize-none"
                 />
               ) : (
                 <>
                   <div className="w-full">
-                    {comment.text && (
+                    {replies.text && (
                       <>
                         <TextareaAutosize
                           readOnly
                           className={`${
-                            hasNoSpaces(comment.text)
+                            hasNoSpaces(replies.text)
                               ? "break-all"
                               : "break-words"
                           } petitmax:text-[13px] w-full bg-transparent outline-none resize-none`}
-                          value={comment.text.slice(0, 430)}
+                          value={replies.text.slice(0, 430)}
                         />
                         <p
                           className="cursor-pointer underline my-2"
@@ -188,13 +202,16 @@ export default function CommentText({ comment, userId }: Props) {
         </div>
       )}
       <div className="flex gap-2">
-        <div onClick={() => {
-          toggleReplying();
-          catchUserName(comment.user.name);
-        }} className="cursor-pointer p-[2px] h-fit hover:bg-stone-200 dark:hover:bg-zinc-600 rounded-full">
+        <div
+          onClick={() => {
+            toggleReplying();
+            catchUserName(replies.user.name);
+          }}
+          className="cursor-pointer p-[2px] h-fit hover:bg-stone-200 dark:hover:bg-zinc-600 rounded-full"
+        >
           <Reply className="size-[16px]" />
         </div>
-        {comment.user.id === userId && (
+        {replies.user.id === userId && (
           <div className="cursor-pointer p-[2px] h-fit hover:bg-stone-200 dark:hover:bg-zinc-600 rounded-full">
             <DropdownMenu>
               <DropdownMenuTrigger>
@@ -205,7 +222,7 @@ export default function CommentText({ comment, userId }: Props) {
                   <div className="w-full">
                     <Button
                       onClick={() => {
-                        setTextValue(comment.text);
+                        setTextValue(replies.text);
                         form.reset();
                         toggleEditing();
                       }}
@@ -217,11 +234,8 @@ export default function CommentText({ comment, userId }: Props) {
                     </Button>
                   </div>
                 </DropdownMenuItem>
-                <form
-                  action={DeleteComment}
-                  className="p-1"
-                >
-                  <input type="hidden" name="commentId" value={comment.id} />
+                <form action={DeleteReply} className="p-1">
+                  <input type="hidden" name="replyId" value={replies.id} />
                   <input type="hidden" name="pathName" value={pathName} />
                   <DeleteCommentBtn />
                 </form>
@@ -231,7 +245,11 @@ export default function CommentText({ comment, userId }: Props) {
         )}
       </div>
       {isReplying && (
-        <CommentReply replyUserName={replyUserName} toggleReplying={toggleReplying} comment={comment as Comment} />
+        <CommentReply
+          replyUserName={replyUserName}
+          toggleReplying={toggleReplying}
+          comment={comment as Comment}
+        />
       )}
     </>
   );

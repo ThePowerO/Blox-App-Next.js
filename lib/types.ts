@@ -33,6 +33,7 @@ export type Comment = {
   text: string;
   comboId: string;
   userId: string;
+  replies: Replies[];
   user: {
     name: string | null;
     image: string | null;
@@ -42,6 +43,22 @@ export type Comment = {
   updatedAt: Date;
   createdAt: Date;
 }
+
+export type Replies = {
+  id: string;
+  parentId: string;
+  text: string;
+  userId: string;
+  user: {
+    name: string | null;
+    image: string | null;
+    id: string;
+  }
+  likes: ReplyLike[];
+  updatedAt: Date;
+  createdAt: Date;
+}
+
 
 export type User = {
   id: string;
@@ -54,8 +71,9 @@ export type User = {
   favorites: Favorite[];
   comments: Comment[];
   likedCombos: Like[];
+  replyLikes: ReplyLike[];
   commentLikes: CommentLike[];
-
+  commentReplies: Replies[];
 }
 
 export type Like = {
@@ -67,6 +85,13 @@ export type Like = {
 export type CommentLike = {
   id: string;
   commentId: string;
+  userId: string;
+  createdAt: Date;
+};
+
+export type ReplyLike = {
+  id: string;
+  replyId: string;
   userId: string;
   createdAt: Date;
 };

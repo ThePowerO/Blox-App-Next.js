@@ -42,6 +42,10 @@ const FormSchema = z.object({
 
 type InputValue = z.infer<typeof FormSchema>;
 
+const hasNoSpaces = (text: string) => {
+  return text && !/\s/.test(text);
+};
+
 type Props = {
   combo: Combo;
   userId: string;
@@ -59,19 +63,16 @@ export default function CommentSection({ combo, userId }: Props) {
 
   const { data: session } = useSession();
   const [isCommenting, setIsCommenting] = useState(false);
-  const [showEmojiList, setShowEmojiList] = useState(false);
   const pathName = usePathname();
   const formRef = useRef<HTMLFormElement>(null);
 
-  const [optimisticComments, addOptimisticComment] = useOptimistic(
-    combo.comments,
-    (state, newComment: Comment) => {
-      return [...state, newComment];
-    }
-  );
-
   const handleCommenting = () => {
     setIsCommenting((prevState) => !prevState);
+  };
+
+  const containsLetter = (text: string) => {
+    const trimmedText = text.trim();
+    return /[^\s]/.test(trimmedText);
   };
 
   return (
@@ -95,24 +96,6 @@ export default function CommentSection({ combo, userId }: Props) {
             <form
               ref={formRef}
               action={async (FormData) => {
-                const comment = {
-                  id: "",
-                  text: form.getValues("text"),
-                  comboId: combo.id,
-                  userId: userId,
-                  createdAt: new Date(),
-                  updatedAt: new Date(),
-                  likes: [], // * TODO: value to insert and then - 1 when displaying *
-                  user: {
-                    id: userId,
-                    name: session?.user?.name || "",
-                    image: session?.user?.image || "",
-                  },
-                };
-
-                handleCommenting();
-                form.reset();
-                addOptimisticComment(comment);
                 await createComment(FormData);
               }}
               className="flex flex-col p-1 w-full"
@@ -152,7 +135,7 @@ export default function CommentSection({ combo, userId }: Props) {
                     Cancel
                   </button>
                   <div>
-                    {!form.formState.isValid || isLoading ? (
+                    {!form.formState.isValid || isLoading || !containsLetter(form.getValues("text")) ? (
                       <button
                         disabled
                         className="flex justify-center w-[60px] disabled:cursor-not-allowed text-black px-2 py-1 rounded-2xl dark:bg-stone-800 bg-stone-300"

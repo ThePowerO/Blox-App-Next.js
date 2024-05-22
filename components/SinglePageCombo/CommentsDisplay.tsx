@@ -1,6 +1,6 @@
 "use client";
 
-import { Comment } from "@/lib/types";
+import { Comment, Replies } from "@/lib/types";
 import React, { useState } from "react";
 import { AvatarDemo } from "../HtmlComponents/AvatarDemo";
 import { Link } from "@/navigation";
@@ -8,8 +8,15 @@ import CommentText from "./CommentText";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { User } from "@prisma/client";
-import { AddCommentLkeBtn, RemoveCommentLikeBtn } from "../HtmlComponents/SubmitButtons";
-import { LikeCommentAction, UnlikeCommentAction } from "@/lib/actions/commentActions";
+import {
+  AddCommentLkeBtn,
+  RemoveCommentLikeBtn,
+} from "../HtmlComponents/SubmitButtons";
+import {
+  LikeComment,
+  UnlikeComment,
+} from "@/lib/actions/commentActions";
+import SubMessages from "./SubMessages";
 
 type Props = {
   comments: Comment[];
@@ -17,9 +24,10 @@ type Props = {
 };
 
 export default function CommentsDisplay({ comments, userId }: Props) {
+  const [showMore, setShowMore] = useState(false);
   const pathName = usePathname();
   const { data: session } = useSession();
-  const currentUser = session?.user as User
+  const currentUser = session?.user as User;
   return (
     <>
       {comments.length === 0 ? (
@@ -45,33 +53,43 @@ export default function CommentsDisplay({ comments, userId }: Props) {
                     userNickName={comment.user.name}
                   />
                 </Link>
-                <span className="petit:hidden underline text-sm font-bold">
+                <span className="petit:hidden cursor-pointer w-fit underline text-sm font-bold">
                   {comment.user.name}
                 </span>
                 <div className="petit:order-first petit:items-center flex justify-end w-full">
-                  {!!comment.likes?.find((like) => like.userId === currentUser.id) ? (
-                    <form action={UnlikeCommentAction}>
-                      <input type="hidden" name="commentId" value={comment.id} />
+                  {!!comment.likes?.find(
+                    (like) => like.userId === currentUser.id
+                  ) ? (
+                    <form action={UnlikeComment}>
+                      <input
+                        type="hidden"
+                        name="commentId"
+                        value={comment.id}
+                      />
                       <input type="hidden" name="pathName" value={pathName} />
                       <RemoveCommentLikeBtn {...comment} />
                     </form>
                   ) : (
-                    <form action={LikeCommentAction}>
-                      <input type="hidden" name="commentId" value={comment.id} />
+                    <form action={LikeComment}>
+                      <input
+                        type="hidden"
+                        name="commentId"
+                        value={comment.id}
+                      />
                       <input type="hidden" name="pathName" value={pathName} />
                       <AddCommentLkeBtn {...comment} />
                     </form>
                   )}
-                  
                 </div>
               </div>
               <div className="flex flex-col justify-between text-sm w-full">
-                <span className="hidden petit:block underline text-sm font-bold">
+                <span className="hidden cursor-pointer w-fit petit:block underline text-sm font-bold">
                   {comment.user.name}
                 </span>
                 <CommentText userId={userId} comment={comment} />
               </div>
             </div>
+            <SubMessages comment={comment} />
           </div>
         ))
       )}

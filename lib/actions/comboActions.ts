@@ -206,6 +206,31 @@ export async function getSlugCombo(slug: string) {
                     text: true,
                     createdAt: true,
                     updatedAt: true,
+                    replies: {
+                        select: {
+                            id: true,
+                            text: true,
+                            parentId: true,
+                            userId: true,
+                            createdAt: true,
+                            updatedAt: true,
+                            user: {
+                                select: {
+                                    name: true,
+                                    image: true,
+                                    id: true
+                                }
+                            },
+                            likes: {
+                                select: {
+                                    id: true,
+                                    replyId: true,
+                                    userId: true,
+                                    createdAt: true,
+                                }
+                            },
+                        }
+                    },
                     user: {
                         select: {
                             name: true,

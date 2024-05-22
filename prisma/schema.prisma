@@ -49,6 +49,8 @@ model User {
   comments      Comment[]
   likedCombos   Like[]
   commentLikes  CommentLike[]
+  commentReplies Replies[]
+  repliesLikes  ReplyLike[]
 
   @@unique([id, image, email])
 }
@@ -61,13 +63,24 @@ model Comment {
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
   likes     CommentLike[]
-
-  children Comment[] @relation("comment_children")
-  parent   Comment? @relation("comment_children", fields: [parentId], references: [id])
-  parentId String?
+  replies   Replies[]
 
   combo Combo @relation(fields: [comboId], references: [id], onDelete: Cascade)
   user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Replies {
+  id        String        @id @default(cuid())
+  parentId  String
+  userId    String
+  comboId   String
+  text      String
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  likes     ReplyLike[]
+
+  parent    Comment @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  user      User  @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Favorite {
@@ -89,6 +102,18 @@ model CommentLike {
   user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([commentId, userId])
+}
+
+model ReplyLike {
+  id        String   @id @default(cuid())
+  replyId   String
+  userId    String
+  createdAt DateTime @default(now())
+
+  replies Replies? @relation(fields: [replyId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([replyId, userId])
 }
 
 model Like {

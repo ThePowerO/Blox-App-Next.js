@@ -1,10 +1,10 @@
 "use client";
 
-import { Heart, Loader, LoaderIcon, Star, Trash2 } from "lucide-react";
+import { Heart, Loader, LoaderIcon, Send, SendHorizonal, Star, Trash2 } from "lucide-react";
 import { useFormStatus } from "react-dom";
 import { Button } from "../ui/button";
 import { useState } from "react";
-import { Combo, Comment } from "@/lib/types";
+import { Combo, Comment, Replies } from "@/lib/types";
 
 export function AddLikeParagraph({ combo }: { combo: Combo }) {
   const { pending } = useFormStatus();
@@ -277,7 +277,7 @@ export function DeleteCommentBtn() {
   );
 }
 
-export function AddCommentLkeBtn(comments: Comment) {
+export function AddCommentLkeBtn(comments: Comment | Replies) {
   const { pending } = useFormStatus();
   return (
     <>
@@ -304,7 +304,7 @@ export function AddCommentLkeBtn(comments: Comment) {
   );
 }
 
-export function RemoveCommentLikeBtn(comments: Comment) {
+export function RemoveCommentLikeBtn(comments: Comment | Replies) {
   const { pending } = useFormStatus();
   return (
     <>
@@ -326,6 +326,35 @@ export function RemoveCommentLikeBtn(comments: Comment) {
             +{comments.likes.length}
           </span>
         </button>
+      )}
+    </>
+  );
+}
+
+export function SendCommentReply() {
+  const { pending } = useFormStatus();
+  return (
+    <>
+      {pending ? (
+        <div className="cursor-not-allowed">
+          <Button
+            disabled={pending}
+            type="button"
+            variant="outline"
+            className="rounded-lg dark:text-black w-[50px] h-[30px] bg-slate-300"
+          >
+            <Loader width={18} height={18} className="animate-spin" />
+          </Button>
+        </div>
+      ) : (
+        <Button
+          type="submit"
+          variant="outline"
+          className="rounded-lg w-[50px] hover:dark:text-black dark:text-black
+          hover:bg-cyan-500 h-[30px] bg-cyan-300 shadow-md shadow-cyan-500/50"
+        >
+          <SendHorizonal width={18} height={18} />
+        </Button>
       )}
     </>
   );

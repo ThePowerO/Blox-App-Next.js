@@ -40,11 +40,12 @@ export const createComment = async (FormData: FormData) => {
                     }
                 },
                 ...(parentId && {
-                    parent: {
+                    replies: {
                         connect: {
-                            id: parentId,
-                        },
+                            id: parentId
+                        }
                     }
+                    
                 })
             },
             include: {
@@ -63,7 +64,47 @@ export const createComment = async (FormData: FormData) => {
 
 }
 
-export const DeleteCommentAction = async (FormData: FormData) => {
+export const CreateReply = async (FormData: FormData) => {
+    const session = await getServerSession(authOptions);
+    const userSession = session?.user as User
+    const text = FormData.get("text") as string
+    const pathName = FormData.get("pathName") as string;
+    const parentId = FormData.get("parentId") as string;
+    const comboId = FormData.get("comboId") as string;
+
+    const user = await prisma.user.findUnique({
+        where: {
+            id: userSession.id
+        }
+    });
+
+    if (!user) {
+        console.error("User not found / Unauthorized");
+        return;
+    }
+
+    const reply = await prisma.replies.create({
+        data: {
+            text,
+            user: {
+                connect: {
+                    id: user.id
+                }
+            },
+            parent: {
+                connect: {
+                    id: parentId
+                }
+            },
+            comboId
+        },
+    })
+
+    revalidatePath(pathName);
+    return reply;
+}
+
+export const DeleteComment = async (FormData: FormData) => {
     const session = await getServerSession(authOptions);
     const userSession = session?.user as User
     const commentId = FormData.get("commentId") as string
@@ -72,6 +113,22 @@ export const DeleteCommentAction = async (FormData: FormData) => {
     await prisma.comment.delete({
         where: {
             id: commentId,
+            userId: userSession.id,
+        }
+    });
+
+    revalidatePath(pathName);
+}
+
+export const DeleteReply = async (FormData: FormData) => {
+    const session = await getServerSession(authOptions);
+    const userSession = session?.user as User
+    const replyId = FormData.get("replyId") as string
+    const pathName = FormData.get("pathName") as string;
+
+    await prisma.replies.delete({
+        where: {
+            id: replyId,
             userId: userSession.id,
         }
     });
@@ -96,7 +153,24 @@ export const UpdateCommentText = async (FormData: FormData) => {
     revalidatePath(pathName);
 }
 
-export const LikeCommentAction = async (FormData: FormData) => {
+export const UpdateReplyText = async (FormData: FormData) => {
+    const replyId = FormData.get("replyId") as string
+    const text = FormData.get("text") as string
+    const pathName = FormData.get("pathName") as string;
+
+    await prisma.replies.update({
+        where: {
+            id: replyId,
+        },
+        data: {
+            text
+        }
+    })
+
+    revalidatePath(pathName);
+}
+
+export const LikeComment = async (FormData: FormData) => {
     const session = await getServerSession(authOptions);
     const userSession = session?.user as User
     const commentId = FormData.get("commentId") as string
@@ -117,13 +191,40 @@ export const LikeCommentAction = async (FormData: FormData) => {
         data: {
             commentId,
             userId: userSession.id,
-        }
+        },
     });
 
     revalidatePath(pathName);
 }
 
-export const UnlikeCommentAction = async (FormData: FormData) => {
+export const LikeReply = async (FormData: FormData) => {
+    const session = await getServerSession(authOptions);
+    const userSession = session?.user as User
+    const replyId = FormData.get("replyId") as string
+    const pathName = FormData.get("pathName") as string;
+
+    const reply = await prisma.replies.findUnique({
+        where: {
+            id: replyId,
+        },
+        include: {
+            likes: true
+        }
+    })
+
+    if (!reply) return;
+
+    await prisma.replyLike.create({
+        data: {
+            replyId,
+            userId: userSession.id,
+        },
+    });
+
+    revalidatePath(pathName);
+}
+
+export const UnlikeComment = async (FormData: FormData) => {
     const session = await getServerSession(authOptions);
     const userSession = session?.user as User
     const commentId = FormData.get("commentId") as string
@@ -134,7 +235,25 @@ export const UnlikeCommentAction = async (FormData: FormData) => {
             commentId_userId: {
                 commentId,
                 userId: userSession.id
-            }
+            },
+        }
+    });
+
+    revalidatePath(pathName);
+}
+
+export const UnlikeReply = async (FormData: FormData) => {
+    const session = await getServerSession(authOptions);
+    const userSession = session?.user as User
+    const replyId = FormData.get("replyId") as string
+    const pathName = FormData.get("pathName") as string;
+
+    await prisma.replyLike.delete({
+        where: {
+            replyId_userId: {
+                replyId,
+                userId: userSession.id
+            },
         }
     });
 
