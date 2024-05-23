@@ -17,6 +17,51 @@ import {
   UnlikeComment,
 } from "@/lib/actions/commentActions";
 import SubMessages from "./SubMessages";
+import { HoverCommentAuthor } from "../HtmlComponents/HoverComboAuthor";
+import { formatDistanceToNow } from "date-fns";
+import { de } from 'date-fns/locale';
+import { ja } from 'date-fns/locale';
+import { fr } from 'date-fns/locale';
+import { ko } from 'date-fns/locale';
+import { it } from 'date-fns/locale';
+import { zhCN } from 'date-fns/locale';
+import { ptBR } from 'date-fns/locale';
+import { enUS } from 'date-fns/locale';
+import { useLocale } from "@/LocaleContext"; 
+
+const locales = {
+  en: enUS,
+  ja: ja,
+  fr: fr,
+  de: de,
+  ko: ko,
+  it: it,
+  zhCN: zhCN,
+  ptBR: ptBR
+};
+
+function getLocale(locale: string) {
+  switch (locale) {
+    case "en":
+      return locales.en;
+    case "jp":
+      return locales.ja;
+    case "fr":
+      return locales.fr;
+    case "de":
+      return locales.de;
+    case "kr":
+      return locales.ko;
+    case "it":
+      return locales.it;
+    case "cn":
+      return locales.zhCN;
+    case "pt":
+      return locales.ptBR;
+    default:
+      return locales.en;
+  }
+}
 
 type Props = {
   comments: Comment[];
@@ -28,6 +73,8 @@ export default function CommentsDisplay({ comments, userId }: Props) {
   const pathName = usePathname();
   const { data: session } = useSession();
   const currentUser = session?.user as User;
+  const { locale } = useLocale();
+
   return (
     <>
       {comments.length === 0 ? (
@@ -42,20 +89,19 @@ export default function CommentsDisplay({ comments, userId }: Props) {
           >
             <div className="flex gap-2 petitmax:flex-col items-start">
               <div className="flex gap-2 petitmax:w-full">
-                <Link
-                  scroll={false}
-                  href={"#"}
-                  className="cursor-pointer h-fit rounded-full border border-black"
-                >
-                  <AvatarDemo
-                    className=""
-                    userImg={comment.user.image}
-                    userNickName={comment.user.name}
-                  />
-                </Link>
-                <span className="petit:hidden cursor-pointer w-fit underline text-sm font-bold">
-                  {comment.user.name}
-                </span>
+                <HoverCommentAuthor
+                  authorCreatedAt={comment.user.createdAt}
+                  authorImage={comment.user.image as string}
+                  commentAuthor={comment.user.name as string}
+                />
+                <div className="flex flex-col">
+                  <span className="petit:hidden cursor-pointer w-fit underline text-sm font-bold">
+                    {comment.user.name}
+                  </span>
+                  <span className="w-fit petit:hidden text-[13px] dark:text-gray-400 text-gray-500">
+                    {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true, locale: getLocale(locale) })}
+                  </span>
+                </div>
                 <div className="petit:order-first petit:items-center flex justify-end w-full">
                   {!!comment.likes?.find(
                     (like) => like.userId === currentUser.id
@@ -83,9 +129,14 @@ export default function CommentsDisplay({ comments, userId }: Props) {
                 </div>
               </div>
               <div className="flex flex-col justify-between text-sm w-full">
-                <span className="hidden cursor-pointer w-fit petit:block underline text-sm font-bold">
-                  {comment.user.name}
-                </span>
+                <div className="flex items-center gap-1">
+                  <span className="hidden cursor-pointer w-fit petit:block underline text-sm font-bold">
+                    {comment.user.name}
+                  </span>
+                  <span className="hidden  w-fit petit:block text-[13px] dark:text-gray-400 text-gray-500">
+                    {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true, locale: getLocale(locale) })}
+                  </span>
+                </div>
                 <CommentText userId={userId} comment={comment} />
               </div>
             </div>

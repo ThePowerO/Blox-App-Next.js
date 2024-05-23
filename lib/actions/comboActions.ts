@@ -216,9 +216,10 @@ export async function getSlugCombo(slug: string) {
                             updatedAt: true,
                             user: {
                                 select: {
+                                    id: true,
                                     name: true,
                                     image: true,
-                                    id: true
+                                    createdAt: true
                                 }
                             },
                             likes: {
@@ -233,9 +234,10 @@ export async function getSlugCombo(slug: string) {
                     },
                     user: {
                         select: {
+                            id: true,
                             name: true,
                             image: true,
-                            id: true
+                            createdAt: true,
                         }
                     }, 
                     userId: true,
@@ -252,9 +254,10 @@ export async function getSlugCombo(slug: string) {
             },
             user: {
                 select: {
+                    id: true,
                     name: true,
                     image: true,
-                    id: true
+                    createdAt: true,
                 }
             },         
             favorites: {

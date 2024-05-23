@@ -22,9 +22,10 @@ export type Combo = {
   likes: Like[];
   comments: Comment[];
   user: {
+    id: string;
     name: string | null;
     image: string | null;
-    id: string;
+    createdAt: Date;
   };
 };
 
@@ -35,9 +36,10 @@ export type Comment = {
   userId: string;
   replies: Replies[];
   user: {
+    id: string;
     name: string | null;
     image: string | null;
-    id: string;
+    createdAt: Date;
   };
   likes: CommentLike[];
   updatedAt: Date;
@@ -50,9 +52,10 @@ export type Replies = {
   text: string;
   userId: string;
   user: {
+    id: string;
     name: string | null;
     image: string | null;
-    id: string;
+    createdAt: Date;
   }
   likes: ReplyLike[];
   updatedAt: Date;
