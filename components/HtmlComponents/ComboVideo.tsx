@@ -9,7 +9,7 @@ const ComboVideo = ({ comboVideo }: any) => {
     <div className="mb-1">
       {comboVideo ? (
         <div suppressHydrationWarning>
-          <h2 className="font-bold mb-2">Combo Video:</h2>
+          <h2 className="font-bold mb-6">Combo Video:</h2>
           <ReactPlayer
             url={comboVideo}
             width="100%"

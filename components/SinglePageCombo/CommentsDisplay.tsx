@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { AvatarDemo } from "../HtmlComponents/AvatarDemo";
 import { Link } from "@/navigation";
 import CommentText from "./CommentText";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { User } from "@prisma/client";
 import {
@@ -69,11 +69,25 @@ type Props = {
 };
 
 export default function CommentsDisplay({ comments, userId }: Props) {
-  const [showMore, setShowMore] = useState(false);
   const pathName = usePathname();
   const { data: session } = useSession();
   const currentUser = session?.user as User;
   const { locale } = useLocale();
+  const SearchParams = useSearchParams();
+  const selectedFilter = SearchParams.get("filter");
+
+  const filteredComments = comments.sort((a, b) => {
+    if (selectedFilter === "Recent") {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    } else if (selectedFilter === "Old") {
+      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+    } else if (selectedFilter === "Top") {
+      return b.likes.length - a.likes.length; // Sort by likes in descending order
+    } else {
+      return 0; // No sorting for default case
+    }
+  });
+
 
   return (
     <>
@@ -82,7 +96,7 @@ export default function CommentsDisplay({ comments, userId }: Props) {
           <h1 className="text-bold place-self-center">No comments to show.</h1>
         </div>
       ) : (
-        comments.map((comment) => (
+        filteredComments.map((comment) => (
           <div
             key={comment.id}
             className="p-2 mt-[15px] w-full border rounded-lg"

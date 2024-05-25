@@ -80,7 +80,9 @@ export default function CommentSection({ combo, userId }: Props) {
       <div className="flex items-center gap-2">
         <p>Comments</p>
         <div className="px-[6px] bg-zinc-500 text-white rounded-full">
-          <span className="font-bold">{0}</span>
+          <span className="font-bold">
+            {combo.comments.length && combo.comments[0]?.replies.length ? combo.comments.length + combo.comments[0]?.replies.length : 0}
+            </span>
         </div>
       </div>
       <div className="flex mt-3">
