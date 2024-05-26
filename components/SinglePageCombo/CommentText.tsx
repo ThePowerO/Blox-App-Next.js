@@ -187,6 +187,9 @@ export default function CommentText({ comment, userId }: Props) {
           )}
         </div>
       )}
+      {isReplying && (
+        <CommentReply replyUserName={replyUserName} toggleReplying={toggleReplying} comment={comment as Comment} />
+      )}
       <div className="flex gap-2">
         <div onClick={() => {
           toggleReplying();
@@ -230,9 +233,6 @@ export default function CommentText({ comment, userId }: Props) {
           </div>
         )}
       </div>
-      {isReplying && (
-        <CommentReply replyUserName={replyUserName} toggleReplying={toggleReplying} comment={comment as Comment} />
-      )}
     </>
   );
 }

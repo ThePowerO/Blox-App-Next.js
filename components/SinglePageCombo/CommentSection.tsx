@@ -33,6 +33,7 @@ import CommentsDisplay from "./CommentsDisplay";
 import { useOptimistic } from "react";
 import { Comment } from "@/lib/types";
 import { CommentLike } from "@/lib/types";
+import { CreateCommentBtn } from "../HtmlComponents/SubmitButtons";
 
 const FormSchema = z.object({
   text: z.string().min(1, {
@@ -81,7 +82,7 @@ export default function CommentSection({ combo, userId }: Props) {
         <p>Comments</p>
         <div className="px-[6px] bg-zinc-500 text-white rounded-full">
           <span className="font-bold">
-            {combo.comments.length && combo.comments[0]?.replies.length ? combo.comments.length + combo.comments[0]?.replies.length : 0}
+            {combo.comments.length + combo.comments[0]?.replies?.length || 0}
             </span>
         </div>
       </div>
@@ -98,6 +99,8 @@ export default function CommentSection({ combo, userId }: Props) {
             <form
               ref={formRef}
               action={async (FormData) => {
+                form.reset();
+                handleCommenting();
                 await createComment(FormData);
               }}
               className="flex flex-col p-1 w-full"
@@ -146,13 +149,7 @@ export default function CommentSection({ combo, userId }: Props) {
                         <SendHorizonal className="size-6" />
                       </button>
                     ) : (
-                      <button
-                        disabled={isLoading}
-                        className="flex shadow-md shadow-cyan-500/50 text-black justify-center w-[60px] px-2 py-1 cursor-pointer rounded-2xl bg-cyan-400 hover:bg-cyan-500"
-                        type="submit"
-                      >
-                        <SendHorizonal className="size-6" />
-                      </button>
+                      <CreateCommentBtn />
                     )}
                   </div>
                 </div>

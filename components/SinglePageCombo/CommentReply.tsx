@@ -88,7 +88,7 @@ export default function CommentReply({ comment, replyUserName, toggleReplying }:
   };
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full mt-2">
       <Form {...form}>
         <form action={async (FormData) => {
           form.reset();

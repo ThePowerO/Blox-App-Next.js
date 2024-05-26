@@ -112,10 +112,10 @@ export default async function ComboBySlug({ combo }: Props) {
         <div className="mb-4">
           <h2 className="font-bold mb-2">Combo Properties:</h2>
           <div className="flex gap-2">
-            <SpecialtyBadge specialty={"PVP"} />
-            <RaceBadge race={"Fishman"} />
-            <StatsBadge stats={"Main Sword"} />
-            <DifficultyBadge difficulty={"Medium"} />
+            <SpecialtyBadge specialty={combo.specialty} />
+            <RaceBadge race={combo.race} />
+            <StatsBadge stats={combo.mainStats} />
+            <DifficultyBadge difficulty={combo.difficulty} />
           </div>
         </div>
 
@@ -198,10 +198,10 @@ export default async function ComboBySlug({ combo }: Props) {
         />
         <h2 className="font-bold">Combo Properties:</h2>
         <div className="flex gap-2">
-          <SpecialtyBadge specialty={"PVP"} />
-          <RaceBadge race={"Ghoul"} />
-          <StatsBadge stats={"Main Fruit"} />
-          <DifficultyBadge difficulty={"No Skill"} />
+          <SpecialtyBadge specialty={combo.specialty} />
+          <RaceBadge race={combo.race} />
+          <StatsBadge stats={combo.mainStats} />
+          <DifficultyBadge difficulty={combo.difficulty} />
         </div>
         <ComboVideo comboVideo={combo.comboVideo} />
         <Separator className="text-black mt-2" />

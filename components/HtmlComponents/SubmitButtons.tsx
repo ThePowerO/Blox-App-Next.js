@@ -1,6 +1,14 @@
 "use client";
 
-import { Heart, Loader, LoaderIcon, Send, SendHorizonal, Star, Trash2 } from "lucide-react";
+import {
+  Heart,
+  Loader,
+  LoaderIcon,
+  Send,
+  SendHorizonal,
+  Star,
+  Trash2,
+} from "lucide-react";
 import { useFormStatus } from "react-dom";
 import { Button } from "../ui/button";
 import { useState } from "react";
@@ -284,7 +292,7 @@ export function AddCommentLkeBtn(comments: Comment | Replies) {
       {pending ? (
         <button type="button">
           <span
-            className="bg-slate-600 border cursor-pointer hover:border-lime-400
+            className="bg-slate-600 border cursor-pointer border-lime-400
           text-white py-1 px-4 h-fit rounded-full text-center"
           >
             +{comments.likes.length + 1}
@@ -320,7 +328,7 @@ export function RemoveCommentLikeBtn(comments: Comment | Replies) {
       ) : (
         <button type="submit">
           <span
-            className="bg-slate-600 border cursor-pointer hover:border-lime-400
+            className="bg-slate-600 border cursor-pointer border-lime-400
           text-white py-1 px-4 h-fit rounded-full text-center"
           >
             +{comments.likes.length}
@@ -355,6 +363,30 @@ export function SendCommentReply() {
         >
           <SendHorizonal width={18} height={18} />
         </Button>
+      )}
+    </>
+  );
+}
+
+export function CreateCommentBtn() {
+  const { pending } = useFormStatus();
+  return (
+    <>
+      {pending ? (
+        <button
+          disabled
+          className="flex justify-center w-[60px] disabled:cursor-not-allowed text-black px-2 py-1 rounded-2xl dark:bg-stone-800 bg-stone-300"
+          type="button"
+        >
+          <SendHorizonal className="size-6" />
+        </button>
+      ) : (
+        <button
+          className="flex shadow-md shadow-cyan-500/50 text-black justify-center w-[60px] px-2 py-1 cursor-pointer rounded-2xl bg-cyan-400 hover:bg-cyan-500"
+          type="submit"
+        >
+          <SendHorizonal className="size-6" />
+        </button>
       )}
     </>
   );

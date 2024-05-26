@@ -84,7 +84,9 @@ export default function SubMessages({ comment }: Props) {
       <Button
         onClick={() => setShowMore((prev) => !prev)}
         variant="link"
-        className={`absolute rounded-lg ${currentUser.id === comment.user.id ? "top-[-30px] petit:top-[-30px]" : "top-[-25px]" } left-[50px] petit:left-[170px] flex p-0 items-center gap-1 w-fit h-[30px] ${
+        className={`absolute rounded-lg
+        ${currentUser.id === comment.user.id ? "top-[-30px] petit:top-[-30px]" : "top-[-25px]" }
+        ${comment.userId === currentUser.id ? "left-[50px] petit:left-[170px]" : "left-[25px] petit:left-[140px]"} flex p-0 items-center gap-1 w-fit h-[30px] ${
           showMore && "underline"
         }`}
       >
