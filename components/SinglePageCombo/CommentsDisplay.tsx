@@ -12,22 +12,19 @@ import {
   AddCommentLkeBtn,
   RemoveCommentLikeBtn,
 } from "../HtmlComponents/SubmitButtons";
-import {
-  LikeComment,
-  UnlikeComment,
-} from "@/lib/actions/commentActions";
+import { LikeComment, UnlikeComment } from "@/lib/actions/commentActions";
 import SubMessages from "./SubMessages";
 import { HoverCommentAuthor } from "../HtmlComponents/HoverComboAuthor";
 import { formatDistanceToNow } from "date-fns";
-import { de } from 'date-fns/locale';
-import { ja } from 'date-fns/locale';
-import { fr } from 'date-fns/locale';
-import { ko } from 'date-fns/locale';
-import { it } from 'date-fns/locale';
-import { zhCN } from 'date-fns/locale';
-import { ptBR } from 'date-fns/locale';
-import { enUS } from 'date-fns/locale';
-import { useLocale } from "@/LocaleContext"; 
+import { de } from "date-fns/locale";
+import { ja } from "date-fns/locale";
+import { fr } from "date-fns/locale";
+import { ko } from "date-fns/locale";
+import { it } from "date-fns/locale";
+import { zhCN } from "date-fns/locale";
+import { ptBR } from "date-fns/locale";
+import { enUS } from "date-fns/locale";
+import { useLocale } from "@/LocaleContext";
 
 const locales = {
   en: enUS,
@@ -37,7 +34,7 @@ const locales = {
   ko: ko,
   it: it,
   zhCN: zhCN,
-  ptBR: ptBR
+  ptBR: ptBR,
 };
 
 function getLocale(locale: string) {
@@ -88,7 +85,6 @@ export default function CommentsDisplay({ comments, userId }: Props) {
     }
   });
 
-
   return (
     <>
       {comments.length === 0 ? (
@@ -113,10 +109,13 @@ export default function CommentsDisplay({ comments, userId }: Props) {
                     {comment.user.name}
                   </span>
                   <span className="w-fit petit:hidden text-[13px] dark:text-gray-400 text-gray-500">
-                    {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true, locale: getLocale(locale) })}
+                    {formatDistanceToNow(new Date(comment.createdAt), {
+                      addSuffix: true,
+                      locale: getLocale(locale),
+                    })}
                   </span>
                 </div>
-                <div className="petit:order-first petit:items-center flex justify-end w-full">
+                <div className="petit:order-first customtiny:order-last petit:items-center flex justify-end w-full">
                   {!!comment.likes?.find(
                     (like) => like.userId === currentUser.id
                   ) ? (
@@ -148,7 +147,10 @@ export default function CommentsDisplay({ comments, userId }: Props) {
                     {comment.user.name}
                   </span>
                   <span className="hidden  w-fit petit:block text-[13px] dark:text-gray-400 text-gray-500">
-                    {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true, locale: getLocale(locale) })}
+                    {formatDistanceToNow(new Date(comment.createdAt), {
+                      addSuffix: true,
+                      locale: getLocale(locale),
+                    })}
                   </span>
                 </div>
                 <CommentText userId={userId} comment={comment} />

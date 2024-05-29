@@ -1,9 +1,14 @@
-import { getServerSession } from "next-auth";
+'use client'
+
 import React from "react";
 import AddLikeButton, { AddFavoriteButton, AddLikeParagraph, RemoveFavoriteButton, RemoveLikeButton, RemoveLikeParagraph } from "../HtmlComponents/SubmitButtons";
 import { addComboLike, addFavoriteCombo, removeComboLike, removeFavoriteCombo } from "@/lib/actions/comboActions";
 import { Combo } from "@/lib/types";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { Pencil } from "lucide-react";
+import { User } from "@prisma/client";
+import Link from "next/link";
+import { useLocale } from "@/LocaleContext";
+import { useSession } from "next-auth/react";
 
 type Props = {
   combo: Combo;
@@ -17,9 +22,11 @@ type Props = {
   isInFavoriteList: boolean;
 }
 
-export default async function FavortiteLikeBtn({ combo, comboId, likeId, favoriteId, userId, userEmail, pathName, isInLikeList, isInFavoriteList }: Props) {
+export default function FavortiteLikeBtn({ combo, comboId, likeId, favoriteId, userId, userEmail, pathName, isInLikeList, isInFavoriteList }: Props) {
 
-  const session: any = await getServerSession(authOptions);
+  const { data: session } = useSession();
+  const currentUser = session?.user as User;
+  const { locale } = useLocale();
 
   function formatNumber(num: number): string {
     if (num < 1000) {
@@ -35,8 +42,12 @@ export default async function FavortiteLikeBtn({ combo, comboId, likeId, favorit
 
   return (
     <div className="justify-center">
-      {session?.user && session?.user.email === userEmail && (
+      {session?.user && currentUser.id === userId && (
         <div className="flex items-center gap-[5px]">
+          <Link href={`/${locale}/edit-combo/${comboId}`} className="flex text-sm hover:underline cursor-pointer items-center gap-[5px] mr-[10px]">
+            <Pencil width={15} height={15} />
+            Edit Combo
+          </Link>
           {isInFavoriteList ? (
             <form className="mt-1" action={removeFavoriteCombo}>
               <input type="hidden" name="pathName" value={pathName || ""} />
@@ -61,7 +72,7 @@ export default async function FavortiteLikeBtn({ combo, comboId, likeId, favorit
             <form className="mt-1 flex gap-1" action={addComboLike}>
               <input type="hidden" name="pathName" value={pathName || ""} />
               <input type="hidden" name="comboId" value={comboId} />
-              <input type="hidden" name="userId" value={session.user.id} />
+              <input type="hidden" name="userId" value={currentUser.id} />
               <AddLikeButton />
               <AddLikeParagraph combo={combo} />
             </form>

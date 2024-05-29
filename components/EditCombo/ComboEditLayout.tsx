@@ -1,10 +1,8 @@
+"use client";
+
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { HoverComboAuthor } from "../HtmlComponents/HoverComboAuthor";
-import FavortiteLikeBtn from "./FavortiteLikeBtn";
-import { Combo } from "@/lib/types";
-import prisma from "@/lib/prisma";
-import { getServerSession } from "next-auth";
 import { Textarea } from "@/components/ui/textarea";
 import {
   DifficultyBadge,
@@ -14,76 +12,75 @@ import {
 } from "../HtmlComponents/ComboBadges";
 import ComboVideo from "../HtmlComponents/ComboVideo";
 import { Separator } from "../ui/separator";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import LargeView from "./LargeView";
-import { User } from "@prisma/client";
+import { Combo, User } from "@prisma/client";
+import StopEditingLink from "./StopEditingLink";
+import { useSession } from "next-auth/react";
+import { Check, Pencil, X } from "lucide-react";
+import { Input } from "../ui/input";
+import { UpdateComboTitle } from "@/lib/actions/editComboActions";
+import { usePathname } from "next/navigation";
 
 type Props = {
   combo: Combo;
 };
 
-export default async function ComboBySlug({ combo }: Props) {
-  const session = await getServerSession(authOptions);
+export default function ComboEditLayout({ combo }: Props) {
+  const { data: session } = useSession();
   const currentUser = session?.user as User;
 
-  const user = await prisma.user.findUnique({
-    where: {
-      email: session?.user?.email!,
-    },
-    select: {
-      email: true,
-      id: true,
-      name: true,
-      image: true,
-      createdAt: true,
-      favorites: {
-        where: {
-          user: {
-            email: session?.user?.email,
-          },
-        },
-      },
-      commentLikes: {
-        where: {
-          user: {
-            email: session?.user?.email,
-          },
-        },
-      },
-    },
-  });
+  const pathName = usePathname();
+
+  const [editingTitle, setEditingTitle] = useState(false);
 
   return (
     <>
       <section className="hidden sm:block w-full p-4 rounded-lg">
         <header className="flex items-center justify-between border-b pb-2 mb-4">
-          <h1 className="text-lg font-semibold">
-            Viewing Combo:{" "}
-            <span className="text-gradient bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text text-transparent">
-              {combo.combotitle}
-            </span>
+          <h1 className="text-lg flex items-center gap-2 font-semibold">
+            {editingTitle ? (
+              <form
+                action={async (FormData) => {
+                  await UpdateComboTitle(FormData);
+                  setEditingTitle(!editingTitle);
+                }}
+                className="flex items-center gap-2"
+              >
+                <input type="hidden" name="comboId" value={combo.id} />
+                <input type="hidden" name="pathName" value={pathName} />
+                <input
+                  autoFocus
+                  className="w-[350px] outline-none"
+                  defaultValue={combo.combotitle}
+                  name="comboTitle"
+                />
+                <button
+                  className={`ml-2 cursor-pointer  dark:hover:bg-slate-700 hover:bg-slate-200 rounded-full p-1`}
+                  type="submit"
+                >
+                  <Check className={``} size={16} />
+                </button>
+                <div
+                  onClick={() => setEditingTitle(!editingTitle)}
+                  className="cursor-pointer dark:hover:bg-slate-700 hover:bg-slate-200 rounded-full p-1"
+                >
+                  <X className="text-red-500" size={16} />
+                </div>
+              </form>
+            ) : (
+              <>
+                <span className="text-gradient bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text text-transparent">
+                  {combo.combotitle}
+                </span>
+                <div
+                  onClick={() => setEditingTitle(!editingTitle)}
+                  className="cursor-pointer dark:hover:bg-slate-700 hover:bg-slate-200 rounded-full p-2"
+                >
+                  <Pencil className="" size={16} />
+                </div>
+              </>
+            )}
           </h1>
-          <FavortiteLikeBtn
-            combo={combo}
-            comboId={combo.id}
-            likeId={
-              combo.likes?.find((like) => like.userId === currentUser.id)
-                ?.comboId
-            }
-            isInLikeList={
-              !!combo.likes?.find((like) => like.userId === currentUser.id)
-            }
-            isInFavoriteList={
-              !!combo.favorites?.find((like) => like.userId === currentUser.id)
-            }
-            favoriteId={
-              combo.favorites?.find((like) => like.userId === currentUser.id)
-                ?.id
-            }
-            userId={currentUser.id}
-            pathName={""}
-            userEmail={currentUser.email}
-          />
+          <StopEditingLink />
         </header>
 
         <div className="flex flex-col sm:items-center sm:flex-row gap-4 mb-4">
@@ -169,27 +166,6 @@ export default async function ComboBySlug({ combo }: Props) {
               authorImage={combo.authorImage}
             />
           </div>
-          <FavortiteLikeBtn
-            combo={combo}
-            comboId={combo.id}
-            likeId={
-              combo.likes?.find((like) => like.userId === currentUser.id)
-                ?.comboId as string
-            }
-            isInLikeList={
-              !!combo.likes?.find((like) => like.userId === currentUser.id)
-            }
-            isInFavoriteList={
-              !!combo.favorites?.find((like) => like.userId === currentUser.id)
-            }
-            favoriteId={
-              combo.favorites?.find((like) => like.userId === currentUser.id)
-                ?.id
-            }
-            userId={currentUser.id}
-            pathName={""}
-            userEmail={user?.email}
-          />
         </div>
         <Textarea
           className="h-[120px]"
