@@ -17,20 +17,61 @@ import StopEditingLink from "./StopEditingLink";
 import { useSession } from "next-auth/react";
 import { Check, Pencil, X } from "lucide-react";
 import { Input } from "../ui/input";
-import { UpdateComboTitle } from "@/lib/actions/editComboActions";
+import {
+  UpdateComboDescription,
+  UpdateComboTitle,
+} from "@/lib/actions/editComboActions";
 import { usePathname } from "next/navigation";
+import { z } from "zod";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import {
+  Form,
+  FormControl,
+  FormItem,
+  FormField,
+  FormMessage,
+  FormLabel,
+} from "../ui/form";
 
 type Props = {
   combo: Combo;
 };
 
+const UpdateComboTitleSchema = z.object({
+  comboTitle: z
+    .string()
+    .min(1, "Title is required")
+    .max(40, "Title is too long"),
+  comboId: z.string(),
+  pathName: z.string(),
+});
+
+type TitleType = z.infer<typeof UpdateComboTitleSchema>;
+
 export default function ComboEditLayout({ combo }: Props) {
   const { data: session } = useSession();
   const currentUser = session?.user as User;
-
   const pathName = usePathname();
 
   const [editingTitle, setEditingTitle] = useState(false);
+  const [editingDescription, setEditingDescription] = useState(false);
+  const [descriptionValue, setDescriptionValue] = useState("");
+
+  const form = useForm<TitleType>({
+    resolver: zodResolver(UpdateComboTitleSchema),
+    defaultValues: {
+      comboTitle: combo.combotitle,
+      comboId: combo.id,
+      pathName: pathName,
+    },
+  });
+
+  const UpdateComboTitle1: SubmitHandler<TitleType> = async (FormData) => {
+    await UpdateComboTitle(FormData);
+    setEditingTitle(false);
+  };
 
   return (
     <>
@@ -38,34 +79,56 @@ export default function ComboEditLayout({ combo }: Props) {
         <header className="flex items-center justify-between border-b pb-2 mb-4">
           <h1 className="text-lg flex items-center gap-2 font-semibold">
             {editingTitle ? (
-              <form
-                action={async (FormData) => {
-                  await UpdateComboTitle(FormData);
-                  setEditingTitle(!editingTitle);
-                }}
-                className="flex items-center gap-2"
-              >
-                <input type="hidden" name="comboId" value={combo.id} />
-                <input type="hidden" name="pathName" value={pathName} />
-                <input
-                  autoFocus
-                  className="w-[350px] outline-none"
-                  defaultValue={combo.combotitle}
-                  name="comboTitle"
-                />
-                <button
-                  className={`ml-2 cursor-pointer  dark:hover:bg-slate-700 hover:bg-slate-200 rounded-full p-1`}
-                  type="submit"
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(UpdateComboTitle1)}
+                  className="flex items-center gap-2"
                 >
-                  <Check className={``} size={16} />
-                </button>
-                <div
-                  onClick={() => setEditingTitle(!editingTitle)}
-                  className="cursor-pointer dark:hover:bg-slate-700 hover:bg-slate-200 rounded-full p-1"
-                >
-                  <X className="text-red-500" size={16} />
-                </div>
-              </form>
+                  <input type="hidden" name="comboId" value={combo.id} />
+                  <input type="hidden" name="pathName" value={pathName} />
+                  <FormField
+                    control={form.control}
+                    name="comboTitle"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            type="text"
+                            autoFocus
+                            className={`w-[350px] outline-none
+                              ${
+                                form.formState.errors.comboTitle
+                                  ? "border focus-visible:ring-0 border-red-500"
+                                  : ""
+                              }
+                            `}
+                            defaultValue={combo.combotitle}
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <button
+                    className={`ml-2 cursor-pointer  dark:hover:bg-slate-700 hover:bg-slate-200 rounded-full p-1`}
+                    type="submit"
+                  >
+                    <Check className={``} size={16} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setEditingTitle(!editingTitle)}
+                    className="cursor-pointer dark:hover:bg-slate-700 hover:bg-slate-200 rounded-full p-1"
+                  >
+                    <X className="text-red-500" size={16} />
+                  </button>
+                  {form.formState.errors.comboTitle && (
+                    <FormMessage className="text-red-500">
+                      {form.formState.errors.comboTitle.message}
+                    </FormMessage>
+                  )}
+                </form>
+              </Form>
             ) : (
               <>
                 <span className="text-gradient bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text text-transparent">
@@ -80,31 +143,66 @@ export default function ComboEditLayout({ combo }: Props) {
               </>
             )}
           </h1>
-          <StopEditingLink />
+          <StopEditingLink comboSlug={combo.slug} />
         </header>
 
         <div className="flex flex-col sm:items-center sm:flex-row gap-4 mb-4">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             {[combo.fightingstyle, combo.fruit, combo.sword, combo.weapon].map(
               (src, index) => (
-                <Image
-                  key={index}
-                  fetchPriority="high"
-                  src={src}
-                  className="border rounded-md w-full"
-                  alt="combo image"
-                  width={140}
-                  height={140}
-                />
+                <div key={index} className="relative group w-full">
+                  <Image
+                    fetchPriority="high"
+                    src={src}
+                    className="border cursor-pointer rounded-md w-full"
+                    alt="combo image"
+                    width={140}
+                    height={140}
+                  />
+                  <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 rounded-md transition-opacity duration-300"></div>
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <Pencil className="w-8 h-8 text-white" />
+                  </div>
+                </div>
               )
             )}
           </div>
           <Textarea
             className="h-[140px] w-full resize-none"
-            readOnly
-            value={combo.combodescription}
+            onFocus={() => setEditingDescription(true)}
+            defaultValue={combo.combodescription}
+            onChange={(e) => setDescriptionValue(e.target.value)}
           />
         </div>
+        {editingDescription && (
+          <form
+            action={async (FormData) => {
+              await UpdateComboDescription(FormData);
+              setEditingDescription(false);
+            }}
+            className="flex items-center justify-end gap-2"
+          >
+            <input
+              type="hidden"
+              name="comboDescription"
+              value={descriptionValue}
+            />
+            <input type="hidden" name="comboId" value={combo.id} />
+            <input type="hidden" name="pathName" value={pathName} />
+            <button
+              className={`ml-2 cursor-pointer  dark:hover:bg-slate-700 hover:bg-slate-200 rounded-full p-1`}
+              type="submit"
+            >
+              <Check className={``} size={16} />
+            </button>
+            <div
+              onClick={() => setEditingDescription(!editingDescription)}
+              className="cursor-pointer dark:hover:bg-slate-700 hover:bg-slate-200 rounded-full p-1"
+            >
+              <X className="text-red-500" size={16} />
+            </div>
+          </form>
+        )}
 
         <div className="mb-4">
           <h2 className="font-bold mb-2">Combo Properties:</h2>
@@ -134,9 +232,8 @@ export default function ComboEditLayout({ combo }: Props) {
         <Separator className="text-black mt-4" />
       </section>
       <section className="sm:hidden w-full grid grid-cols-1 gap-2 p-2">
-        <div className="flex items-center w-full gap-2 border rounded-[8px] p-2">
+        <div className="flex items-center w-full gap-2 border border-white rounded-[8px] p-2">
           <h1 className="text-[12px]">
-            You are viewing the combo{" "}
             <span className="bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text font-extrabold text-transparent">
               {combo.combotitle}
             </span>

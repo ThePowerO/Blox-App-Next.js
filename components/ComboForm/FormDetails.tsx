@@ -86,7 +86,7 @@ export default function ComboFormDetails() {
         body: JSON.stringify(formDataToSend),
         headers: {
           'Content-Type': 'application/json',
-          },
+        },
       });
 
       const result = await newCombo.json();

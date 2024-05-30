@@ -3,6 +3,7 @@
 import prisma from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
 import { revalidatePath } from 'next/cache';
+import slugify from 'slugify';
 import { z } from 'zod';
 
 export async function getComboById(comboId: string) {
@@ -57,14 +58,11 @@ const UpdateTitleSchema = z.object({
     comboTitle: z.string({
         invalid_type_error: "Invalid Title",
     }),
+    pathName: z.string(),
 })
 
-export async function UpdateComboTitle(FormData: FormData) {
-    const pathName = FormData.get('pathName') as string
-    const validatedFields = UpdateTitleSchema.safeParse({
-        comboTitle: FormData.get('comboTitle'),
-        comboId: FormData.get('comboId'),
-    })
+export async function UpdateComboTitle(FormData: unknown) {
+    const validatedFields = UpdateTitleSchema.safeParse(FormData)
 
     if (!validatedFields.success) {
         return {
@@ -72,17 +70,53 @@ export async function UpdateComboTitle(FormData: FormData) {
         }
     }
 
-    const { comboId, comboTitle } = validatedFields.data
+    const { comboId, comboTitle, pathName } = validatedFields.data
 
     const data = await prisma.combo.update({
         where: {
             id: comboId
         },
         data: {
-            combotitle: comboTitle
+            combotitle: comboTitle,
+            slug: slugify(comboTitle, { lower: true, strict: true }),
         },
     })
 
     revalidatePath(pathName)
     return data
+}
+
+const UpdateDescriptionSchema = z.object({
+    comboId: z.string({
+        invalid_type_error: "Invalid ComboId",
+    }),
+    comboDescription: z.string({
+        invalid_type_error: "Invalid Description",
+    }),
+})
+
+export async function UpdateComboDescription(FormData: FormData) {
+    const pathName = FormData.get('pathName') as string
+    const validatedFields = UpdateDescriptionSchema.safeParse({
+        comboId: FormData.get('comboId'),
+        comboDescription: FormData.get('comboDescription'),
+    })
+
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+        }
+    }
+
+    const { comboId, comboDescription } = validatedFields.data
+
+    const data = await prisma.combo.update({
+        where: { id: comboId },
+        data: {
+            combodescription: comboDescription,
+        }
+    })
+
+    revalidatePath(pathName)
+    return data;
 }
