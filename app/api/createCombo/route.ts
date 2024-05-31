@@ -30,7 +30,7 @@ export const POST = async (req: Request) => {
             return NextResponse.json({ message: 'User session not available' }, { status: 401 });
         }
 
-        const slugTitle = slugify(combotitle, { lower: true, strict: true });
+        const slugTitle = encodeURIComponent(combotitle).replace(/%20/g, '-');
 
         const result = await prisma.combo.create({
             data: {

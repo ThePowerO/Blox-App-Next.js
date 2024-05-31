@@ -25,6 +25,7 @@ import { usePathname } from "next/navigation";
 import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { BloxFruitImages } from "@/BloxFruitImages";
 
 import {
   Form,
@@ -34,6 +35,7 @@ import {
   FormMessage,
   FormLabel,
 } from "../ui/form";
+import BloxImagesSelector from "./BloxImagesSelector";
 
 type Props = {
   combo: Combo;
@@ -57,7 +59,7 @@ export default function ComboEditLayout({ combo }: Props) {
 
   const [editingTitle, setEditingTitle] = useState(false);
   const [editingDescription, setEditingDescription] = useState(false);
-  const [descriptionValue, setDescriptionValue] = useState("");
+  const [descriptionValue, setDescriptionValue] = useState(combo.combodescription);
 
   const form = useForm<TitleType>({
     resolver: zodResolver(UpdateComboTitleSchema),
@@ -72,6 +74,8 @@ export default function ComboEditLayout({ combo }: Props) {
     await UpdateComboTitle(FormData);
     setEditingTitle(false);
   };
+
+  const [activeCategory, setActiveCategory] = useState('');
 
   return (
     <>
@@ -147,30 +151,11 @@ export default function ComboEditLayout({ combo }: Props) {
         </header>
 
         <div className="flex flex-col sm:items-center sm:flex-row gap-4 mb-4">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-            {[combo.fightingstyle, combo.fruit, combo.sword, combo.weapon].map(
-              (src, index) => (
-                <div key={index} className="relative group w-full">
-                  <Image
-                    fetchPriority="high"
-                    src={src}
-                    className="border cursor-pointer rounded-md w-full"
-                    alt="combo image"
-                    width={140}
-                    height={140}
-                  />
-                  <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 rounded-md transition-opacity duration-300"></div>
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <Pencil className="w-8 h-8 text-white" />
-                  </div>
-                </div>
-              )
-            )}
-          </div>
+          <BloxImagesSelector combo={combo} />
           <Textarea
             className="h-[140px] w-full resize-none"
             onFocus={() => setEditingDescription(true)}
-            defaultValue={combo.combodescription}
+            value={descriptionValue}
             onChange={(e) => setDescriptionValue(e.target.value)}
           />
         </div>
@@ -196,7 +181,10 @@ export default function ComboEditLayout({ combo }: Props) {
               <Check className={``} size={16} />
             </button>
             <div
-              onClick={() => setEditingDescription(!editingDescription)}
+              onClick={() => {
+                setEditingDescription(!editingDescription);
+                setDescriptionValue(combo.combodescription);
+              }}
               className="cursor-pointer dark:hover:bg-slate-700 hover:bg-slate-200 rounded-full p-1"
             >
               <X className="text-red-500" size={16} />

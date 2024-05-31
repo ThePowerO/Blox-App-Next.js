@@ -72,13 +72,35 @@ export async function UpdateComboTitle(FormData: unknown) {
 
     const { comboId, comboTitle, pathName } = validatedFields.data
 
+
+    const encodedTitle2 = encodeURIComponent(comboTitle);
+    const customEncodeURIComponent = (str: string) => {
+        return encodeURIComponent(str)
+            .replace(/%2F/g, '-')  // Replace / with -
+            .replace(/%20/g, '-')  // Replace space with -
+            .replace(/%25/g, '')   // Remove %
+            .replace(/%5B/g, '')   // Remove [
+            .replace(/%5D/g, '')   // Remove ]
+            .replace(/%7B/g, '')   // Remove {
+            .replace(/%7D/g, '')   // Remove }
+            .replace(/%3A/g, '-')   // Remove :
+            .replace(/%2C/g, '')   // Remove ,
+            .replace(/%3B/g, '')   // Remove ;
+            .replace(/%3F/g, '')   // Remove ?
+            .replace(/%3D/g, '')   // Remove =
+            .replace(/%40/g, '-')   // Remove @
+            .replace(/%26/g, 'and')// Replace & with 'and'
+            .replace(/%24/g, '')  // Remove $
+            .replace(/%23/g, '')  // Remove #
+            .replace(/%5C/g, '-'); // Remove \
+    };
     const data = await prisma.combo.update({
         where: {
             id: comboId
         },
         data: {
             combotitle: comboTitle,
-            slug: slugify(comboTitle, { lower: true, strict: true }),
+            slug: customEncodeURIComponent(comboTitle),
         },
     })
 
