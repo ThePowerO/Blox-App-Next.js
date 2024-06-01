@@ -25,7 +25,6 @@ import { usePathname } from "next/navigation";
 import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { BloxFruitImages } from "@/BloxFruitImages";
 
 import {
   Form,
@@ -70,13 +69,11 @@ export default function ComboEditLayout({ combo }: Props) {
     },
   });
 
-  const UpdateComboTitle1: SubmitHandler<TitleType> = async (FormData) => {
+  const UpdateComboTitleAction: SubmitHandler<TitleType> = async (FormData) => {
     await UpdateComboTitle(FormData);
     setEditingTitle(false);
   };
-
-  const [activeCategory, setActiveCategory] = useState('');
-
+  
   return (
     <>
       <section className="hidden sm:block w-full p-4 rounded-lg">
@@ -85,7 +82,7 @@ export default function ComboEditLayout({ combo }: Props) {
             {editingTitle ? (
               <Form {...form}>
                 <form
-                  onSubmit={form.handleSubmit(UpdateComboTitle1)}
+                  onSubmit={form.handleSubmit(UpdateComboTitleAction)}
                   className="flex items-center gap-2"
                 >
                   <input type="hidden" name="comboId" value={combo.id} />
@@ -135,7 +132,7 @@ export default function ComboEditLayout({ combo }: Props) {
               </Form>
             ) : (
               <>
-                <span className="text-gradient bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text text-transparent">
+                <span className="animate-gradient bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text text-transparent">
                   {combo.combotitle}
                 </span>
                 <div

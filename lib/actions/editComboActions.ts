@@ -73,7 +73,6 @@ export async function UpdateComboTitle(FormData: unknown) {
     const { comboId, comboTitle, pathName } = validatedFields.data
 
 
-    const encodedTitle2 = encodeURIComponent(comboTitle);
     const customEncodeURIComponent = (str: string) => {
         return encodeURIComponent(str)
             .replace(/%2F/g, '-')  // Replace / with -
@@ -94,6 +93,7 @@ export async function UpdateComboTitle(FormData: unknown) {
             .replace(/%23/g, '')  // Remove #
             .replace(/%5C/g, '-'); // Remove \
     };
+
     const data = await prisma.combo.update({
         where: {
             id: comboId
@@ -140,5 +140,49 @@ export async function UpdateComboDescription(FormData: FormData) {
     })
 
     revalidatePath(pathName)
+    return data;
+}
+
+const UpdateComboImgsSchema = z.object({
+    comboId: z.string({
+        invalid_type_error: "Invalid ComboId",
+    }),
+    FightingStyle: z.string({
+        invalid_type_error: "Invalid FightingStyle",
+    }),
+    Fruit: z.string({
+        invalid_type_error: "Invalid Fruit",
+    }),
+    Sword: z.string({
+        invalid_type_error: "Invalid Sword",
+    }),
+    Weapon: z.string({
+        invalid_type_error: "Invalid Weapon",
+    }),
+    pathName: z.string(),
+})
+
+export async function UpdateComboImgs(FormData: unknown) {
+    const validatedFields = UpdateComboImgsSchema.safeParse(FormData)
+
+    if (!validatedFields.success) {
+        return {
+            erros: validatedFields.error.flatten().fieldErrors,
+        }
+    }
+
+    const { comboId, FightingStyle, Fruit, Sword, Weapon, pathName } = validatedFields.data;
+
+    const data = await prisma.combo.update({
+        where: { id: comboId },
+        data: {
+            fightingstyle: FightingStyle,
+            fruit: Fruit,
+            sword: Sword,
+            weapon: Weapon,
+        }
+    });
+
+    revalidatePath(pathName);
     return data;
 }
