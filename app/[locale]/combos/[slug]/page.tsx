@@ -1,4 +1,4 @@
-simport { authOptions } from '@/app/api/auth/[...nextauth]/authOptions'
+import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions'
 import ComboBySlug from '@/components/SinglePageCombo/ComboBySlug' 
 import CommentSection from '@/components/SinglePageCombo/CommentSection'
 import { getSlugCombo } from '@/lib/actions/comboActions' 
