@@ -186,3 +186,47 @@ export async function UpdateComboImgs(FormData: unknown) {
     revalidatePath(pathName);
     return data;
 }
+
+const UpdateComboStatsSchema = z.object({
+    comboId: z.string({
+        invalid_type_error: "Invalid ComboId",
+    }),
+    Specialty: z.string({
+        invalid_type_error: "Invalid Specialty",
+    }),
+    Race: z.string({
+        invalid_type_error: "Invalid Race",
+    }),
+    Stats: z.string({
+        invalid_type_error: "Invalid Stats",
+    }),
+    Difficulty: z.string({
+        invalid_type_error: "Invalid Difficulty",
+    }),
+    pathName: z.string(),
+});
+
+export async function UpdateComboStatsAction(FormData: unknown) {
+    const validatedFields = UpdateComboStatsSchema.safeParse(FormData);
+
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+        };
+    }
+
+    const { comboId, Specialty, Race, Stats, Difficulty, pathName } = validatedFields.data;
+
+    const data = await prisma.combo.update({
+        where: { id: comboId },
+        data: {
+            specialty: Specialty,
+            race: Race,
+            mainStats: Stats,
+            difficulty: Difficulty,
+        },
+    });
+
+    revalidatePath(pathName);
+    return data;
+};

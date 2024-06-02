@@ -35,6 +35,7 @@ import {
   FormLabel,
 } from "../ui/form";
 import BloxImagesSelector from "./BloxImagesSelector";
+import BadgeSelector from "./BadgeSelector";
 
 type Props = {
   combo: Combo;
@@ -191,11 +192,8 @@ export default function ComboEditLayout({ combo }: Props) {
 
         <div className="mb-4">
           <h2 className="font-bold mb-2">Combo Properties:</h2>
-          <div className="flex gap-2">
-            <SpecialtyBadge specialty={combo.specialty} />
-            <RaceBadge race={combo.race} />
-            <StatsBadge stats={combo.mainStats} />
-            <DifficultyBadge difficulty={combo.difficulty} />
+          <div className="flex items-center gap-2">
+            <BadgeSelector combo={combo} />
           </div>
         </div>
 
