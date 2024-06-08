@@ -13,11 +13,7 @@ export async function getComboById(comboId: string) {
         select: {
             id: true,
             difficulty: true,
-            author: true,
             slug: true,
-            authorCreatedAt: true,
-            authorImage: true,
-            authorEmail: true,
             combotitle: true,
             combodescription: true,
             fightingstyle: true,
@@ -230,3 +226,51 @@ export async function UpdateComboStatsAction(FormData: unknown) {
     revalidatePath(pathName);
     return data;
 };
+
+const UpdateComboVideoSchema = z.object({
+    comboId: z.string({
+        invalid_type_error: "Invalid ComboId",
+    }),
+    comboVideo: z.string({
+        invalid_type_error: "Invalid VideoId",
+    }),
+    pathName: z.string(),
+})
+
+export async function UpdateComboVideoAction(FormData: unknown) {
+    const validatedFields = UpdateComboVideoSchema.safeParse(FormData);
+
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+        };
+    };
+
+    const { comboId, comboVideo, pathName } = validatedFields.data;
+
+    const data = await prisma.combo.update({
+        where: { id: comboId },
+        data: {
+            comboVideo,
+        },
+    });
+
+    revalidatePath(pathName);
+    return data;
+}
+
+export async function DeleteComboVideo(FormData: FormData) {
+    const pathName = FormData.get('pathName') as string
+    const comboId = FormData.get('comboId') as string
+    const comboVideo = FormData.get('comboVideo') as string
+
+    const data = await prisma.combo.update({
+        where: { id: comboId },
+        data: {
+            comboVideo,
+        },
+    });
+
+    revalidatePath(pathName);
+    return data;
+}

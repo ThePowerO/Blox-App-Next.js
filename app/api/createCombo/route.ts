@@ -46,10 +46,6 @@ export const POST = async (req: Request) => {
                 weapon,
                 fruit,
                 sword,
-                author: session?.user?.name!,
-                authorImage: session?.user?.image || "",
-                authorEmail: session?.user?.email || "",
-                authorCreatedAt,
                 user: {
                     connect: {
                         id: session?.user?.id,

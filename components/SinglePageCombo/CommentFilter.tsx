@@ -1,3 +1,5 @@
+'use client'
+
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React from "react";
@@ -23,7 +25,7 @@ export default function CommentFilter() {
                 filterType === selectedFilter
                   ? "bg-zinc-500 text-white"
                   : "hover:bg-stone-200 dark:hover:bg-zinc-600"
-              } text-center place-content-center w-[60px] p-1 rounded-sm`}
+              } text-center border place-content-center w-[60px] p-1 rounded-sm`}
             >
               {filterType}
             </Link>

@@ -12,9 +12,9 @@ export default function StopEditingLink({ comboSlug }: { comboSlug: string }) {
     <button
       type="button"
       onClick={() => router.push(`/${locale}/combos/${comboSlug}`)}
-      className="flex text-sm hover:underline cursor-pointer items-center gap-[5px] mr-[10px]"
+      className="flex text-sm hover:underline cursor-pointer items-center gap-[5px]"
     >
-      <MoveLeft size={15} />
+      <MoveLeft className="tinymax420px:hidden" size={15} />
       Stop Editing
     </button>
   );

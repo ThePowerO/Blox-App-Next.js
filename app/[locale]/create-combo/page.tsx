@@ -1,16 +1,8 @@
-'use client';
-
-import ComboForm from '@/components/ComboForm/ComboForm'
-import { FormProvider } from '@/components/FormContext'
-import { FormStep } from '@/components/FormStep';
+import CreateComboLayout from '@/components/CreateCombo/CreateComboLayout'
 import React from 'react'
 
-const CreateCombo = () => {
+export default function page() {
   return (
-    <FormProvider>
-      <FormStep />
-    </FormProvider>
+    <CreateComboLayout />
   )
 }
-
-export default CreateCombo

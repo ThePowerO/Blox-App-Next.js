@@ -51,6 +51,9 @@ export default function AddLikeButton() {
           <Heart
             className={`cursor-pointer`}
             color="#d64343"
+            fillRule="inherit"
+            onMouseOver={(e) => (e.currentTarget.style.fill = "#E21C49")}
+            onMouseOut={(e) => (e.currentTarget.style.fill = "")}
             width={22}
             height={22}
           />
@@ -103,10 +106,12 @@ export function AddFavoriteButton() {
           />
         </div>
       ) : (
-        <button className="" type="submit">
+        <button type="submit">
           <Star
             className={`cursor-pointer`}
             color="#e0ec3d"
+            onMouseOver={(e) => (e.currentTarget.style.fill = "#e0ec3d")}
+            onMouseOut={(e) => (e.currentTarget.style.fill = "")}
             width={22}
             height={22}
           />
@@ -130,7 +135,7 @@ export function RemoveFavoriteButton() {
           />
         </div>
       ) : (
-        <button className="">
+        <button>
           <Star
             className={`cursor-pointer`}
             color="#e0ec3d"
@@ -159,7 +164,6 @@ export function DeleteComboBtn() {
       ) : (
         <Button className="w-full flex gap-1" variant="destructive">
           <Trash2 width={18} height={18} />
-          Delete Combo
         </Button>
       )}
     </>

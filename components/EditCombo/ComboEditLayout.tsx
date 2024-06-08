@@ -36,6 +36,8 @@ import {
 } from "../ui/form";
 import BloxImagesSelector from "./BloxImagesSelector";
 import BadgeSelector from "./BadgeSelector";
+import { UploadButton } from "@/lib/uploadthing";
+import ChangeOrAddVideo from "./ChangeOrAddVideo";
 
 type Props = {
   combo: Combo;
@@ -59,7 +61,9 @@ export default function ComboEditLayout({ combo }: Props) {
 
   const [editingTitle, setEditingTitle] = useState(false);
   const [editingDescription, setEditingDescription] = useState(false);
-  const [descriptionValue, setDescriptionValue] = useState(combo.combodescription);
+  const [descriptionValue, setDescriptionValue] = useState(
+    combo.combodescription
+  );
 
   const form = useForm<TitleType>({
     resolver: zodResolver(UpdateComboTitleSchema),
@@ -74,7 +78,7 @@ export default function ComboEditLayout({ combo }: Props) {
     await UpdateComboTitle(FormData);
     setEditingTitle(false);
   };
-  
+
   return (
     <>
       <section className="hidden sm:block w-full p-4 rounded-lg">
@@ -112,17 +116,17 @@ export default function ComboEditLayout({ combo }: Props) {
                     )}
                   />
                   <button
-                    className={`ml-2 cursor-pointer  dark:hover:bg-slate-700 hover:bg-slate-200 rounded-full p-1`}
+                    className={`ml-2 cursor-pointer text-green-500 dark:hover:bg-slate-700 hover:bg-slate-200 rounded-full p-1`}
                     type="submit"
                   >
-                    <Check className={``} size={16} />
+                    <Check className={``} size={19} />
                   </button>
                   <button
                     type="button"
                     onClick={() => setEditingTitle(!editingTitle)}
-                    className="cursor-pointer dark:hover:bg-slate-700 hover:bg-slate-200 rounded-full p-1"
+                    className="cursor-pointer bg-red-200 dark:hover:bg-slate-700 hover:bg-slate-200 rounded-full p-1"
                   >
-                    <X className="text-red-500" size={16} />
+                    <X className="text-red-500" size={19} />
                   </button>
                   {form.formState.errors.comboTitle && (
                     <FormMessage className="text-red-500">
@@ -173,19 +177,19 @@ export default function ComboEditLayout({ combo }: Props) {
             <input type="hidden" name="comboId" value={combo.id} />
             <input type="hidden" name="pathName" value={pathName} />
             <button
-              className={`ml-2 cursor-pointer  dark:hover:bg-slate-700 hover:bg-slate-200 rounded-full p-1`}
+              className={`ml-2 cursor-pointer text-green-500 dark:hover:bg-slate-700 hover:bg-slate-200 rounded-full p-1`}
               type="submit"
             >
-              <Check className={``} size={16} />
+              <Check className={``} size={19} />
             </button>
             <div
               onClick={() => {
                 setEditingDescription(!editingDescription);
                 setDescriptionValue(combo.combodescription);
               }}
-              className="cursor-pointer dark:hover:bg-slate-700 hover:bg-slate-200 rounded-full p-1"
+              className="cursor-pointer bg-red-200 dark:hover:bg-slate-700 hover:bg-slate-200 rounded-full p-1"
             >
-              <X className="text-red-500" size={16} />
+              <X className="text-red-500" size={19} />
             </div>
           </form>
         )}
@@ -209,33 +213,83 @@ export default function ComboEditLayout({ combo }: Props) {
         </div>
 
         <div>
-          <ComboVideo comboVideo={combo.comboVideo} />
+          <ChangeOrAddVideo combo={combo} />
         </div>
 
         <Separator className="text-black mt-4" />
       </section>
       <section className="sm:hidden w-full grid grid-cols-1 gap-2 p-2">
-        <div className="flex items-center w-full gap-2 border border-white rounded-[8px] p-2">
-          <h1 className="text-[12px]">
-            <span className="bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text font-extrabold text-transparent">
-              {combo.combotitle}
-            </span>
+        <header className="flex items-center justify-between border-b pb-2 mb-4">
+          <h1 className="text-lg flex items-center gap-2 font-semibold">
+            {editingTitle ? (
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(UpdateComboTitleAction)}
+                  className="flex items-center gap-2"
+                >
+                  <input type="hidden" name="comboId" value={combo.id} />
+                  <input type="hidden" name="pathName" value={pathName} />
+                  <FormField
+                    control={form.control}
+                    name="comboTitle"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            type="text"
+                            autoFocus
+                            className={`w-full outline-none
+                              ${
+                                form.formState.errors.comboTitle
+                                  ? "border focus-visible:ring-0 border-red-500"
+                                  : ""
+                              }
+                            `}
+                            defaultValue={combo.combotitle}
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <button
+                    className={`tiny420px:ml-2 cursor-pointer text-green-500 dark:hover:bg-slate-700 hover:bg-slate-200 rounded-full p-1`}
+                    type="submit"
+                  >
+                    <Check size={19} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setEditingTitle(!editingTitle)}
+                    className="cursor-pointer bg-red-200 dark:hover:bg-slate-700 hover:bg-slate-200 rounded-full p-1"
+                  >
+                    <X className="text-red-500" size={19} />
+                  </button>
+                  {form.formState.errors.comboTitle && (
+                    <FormMessage className="text-red-500">
+                      {form.formState.errors.comboTitle.message}
+                    </FormMessage>
+                  )}
+                </form>
+              </Form>
+            ) : (
+              <>
+                <span className="animate-gradient bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text text-transparent">
+                  {combo.combotitle}
+                </span>
+                <div
+                  onClick={() => setEditingTitle(!editingTitle)}
+                  className="cursor-pointer dark:hover:bg-slate-700 hover:bg-slate-200 rounded-full p-2"
+                >
+                  <Pencil size={16} />
+                </div>
+              </>
+            )}
           </h1>
-        </div>
+          <StopEditingLink comboSlug={combo.slug} />
+        </header>
         <div className="flex petit:justify-center w-full gap-2">
-          {[combo.fightingstyle, combo.fruit, combo.sword, combo.weapon].map(
-            (src, index) => (
-              <Image
-                key={index}
-                fetchPriority="high"
-                src={src}
-                className="border rounded-[8px] w-1/4 min-w-[60px] petit:w-[80px]"
-                alt="combo image"
-                width={60}
-                height={60}
-              />
-            )
-          )}
+          <BloxImagesSelector combo={combo} />
         </div>
         <div className="flex items-center justify-between sm:justify-normal w-full gap-1">
           <div className="">
@@ -249,17 +303,48 @@ export default function ComboEditLayout({ combo }: Props) {
         </div>
         <Textarea
           className="h-[120px]"
-          readOnly
-          value={combo.combodescription}
+          onFocus={() => setEditingDescription(true)}
+          value={descriptionValue}
+          onChange={(e) => setDescriptionValue(e.target.value)}
         />
+        {editingDescription && (
+          <form
+            action={async (FormData) => {
+              await UpdateComboDescription(FormData);
+              setEditingDescription(false);
+            }}
+            className="flex items-center justify-end gap-2"
+          >
+            <input
+              type="hidden"
+              name="comboDescription"
+              value={descriptionValue}
+            />
+            <input type="hidden" name="comboId" value={combo.id} />
+            <input type="hidden" name="pathName" value={pathName} />
+            <button
+              className={`ml-2 cursor-pointer text-green-500 dark:hover:bg-slate-700 hover:bg-slate-200 rounded-full p-1`}
+              type="submit"
+            >
+              <Check size={18} />
+            </button>
+            <div
+              onClick={() => {
+                setEditingDescription(!editingDescription);
+                setDescriptionValue(combo.combodescription);
+              }}
+              className="cursor-pointer bg-red-200 dark:hover:bg-slate-700 hover:bg-slate-200 rounded-full p-1"
+            >
+              <X className="text-red-500" size={18} />
+            </div>
+          </form>
+        )}
         <h2 className="font-bold">Combo Properties:</h2>
-        <div className="flex gap-2">
-          <SpecialtyBadge specialty={combo.specialty} />
-          <RaceBadge race={combo.race} />
-          <StatsBadge stats={combo.mainStats} />
-          <DifficultyBadge difficulty={combo.difficulty} />
+        <div className="petitmax:grid petitmax:grid-cols-3 items-center petitmax:mb-[30px] flex gap-2">
+          <BadgeSelector combo={combo} />
         </div>
-        <ComboVideo comboVideo={combo.comboVideo} />
+        <Separator className="text-black mt-2" />
+        <ChangeOrAddVideo combo={combo} />
         <Separator className="text-black mt-2" />
       </section>
     </>

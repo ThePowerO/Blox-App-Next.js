@@ -83,7 +83,7 @@ export default function BloxImagesSelector({ combo }: { combo: Combo }) {
   }
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+    <div className="grid grid-cols-4 gap-2">
       {/* Fighting Styles */}
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger className="cursor-pointer" asChild>
@@ -107,7 +107,7 @@ export default function BloxImagesSelector({ combo }: { combo: Combo }) {
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
-          <div className="grid grid-cols-7 gap-2">
+          <div className="grid petitmax:grid-cols-4 petit:grid-cols-5 tiny:grid-cols-6 tiny420px:grid-cols-7 gap-2">
             {BloxFruitImages["Fighting Styles"] &&
               Object.entries(BloxFruitImages["Fighting Styles"]).map(
                 ([style, image]) => (
@@ -157,7 +157,7 @@ export default function BloxImagesSelector({ combo }: { combo: Combo }) {
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
-          <div className="grid grid-cols-7 gap-2">
+          <div className="grid petitmax:grid-cols-5 petit:grid-cols-6 tiny420px:grid-cols-7 gap-1 petit:gap-2">
             {BloxFruitImages["Fruits"] &&
               Object.entries(BloxFruitImages["Fruits"]).map(
                 ([style, image]) => (
@@ -207,7 +207,7 @@ export default function BloxImagesSelector({ combo }: { combo: Combo }) {
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
-          <div className="grid grid-cols-7 gap-2">
+          <div className="grid petitmax:grid-cols-5 petit:grid-cols-6 tiny420px:grid-cols-7 gap-1 petit:gap-2 ">
             {BloxFruitImages["Swords"] &&
               Object.entries(BloxFruitImages["Swords"]).map(
                 ([style, image]) => (
@@ -257,7 +257,7 @@ export default function BloxImagesSelector({ combo }: { combo: Combo }) {
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
-          <div className="grid grid-cols-7 gap-2">
+          <div className="grid grid-cols-5 petit:grid-cols-6 tiny420px:grid-cols-7 gap-1 petit:gap-2">
             {BloxFruitImages["Weapons"] &&
               Object.entries(BloxFruitImages["Weapons"]).map(
                 ([style, image]) => (

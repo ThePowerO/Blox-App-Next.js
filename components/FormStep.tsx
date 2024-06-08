@@ -1,5 +1,5 @@
-import ComboForm from "./ComboForm/ComboForm";
-import FormDetails from "./ComboForm/FormDetails";
+import ComboForm from "./CreateCombo/ComboForm";
+import FormDetails from "./CreateCombo/FormDetails";
 import { useFormState } from "./FormContext";
 
 export function FormStep() {

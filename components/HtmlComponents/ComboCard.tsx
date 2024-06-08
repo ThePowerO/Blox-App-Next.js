@@ -4,7 +4,7 @@ import prisma from '@/lib/prisma';
 import AddLikeButton, { AddFavoriteButton, RemoveFavoriteButton, RemoveLikeButton } from '../HtmlComponents/SubmitButtons';
 import { addComboLike, addFavoriteCombo, removeComboLike, removeFavoriteCombo } from '@/lib/actions/comboActions';
 import Image from 'next/image';
-import MoreVerticalBtn from './MoreVertical';
+import MoreVerticalBtn from './MoreHorizontal';
 import { SpecialtyBadge } from './ComboBadges';
 import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
 

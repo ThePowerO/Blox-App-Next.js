@@ -80,7 +80,10 @@ export default function BadgeSelector({ combo }: { combo: Combo }) {
       <StatsBadge stats={selectedStats} />
       <DifficultyBadge difficulty={selectedDifficulty} />
       <DropdownMenu modal={false}>
-        <DropdownMenuTrigger asChild>
+        <DropdownMenuTrigger
+          className=" size-fit"
+          asChild
+        >
           <button className="flex dark:hover:bg-slate-700 hover:bg-slate-200 p-2 rounded-full items-center gap-1 text-sm hover:underline cursor-pointer">
             <Pencil width={15} height={15} />
           </button>
@@ -120,7 +123,7 @@ export default function BadgeSelector({ combo }: { combo: Combo }) {
             </div>
           </div>
           <DropdownMenuLabel className="p-0">Race</DropdownMenuLabel>
-          <div className="flex gap-1">
+          <div className="grid gap-0 size-fit grid-cols-3 petit:grid-cols-5 tiny:flex petit:gap-1">
             <div
               onClick={() => {
                 setSelectedRace("Mink");
@@ -183,7 +186,7 @@ export default function BadgeSelector({ combo }: { combo: Combo }) {
             </div>
           </div>
           <DropdownMenuLabel className="p-0">Stats</DropdownMenuLabel>
-          <div className="flex gap-1">
+          <div className="grid grid-cols-3 petit:flex gap-1">
             <div
               onClick={() => {
                 setSelectedStats("Main Sword");
@@ -262,27 +265,42 @@ export default function BadgeSelector({ combo }: { combo: Combo }) {
       </DropdownMenu>
       {isEditingStats && (
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(UpdateComboStats)}>
+          <form
+            onSubmit={form.handleSubmit(UpdateComboStats)}
+            className="p"
+          >
             <input type="hidden" name="comboId" value={combo.id} />
             <input type="hidden" name="pathName" value={pathName} />
-            <input type="hidden" name="Specialty" value={form.getValues("Specialty")} />
+            <input
+              type="hidden"
+              name="Specialty"
+              value={form.getValues("Specialty")}
+            />
             <input type="hidden" name="Race" value={form.getValues("Race")} />
             <input type="hidden" name="Stats" value={form.getValues("Stats")} />
-            <input type="hidden" name="Difficulty" value={form.getValues("Difficulty")} />
-            <button className="p-1 m-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700" type="submit">
-              <Check size={16} />
+            <input
+              type="hidden"
+              name="Difficulty"
+              value={form.getValues("Difficulty")}
+            />
+            <button
+              className="p-1 text-green-500 m-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700"
+              type="submit"
+            >
+              <Check size={19} />
             </button>
             <button
               onClick={() => {
-                setIsEditingStats(false)
-                setSelectedSpecialty(combo.specialty)
-                setSelectedRace(combo.race)
-                setSelectedStats(combo.mainStats)
-                setSelectedDifficulty(combo.difficulty)
+                setIsEditingStats(false);
+                setSelectedSpecialty(combo.specialty);
+                setSelectedRace(combo.race);
+                setSelectedStats(combo.mainStats);
+                setSelectedDifficulty(combo.difficulty);
               }}
-              className="p-1 m-1 text-red-500 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700"
-              type="button">
-              <X size={16} />
+              className="p-1 m-1 bg-red-200 text-red-500 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700"
+              type="button"
+            >
+              <X size={19} />
             </button>
           </form>
         </Form>
