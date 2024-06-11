@@ -1,10 +1,6 @@
 export type Combo = {
   id: string;
-  authorImage: string;
-  authorCreatedAt: Date;
-  authorEmail: string;
   difficulty: string;
-  author: string;
   combotitle: string;
   combodescription: string;
   fightingstyle: string;
@@ -80,6 +76,7 @@ export type User = {
 }
 
 export type Like = {
+  id: string;
   comboId: string;
   userId: string;
   createdAt: Date;

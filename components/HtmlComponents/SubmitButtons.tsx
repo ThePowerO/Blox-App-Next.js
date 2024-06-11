@@ -135,7 +135,7 @@ export function RemoveFavoriteButton() {
           />
         </div>
       ) : (
-        <button>
+        <button type="submit">
           <Star
             className={`cursor-pointer`}
             color="#e0ec3d"

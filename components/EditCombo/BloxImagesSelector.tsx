@@ -207,7 +207,7 @@ export default function BloxImagesSelector({ combo }: { combo: Combo }) {
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
-          <div className="grid petitmax:grid-cols-5 petit:grid-cols-6 tiny420px:grid-cols-7 gap-1 petit:gap-2 ">
+          <div className="grid petitmax:grid-cols-5 petit:grid-cols-6 tiny420px:grid-cols-7 gap-1 petit:gap-2">
             {BloxFruitImages["Swords"] &&
               Object.entries(BloxFruitImages["Swords"]).map(
                 ([style, image]) => (

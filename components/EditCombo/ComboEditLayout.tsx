@@ -4,13 +4,6 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { HoverComboAuthor } from "../HtmlComponents/HoverComboAuthor";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  DifficultyBadge,
-  RaceBadge,
-  SpecialtyBadge,
-  StatsBadge,
-} from "../HtmlComponents/ComboBadges";
-import ComboVideo from "../HtmlComponents/ComboVideo";
 import { Separator } from "../ui/separator";
 import { Combo, User } from "@prisma/client";
 import StopEditingLink from "./StopEditingLink";
@@ -32,11 +25,9 @@ import {
   FormItem,
   FormField,
   FormMessage,
-  FormLabel,
 } from "../ui/form";
 import BloxImagesSelector from "./BloxImagesSelector";
 import BadgeSelector from "./BadgeSelector";
-import { UploadButton } from "@/lib/uploadthing";
 import ChangeOrAddVideo from "./ChangeOrAddVideo";
 
 type Props = {
@@ -55,6 +46,7 @@ const UpdateComboTitleSchema = z.object({
 type TitleType = z.infer<typeof UpdateComboTitleSchema>;
 
 export default function ComboEditLayout({ combo }: Props) {
+  console.log("createdAt user: ", combo.user.createdAt);
   const { data: session } = useSession();
   const currentUser = session?.user as User;
   const pathName = usePathname();
@@ -205,9 +197,9 @@ export default function ComboEditLayout({ combo }: Props) {
           <div>
             Built by{" "}
             <HoverComboAuthor
-              authorCreatedAt={combo.authorCreatedAt}
-              comboAuthor={combo.author}
-              authorImage={combo.authorImage}
+              authorCreatedAt={combo.user.createdAt}
+              comboAuthor={combo.user.name || ""}
+              authorImage={combo.user.image || ""}
             />
           </div>
         </div>
@@ -295,9 +287,9 @@ export default function ComboEditLayout({ combo }: Props) {
           <div className="">
             built by
             <HoverComboAuthor
-              authorCreatedAt={combo.authorCreatedAt}
-              comboAuthor={combo.author}
-              authorImage={combo.authorImage}
+              authorCreatedAt={combo.user.createdAt}
+              comboAuthor={combo.user.name || ""}
+              authorImage={combo.user.image || ""}
             />
           </div>
         </div>

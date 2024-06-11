@@ -17,7 +17,7 @@ export function AlertDestructive() {
   return (
     <Alert className="static flex" variant="default">
       <div className="mr-[15px]">
-          <ExclamationTriangleIcon className="block h-4 w-4" />
+          <ExclamationTriangleIcon color="red" className="block h-4 w-4" />
       </div>
       <div>
           <AlertTitle>No Combos Found</AlertTitle>

@@ -94,7 +94,24 @@ export async function createComboAction(FormData: unknown, pathName: string) {
       .replace(/%5C/g, "-"); // Remove \
   };
 
+  const generateUniqueSlug = async (title: string) => {
+    let slug = customEncodeURIComponent(title);
+    let existingCombo = await prisma.combo.findUnique({
+      where: { slug },
+    });
+    let counter = 1;
+    while (existingCombo) {
+      slug = `${customEncodeURIComponent(title)}-${counter}`;
+      existingCombo = await prisma.combo.findUnique({
+        where: { slug },
+      });
+      counter++;
+    }
+    return slug;
+  };
+
   try {
+    const uniqueSlug = await generateUniqueSlug(combotitle);
     const data = await prisma.combo.create({
       data: {
         userId: currentuser.id,
@@ -109,7 +126,7 @@ export async function createComboAction(FormData: unknown, pathName: string) {
         difficulty,
         specialty,
         mainStats,
-        slug: customEncodeURIComponent(combotitle),
+        slug: uniqueSlug,
       },
     });
 
@@ -122,20 +139,32 @@ export async function createComboAction(FormData: unknown, pathName: string) {
 }
 
 export async function addComboLike(FormData: FormData) {
-  const session = await getServerSession(authOptions);
   const comboId = FormData.get("comboId") as string;
   const userId = FormData.get("userId") as string;
   const pathName = FormData.get("pathName") as string;
 
   try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!user) {
+      console.error("User not found.");
+      return;
+    };
+
     const combo = await prisma.combo.findUnique({
       where: {
         id: comboId,
       },
-      include: {
-        likes: true,
-      },
     });
+
+    if (!combo) {
+      console.error("Combo not found.");
+      return;
+    };
 
     await prisma.like.create({
       data: {
@@ -152,8 +181,9 @@ export async function addComboLike(FormData: FormData) {
 
 export async function removeComboLike(FormData: FormData) {
   const session: any = await getServerSession(authOptions);
-  const comboId = FormData.get("comboId") as string;
+  const comboId = FormData.get("likeId") as string;
   const pathName = FormData.get("pathName") as string;
+  const likeId = FormData.get("likeId") as string;
 
   const user = await prisma.user.findUnique({
     where: {
@@ -168,82 +198,60 @@ export async function removeComboLike(FormData: FormData) {
 
   await prisma.like.delete({
     where: {
-      comboId_userId: {
-        comboId,
-        userId: session?.user?.id,
-      },
+      id: likeId,
+      userId: user.id,
     },
   });
 
   revalidatePath(pathName);
 }
 
-export async function addFavoriteCombo(formData: FormData) {
-  const session = await getServerSession(authOptions);
-  const comboId = formData.get("comboId") as string;
-  const pathName = formData.get("pathName") as string;
+export async function addComboFavorite(FormData: FormData) {
+  const comboId = FormData.get("comboId") as string;
+  const userId = FormData.get("userId") as string;
+  const pathName = FormData.get("pathName") as string;
 
-  const user = await prisma.user.findUnique({
-    where: {
-      email: session?.user?.email!,
-    },
-    include: {
-      favorites: true,
-    },
-  });
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
 
-  if (!user) {
-    console.error("User not found.");
-    return;
-  }
+    if (!user) {
+      console.error("User not found.");
+      return;
+    };
 
-  const combo = await prisma.combo.findUnique({
-    where: {
-      id: comboId,
-    },
-    include: {
-      favorites: true,
-      likes: true,
-    },
-  });
+    const combo = await prisma.combo.findUnique({
+      where: {
+        id: comboId,
+      },
+    });
 
-  if (!combo) {
-    console.error("Combo not found.");
-    return;
-  }
+    if (!combo) {
+      console.error("Combo not found.");
+      return;
+    };
 
-  const isFavorite = user.favorites.some(
-    (favorite) => favorite.comboId === comboId
-  );
-
-  if (isFavorite) {
-    console.log("Combo already favorite.");
-    return;
-  } else {
     await prisma.favorite.create({
       data: {
-        user: {
-          connect: {
-            email: session?.user?.email!,
-          },
-        },
-        combo: {
-          connect: {
-            id: comboId,
-          },
-        },
+        comboId,
+        userId,
       },
     });
 
     revalidatePath(pathName);
+  } catch (error) {
+    console.error(error);
   }
 }
 
-export async function removeFavoriteCombo(formData: FormData) {
-  const session = await getServerSession(authOptions);
-
-  const favoriteId = formData.get("favoriteId") as string;
-  const pathName = formData.get("pathName") as string;
+export async function removeComboFavorite(FormData: FormData) {
+  const session: any = await getServerSession(authOptions);
+  const comboId = FormData.get("comboId") as string;
+  const pathName = FormData.get("pathName") as string;
+  const favoriteId = FormData.get("favoriteId") as string;
 
   const user = await prisma.user.findUnique({
     where: {
@@ -257,7 +265,10 @@ export async function removeFavoriteCombo(formData: FormData) {
   }
 
   await prisma.favorite.delete({
-    where: { id: favoriteId },
+    where: {
+      id: favoriteId,
+      userId: user.id,
+    },
   });
 
   revalidatePath(pathName);
@@ -279,7 +290,7 @@ export async function deleteCombo(formData: FormData) {
 export async function getSlugCombo(slug: string) {
   const session = await getServerSession(authOptions);
 
-  const data = await prisma.combo.findUnique({
+  const data = await prisma.combo.findFirst({
     where: { slug: slug },
     select: {
       id: true,
@@ -367,6 +378,7 @@ export async function getSlugCombo(slug: string) {
       },
       likes: {
         select: {
+          id: true,
           comboId: true,
           userId: true,
           createdAt: true,

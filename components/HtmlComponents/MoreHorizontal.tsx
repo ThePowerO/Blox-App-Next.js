@@ -28,11 +28,9 @@ import {
 
 export default function MoreHorizontalBtn({
   comboId,
-  comboSlug,
   pathName,
 }: {
   pathName: string;
-  comboSlug: string;
   comboId: string;
 }) {
   const { locale } = useLocale();

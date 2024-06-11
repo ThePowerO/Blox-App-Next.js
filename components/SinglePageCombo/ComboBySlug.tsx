@@ -36,7 +36,7 @@ export default async function ComboBySlug({ combo }: Props) {
       name: true,
       image: true,
       createdAt: true,
-      favorites: {
+      favoriteCombos: {
         where: {
           user: {
             email: session?.user?.email,
@@ -64,6 +64,7 @@ export default async function ComboBySlug({ combo }: Props) {
             </span>
           </h1>
           <FavortiteLikeBtn
+            editCombo={true}
             combo={combo}
             comboId={combo.id}
             likeId={
@@ -123,9 +124,9 @@ export default async function ComboBySlug({ combo }: Props) {
           <div>
             Built by{" "}
             <HoverComboAuthor
-              authorCreatedAt={combo.authorCreatedAt}
-              comboAuthor={combo.author}
-              authorImage={combo.authorImage}
+              authorCreatedAt={combo.user.createdAt}
+              comboAuthor={combo.user.name || ""}
+              authorImage={combo.user.image || ""}
             />
           </div>
         </div>
@@ -164,17 +165,18 @@ export default async function ComboBySlug({ combo }: Props) {
           <div className="">
             built by
             <HoverComboAuthor
-              authorCreatedAt={combo.authorCreatedAt}
-              comboAuthor={combo.author}
-              authorImage={combo.authorImage}
+              authorCreatedAt={combo.user.createdAt}
+              comboAuthor={combo.user.name || ""}
+              authorImage={combo.user.image || ""}
             />
           </div>
           <FavortiteLikeBtn
+            editCombo={true}
             combo={combo}
             comboId={combo.id}
             likeId={
               combo.likes?.find((like) => like.userId === currentUser.id)
-                ?.comboId as string
+                ?.id
             }
             isInLikeList={
               !!combo.likes?.find((like) => like.userId === currentUser.id)

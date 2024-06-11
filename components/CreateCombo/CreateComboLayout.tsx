@@ -19,7 +19,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import TextareaAutosize from "react-textarea-autosize";
 import { toast } from "react-toastify";
-import { isUri } from "valid-url";
+import { isUri, isWebUri } from "valid-url";
 
 import {
   Select,
@@ -55,10 +55,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const FormSchema = z.object({
-  fruit: z.string(),
-  fightingstyle: z.string(),
-  sword: z.string(),
-  weapon: z.string(),
+  fruit: z.string().min(1, "Please select a fruit"),
+  fightingstyle: z.string().min(1, "Please select a fighting style"),
+  sword: z.string().min(1, "Please select a sword"),
+  weapon: z.string().min(1, "Please select a weapon"),
   combotitle: z.string().min(1, "Please enter a combo name"),
   combodescription: z
     .string()
@@ -82,10 +82,10 @@ export default function CreateComboLayout() {
   const [selectedSpecialty, setSelectedSpecialty] = useState("");
   const [selectedMainStats, setSelectedMainStats] = useState("");
 
-  const pathName = usePathname();
-  //const [videoFilePath, setVideoFilePath] = useState<string | null>(null);
-  const [videoUrl, setVideoUrl] = useState("");
 
+  const pathName = usePathname();
+  const [videoUrl, setVideoUrl] = useState("");
+  const [isWMV, setIsWMV] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEditting = () => setIsEditing((prevIsEditing) => !prevIsEditing);
@@ -169,11 +169,10 @@ export default function CreateComboLayout() {
   const [isValidUrl, setIsValidUrl] = useState(true);
 
   const handleVideoUpload = (url: string) => {
-    if (isUri(videoUrl)) {
+    if (isWebUri(videoUrl)) {
       setIsValidUrl(true);
       form.setValue("comboVideo", url);
       setComboVideo(url);
-      toggleEditting();
       setVideoUrl(url);
     } else {
       setIsValidUrl(false);
@@ -193,50 +192,51 @@ export default function CreateComboLayout() {
   };
 
   return (
-    <section className="flex justify-center">
-      <Tabs defaultValue="combo" className="max-w-2xl">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="combo">Combo</TabsTrigger>
-          <TabsTrigger value="information">Information</TabsTrigger>
-        </TabsList>
-        <TabsContent value="combo">
-          <Card>
-            <CardHeader>
-              <CardTitle>Combo Build</CardTitle>
-              <CardDescription>
-                Build <span className="font-semibold">your</span> combo here.
-                Click save when you're done.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 w-[400px]">
-                {/* Fighting Styles */}
-                <DropdownMenu modal={false}>
-                  <DropdownMenuTrigger className="cursor-pointer" asChild>
-                    <div
-                      className={`relative ${
-                        !selectedFightingStyle ? "dark:invert" : ""
-                      } rounded-md cursor-pointer group w-full`}
-                    >
-                      <Image
-                        alt={""}
-                        fetchPriority="high"
-                        src={selectedFightingStyle || PlusMore.src}
-                        className={`border rounded-md`}
-                        width={140}
-                        height={140}
-                      />
-                      <div className="absolute inset-0 bg-black/40 dark:bg-black opacity-0 group-hover:opacity-50 rounded-md transition-opacity duration-300"></div>
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <Pencil className="w-8 h-8 text-white" />
+    <section className="flex mt-[-10px] justify-center">
+      <Form {...form}>
+        <Tabs defaultValue="combo" className="max-w-2xl">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="combo">Combo</TabsTrigger>
+            <TabsTrigger value="information">Information</TabsTrigger>
+          </TabsList>
+          <TabsContent value="combo">
+            <Card>
+              <CardHeader>
+                <CardTitle>Combo Build</CardTitle>
+                <CardDescription>
+                  Build <span className="font-semibold">your</span> combo here.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-4 gap-2 max-w-[400px]">
+                  {/* Fighting Styles */}
+                  <DropdownMenu modal={false}>
+                    <DropdownMenuTrigger className="cursor-pointer" asChild>
+                      <div
+                        className={`relative ${
+                          !selectedFightingStyle ? "dark:invert" : ""
+                        } rounded-md cursor-pointer group w-full`}
+                      >
+                        <Image
+                          alt={""}
+                          fetchPriority="high"
+                          src={selectedFightingStyle || PlusMore.src}
+                          className={`border rounded-md`}
+                          width={140}
+                          height={140}
+                        />
+                        <div className="absolute inset-0 bg-black/40 dark:bg-black opacity-0 group-hover:opacity-50 rounded-md transition-opacity duration-300"></div>
+                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <Pencil className="w-8 h-8 text-white" />
+                        </div>
                       </div>
-                    </div>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="start">
-                    <div className="grid grid-cols-7 gap-2">
-                      {BloxFruitImages["Fighting Styles"] &&
-                        Object.entries(BloxFruitImages["Fighting Styles"]).map(
-                          ([style, image]) => (
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent side="bottom" align="start">
+                      <div className="grid petitmax:grid-cols-4 petit:grid-cols-5 tiny:grid-cols-6 tiny420px:grid-cols-7 gap-2">
+                        {BloxFruitImages["Fighting Styles"] &&
+                          Object.entries(
+                            BloxFruitImages["Fighting Styles"]
+                          ).map(([style, image]) => (
                             <div
                               key={style}
                               className={`relative rounded-md cursor-pointer ${
@@ -244,7 +244,7 @@ export default function CreateComboLayout() {
                                   ? "gradient-border animate-in"
                                   : ""
                               }
-                                border dark:hover:bg-white/20 hover:bg-slate-200 ease-in-out duration-150`}
+                                  border dark:hover:bg-white/20 hover:bg-slate-200 ease-in-out duration-150`}
                               onClick={() => {
                                 setSelectedFightingStyle(image.src);
                                 form.setValue("fightingstyle", image.src);
@@ -258,237 +258,196 @@ export default function CreateComboLayout() {
                                 className="rounded-md"
                               />
                             </div>
-                          )
-                        )}
-                    </div>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-                {/* Fruits */}
-                <DropdownMenu modal={false}>
-                  <DropdownMenuTrigger className="cursor-pointer" asChild>
-                    <div
-                      className={`relative ${
-                        !selectedFruit ? "dark:invert" : ""
-                      } rounded-md cursor-pointer group w-full`}
-                    >
-                      <Image
-                        alt={
-                          selectedFruit.split("/")[
-                            selectedFruit.split("/").length - 1
-                          ]
-                        }
-                        fetchPriority="high"
-                        src={selectedFruit || PlusMore.src}
-                        className={`border rounded-md`}
-                        width={140}
-                        height={140}
-                      />
-                      <div className="absolute inset-0 bg-black/40 dark:bg-black opacity-0 group-hover:opacity-50 rounded-md transition-opacity duration-300"></div>
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <Pencil className="w-8 h-8 text-white" />
+                          ))}
                       </div>
-                    </div>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="start">
-                    <div className="grid grid-cols-7 gap-2">
-                      {BloxFruitImages["Fruits"] &&
-                        Object.entries(BloxFruitImages["Fruits"]).map(
-                          ([style, image]) => (
-                            <div
-                              key={style}
-                              className={`relative rounded-md cursor-pointer ${
-                                image.src === selectedFruit
-                                  ? "gradient-border animate-in"
-                                  : ""
-                              }
-                                border dark:hover:bg-white/20 hover:bg-slate-200 ease-in-out duration-150`}
-                              onClick={() => {
-                                setSelectedFruit(image.src);
-                                form.setValue("fruit", image.src);
-                              }}
-                            >
-                              <Image
-                                src={image}
-                                alt={style}
-                                width={50}
-                                height={50}
-                                className="rounded-md"
-                              />
-                            </div>
-                          )
-                        )}
-                    </div>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-                {/* Swords */}
-                <DropdownMenu modal={false}>
-                  <DropdownMenuTrigger className="cursor-pointer" asChild>
-                    <div
-                      className={`relative ${
-                        !selectedSword ? "dark:invert" : ""
-                      } rounded-md cursor-pointer group w-full`}
-                    >
-                      <Image
-                        alt="Fighting Style"
-                        fetchPriority="high"
-                        src={selectedSword || PlusMore.src}
-                        className={`border rounded-md`}
-                        width={140}
-                        height={140}
-                      />
-                      <div className="absolute inset-0 bg-black/40 dark:bg-black opacity-0 group-hover:opacity-50 rounded-md transition-opacity duration-300"></div>
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <Pencil className="w-8 h-8 text-white" />
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                  {/* Fruits */}
+                  <DropdownMenu modal={false}>
+                    <DropdownMenuTrigger className="cursor-pointer" asChild>
+                      <div
+                        className={`relative ${
+                          !selectedFruit ? "dark:invert" : ""
+                        } rounded-md cursor-pointer group w-full`}
+                      >
+                        <Image
+                          alt={
+                            selectedFruit.split("/")[
+                              selectedFruit.split("/").length - 1
+                            ]
+                          }
+                          fetchPriority="high"
+                          src={selectedFruit || PlusMore.src}
+                          className={`border rounded-md`}
+                          width={140}
+                          height={140}
+                        />
+                        <div className="absolute inset-0 bg-black/40 dark:bg-black opacity-0 group-hover:opacity-50 rounded-md transition-opacity duration-300"></div>
+                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <Pencil className="w-8 h-8 text-white" />
+                        </div>
                       </div>
-                    </div>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="center">
-                    <div className="grid grid-cols-7 gap-2">
-                      {BloxFruitImages["Swords"] &&
-                        Object.entries(BloxFruitImages["Swords"]).map(
-                          ([style, image]) => (
-                            <div
-                              key={style}
-                              className={`relative rounded-md cursor-pointer ${
-                                image.src === selectedSword
-                                  ? "gradient-border animate-in"
-                                  : ""
-                              }
-                                border dark:hover:bg-white/20 hover:bg-slate-200 ease-in-out duration-150`}
-                              onClick={() => {
-                                setSelectedSword(image.src);
-                                form.setValue("sword", image.src);
-                              }}
-                            >
-                              <Image
-                                src={image}
-                                alt={style}
-                                width={50}
-                                height={50}
-                                className="rounded-md"
-                              />
-                            </div>
-                          )
-                        )}
-                    </div>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-                {/* Weapon */}
-                <DropdownMenu modal={false}>
-                  <DropdownMenuTrigger className="cursor-pointer" asChild>
-                    <div
-                      className={`relative ${
-                        !selectedWeapon ? "dark:invert" : ""
-                      } rounded-md cursor-pointer group w-full`}
-                    >
-                      <Image
-                        alt="weapon"
-                        fetchPriority="high"
-                        src={selectedWeapon || PlusMore.src}
-                        className={`border rounded-md`}
-                        width={140}
-                        height={140}
-                      />
-                      <div className="absolute inset-0 bg-black/40 dark:bg-black opacity-0 group-hover:opacity-50 rounded-md transition-opacity duration-300"></div>
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <Pencil className="w-8 h-8 text-white" />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start">
+                      <div className="grid petitmax:grid-cols-5 petit:grid-cols-6 tiny420px:grid-cols-7 gap-1 petit:gap-2">
+                        {BloxFruitImages["Fruits"] &&
+                          Object.entries(BloxFruitImages["Fruits"]).map(
+                            ([style, image]) => (
+                              <div
+                                key={style}
+                                className={`relative rounded-md cursor-pointer ${
+                                  image.src === selectedFruit
+                                    ? "gradient-border animate-in"
+                                    : ""
+                                }
+                                  border dark:hover:bg-white/20 hover:bg-slate-200 ease-in-out duration-150`}
+                                onClick={() => {
+                                  setSelectedFruit(image.src);
+                                  form.setValue("fruit", image.src);
+                                }}
+                              >
+                                <Image
+                                  src={image}
+                                  alt={style}
+                                  width={50}
+                                  height={50}
+                                  className="rounded-md"
+                                />
+                              </div>
+                            )
+                          )}
                       </div>
-                    </div>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <div className="grid grid-cols-7 gap-2">
-                      {BloxFruitImages["Weapons"] &&
-                        Object.entries(BloxFruitImages["Weapons"]).map(
-                          ([style, image]) => (
-                            <div
-                              key={style}
-                              className={`relative rounded-md cursor-pointer ${
-                                image.src === selectedWeapon
-                                  ? "gradient-border animate-in"
-                                  : ""
-                              }
-                                border dark:hover:bg-white/20 hover:bg-slate-200 ease-in-out duration-150`}
-                              onClick={() => {
-                                setSelectedWeapon(image.src);
-                                form.setValue("weapon", image.src);
-                              }}
-                            >
-                              <Image
-                                src={image}
-                                alt={style}
-                                width={50}
-                                height={50}
-                                className="rounded-md"
-                              />
-                            </div>
-                          )
-                        )}
-                    </div>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button>Save changes</Button>
-            </CardFooter>
-          </Card>
-        </TabsContent>
-        <TabsContent value="information">
-          <Card>
-            <CardHeader>
-              <CardTitle>Combo Form</CardTitle>
-              <CardDescription>
-                Fill all information here. After saving, you can edit.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Form {...form}>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                  {/* Swords */}
+                  <DropdownMenu modal={false}>
+                    <DropdownMenuTrigger className="cursor-pointer" asChild>
+                      <div
+                        className={`relative ${
+                          !selectedSword ? "dark:invert" : ""
+                        } rounded-md cursor-pointer group w-full`}
+                      >
+                        <Image
+                          alt="Fighting Style"
+                          fetchPriority="high"
+                          src={selectedSword || PlusMore.src}
+                          className={`border rounded-md`}
+                          width={140}
+                          height={140}
+                        />
+                        <div className="absolute inset-0 bg-black/40 dark:bg-black opacity-0 group-hover:opacity-50 rounded-md transition-opacity duration-300"></div>
+                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <Pencil className="w-8 h-8 text-white" />
+                        </div>
+                      </div>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent side="bottom" align="center">
+                      <div className="grid petitmax:grid-cols-5 petit:grid-cols-6 tiny420px:grid-cols-7 gap-1 petit:gap-2">
+                        {BloxFruitImages["Swords"] &&
+                          Object.entries(BloxFruitImages["Swords"]).map(
+                            ([style, image]) => (
+                              <div
+                                key={style}
+                                className={`relative rounded-md cursor-pointer ${
+                                  image.src === selectedSword
+                                    ? "gradient-border animate-in"
+                                    : ""
+                                }
+                                  border dark:hover:bg-white/20 hover:bg-slate-200 ease-in-out duration-150`}
+                                onClick={() => {
+                                  setSelectedSword(image.src);
+                                  form.setValue("sword", image.src);
+                                }}
+                              >
+                                <Image
+                                  src={image}
+                                  alt={style}
+                                  width={50}
+                                  height={50}
+                                  className="rounded-md"
+                                />
+                              </div>
+                            )
+                          )}
+                      </div>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                  {/* Weapon */}
+                  <DropdownMenu modal={false}>
+                    <DropdownMenuTrigger className="cursor-pointer" asChild>
+                      <div
+                        className={`relative ${
+                          !selectedWeapon ? "dark:invert" : ""
+                        } rounded-md cursor-pointer group w-full`}
+                      >
+                        <Image
+                          alt="weapon"
+                          fetchPriority="high"
+                          src={selectedWeapon || PlusMore.src}
+                          className={`border rounded-md`}
+                          width={140}
+                          height={140}
+                        />
+                        <div className="absolute inset-0 bg-black/40 dark:bg-black opacity-0 group-hover:opacity-50 rounded-md transition-opacity duration-300"></div>
+                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <Pencil className="w-8 h-8 text-white" />
+                        </div>
+                      </div>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent side="bottom" align="end">
+                      <div className="grid grid-cols-5 petit:grid-cols-6 tiny420px:grid-cols-7 gap-1 petit:gap-2">
+                        {BloxFruitImages["Weapons"] &&
+                          Object.entries(BloxFruitImages["Weapons"]).map(
+                            ([style, image]) => (
+                              <div
+                                key={style}
+                                className={`relative rounded-md cursor-pointer ${
+                                  image.src === selectedWeapon
+                                    ? "gradient-border animate-in"
+                                    : ""
+                                }
+                                  border dark:hover:bg-white/20 hover:bg-slate-200 ease-in-out duration-150`}
+                                onClick={() => {
+                                  setSelectedWeapon(image.src);
+                                  form.setValue("weapon", image.src);
+                                }}
+                              >
+                                <Image
+                                  src={image}
+                                  alt={style}
+                                  width={50}
+                                  height={50}
+                                  className="rounded-md"
+                                />
+                              </div>
+                            )
+                          )}
+                      </div>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="information">
+            <Card>
+              <CardHeader>
+                <CardTitle>Combo Form</CardTitle>
+                <CardDescription>
+                  Fill all information here. After saving, you can edit.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
                 <form onSubmit={form.handleSubmit(createCombo)}>
-                  <input
-                    type="hidden"
-                    name="race"
-                    value={form.getValues("race")}
-                  />
-                  <input
-                    type="hidden"
-                    name="difficulty"
-                    value={form.getValues("difficulty")}
-                  />
-                  <input
-                    type="hidden"
-                    name="specialty"
-                    value={form.getValues("specialty")}
-                  />
-                  <input
-                    type="hidden"
-                    name="mainStats"
-                    value={form.getValues("mainStats")}
-                  />
-                  <input
-                    type="hidden"
-                    name="fruit"
-                    value={form.getValues("fruit")}
-                  />
-                  <input
-                    type="hidden"
-                    name="fightingstyle"
-                    value={form.getValues("fightingstyle")}
-                  />
-                  <input
-                    type="hidden"
-                    name="sword"
-                    value={form.getValues("sword")}
-                  />
-                  <input
-                    type="hidden"
-                    name="weapon"
-                    value={form.getValues("weapon")}
-                  />
-                  <input
-                    type="hidden"
-                    name="comboVideo"
-                    value={form.getValues("comboVideo")}
-                  />
+                  <input type="hidden" name="race" value={form.getValues("race")} />
+                  <input type="hidden" name="difficulty" value={form.getValues("difficulty")} />
+                  <input type="hidden" name="specialty" value={form.getValues("specialty")} />
+                  <input type="hidden" name="mainStats" value={form.getValues("mainStats")} />
+                  <input type="hidden" name="fruit" value={form.getValues("fruit")} />
+                  <input type="hidden" name="fightingstyle" value={form.getValues("fightingstyle")} />
+                  <input type="hidden" name="sword" value={form.getValues("sword")} />
+                  <input type="hidden" name="weapon" value={form.getValues("weapon")} />
+                  <input type="hidden" name="comboVideo" value={form.getValues("comboVideo")} />
                   <div className="flex flex-col gap-[10px]">
                     <FormField
                       control={form.control}
@@ -503,7 +462,7 @@ export default function CreateComboLayout() {
                               {...field}
                             />
                           </FormControl>
-                          <FormMessage />
+                          <FormMessage className="text-red-500" />
                         </FormItem>
                       )}
                     />
@@ -521,7 +480,7 @@ export default function CreateComboLayout() {
                               maxRows={7}
                             />
                           </FormControl>
-                          <FormMessage />
+                          <FormMessage className="text-red-500" />
                         </FormItem>
                       )}
                     />
@@ -593,6 +552,10 @@ export default function CreateComboLayout() {
                             onClientUploadComplete={(res) => {
                               // Do something with the response
                               console.log("Files: ", res);
+                              if (res[0].url.endsWith(".wmv")) {
+                                setIsWMV(true);
+                                return;
+                              }
                               setComboVideo(res[0].url);
                               toggleEditting();
                               form.setValue("comboVideo", res[0].url);
@@ -602,6 +565,9 @@ export default function CreateComboLayout() {
                               toast.error(`error uploading video`);
                             }}
                           />
+                          {isWMV && (
+                            <p className="text-sm text-red-500">Note: WMV videos are not supported.</p>
+                          )}
                           <Separator className="my-2 dark:bg-white" />
                           <p className="text-sm">Or by URL:</p>
                           <div className="flex gap-[5px] items-center">
@@ -630,7 +596,7 @@ export default function CreateComboLayout() {
                     <h3 className="text-sm">Combo Difficulty:</h3>
                     <ul
                       className="items-center w-full text-sm font-medium border rounded-lg grid grid-cols-3 petit:flex
-                    bg-gray-900 border-gray-600 text-white"
+                      bg-gray-900 border-gray-600 text-white"
                     >
                       {ComboDifficulties.map((difficulty) => (
                         <li
@@ -662,7 +628,7 @@ export default function CreateComboLayout() {
                     <h3 className="text-sm">Combo Type:</h3>
                     <ul
                       className="items-center w-full text-sm font-medium border rounded-lg grid grid-cols-3 petit:flex
-                    bg-gray-900 border-gray-600 text-white"
+                      bg-gray-900 border-gray-600 text-white"
                     >
                       {ComboSpecialtys.map((specialty) => (
                         <li
@@ -694,7 +660,7 @@ export default function CreateComboLayout() {
                     <h3 className="text-sm">Combo Stats:</h3>
                     <ul
                       className="items-center w-full text-sm font-medium border rounded-lg grid grid-cols-2 petit:flex
-                    bg-gray-900 border-gray-600 text-white"
+                      bg-gray-900 border-gray-600 text-white"
                     >
                       {ComboMainStats.map((mainstats) => (
                         <li
@@ -725,6 +691,27 @@ export default function CreateComboLayout() {
                     </ul>
                     <div className="flex justify-between petit:justify-end gap-[8px]"></div>
                   </div>
+                  {form.formState.errors.fruit &&
+                  form.formState.errors.sword &&
+                  form.formState.errors.fightingstyle &&
+                  form.formState.errors.weapon ? (
+                    <FormMessage className="mb-2 text-red-500">Please make your combo build</FormMessage>
+                  ) : (
+                    <>
+                      {form.formState.errors.fruit && (
+                        <FormMessage className="mb-2 text-red-500">Please select a fruit</FormMessage>
+                      )}
+                      {form.formState.errors.fightingstyle && (
+                        <FormMessage className="mb-2 text-red-500">Please select a fighting style</FormMessage>
+                      )}
+                      {form.formState.errors.sword && (
+                        <FormMessage className="mb-2 text-red-500">Please select a sword</FormMessage>
+                      )}
+                      {form.formState.errors.weapon && (
+                        <FormMessage className="mb-2 text-red-500">Please select a weapon</FormMessage>
+                      )}
+                    </>
+                  )}
                   <Button
                     className="bg-[#3d95ec] text-white hover:bg-[#5994cf]"
                     type="submit"
@@ -732,11 +719,11 @@ export default function CreateComboLayout() {
                     Create Combo
                   </Button>
                 </form>
-              </Form>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </Form>
     </section>
   );
 }

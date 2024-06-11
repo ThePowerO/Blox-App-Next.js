@@ -1,6 +1,6 @@
 import ComboEditLayout from '@/components/EditCombo/ComboEditLayout'
 import { getComboById } from '@/lib/actions/editComboActions'
-import { Combo } from '@/lib/types'
+import { Combo } from '@prisma/client'
 import React from 'react'
 
 type Params = {
@@ -14,7 +14,7 @@ export default async function page({ params }: { params: Params }) {
 
   return (
     <div>
-      <ComboEditLayout combo={combo as Combo} />
+      <ComboEditLayout combo={combo as unknown as Combo} />
     </div>
   )
 }

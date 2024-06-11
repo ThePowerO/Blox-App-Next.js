@@ -70,6 +70,7 @@ export default function ChangeOrAddVideo({ combo }: { combo: Combo }) {
     <>
       <div>
         <div className="flex mb-6 items-center gap-2">
+          <h2 className="font-bold">Combo Video</h2>
           {combo.comboVideo || comboVideo ? (
             <>
               {isEditingVideo ? (

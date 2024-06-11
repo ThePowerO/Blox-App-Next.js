@@ -20,7 +20,6 @@ export default async function page({ params }: Props) {
   const session = await getServerSession(authOptions)
   const user = session?.user as User
   const userId = user.id
-  console.log(userId)
 
   return (
     <main>
