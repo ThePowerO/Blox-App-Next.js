@@ -8,7 +8,6 @@ type Params = {
 }
 
 export default async function page({ params }: { params: Params }) {
-
   const comboId = params.comboId
   const combo = await getComboById(comboId)
 

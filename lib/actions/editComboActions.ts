@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { Combo } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
@@ -24,6 +25,16 @@ export async function getComboById(comboId: string) {
       mainStats: true,
       comboVideo: true,
       race: true,
+      user: {
+        select: {
+          id: true,
+          createdAt: true,
+          updatedAt: true,
+          email: true,
+          name: true,
+          image: true,
+        },
+      },
       likes: {
         select: {
           id: true,
@@ -40,20 +51,10 @@ export async function getComboById(comboId: string) {
           createdAt: true,
         },
       },
-      user: {
-        select: {
-          id: true,
-          createdAt: true,
-          updatedAt: true,
-          email: true,
-          name: true,
-          image: true,
-        },
-      },
     },
   });
 
-  return data;
+  return data as unknown as Combo;
 }
 
 const UpdateTitleSchema = z.object({
