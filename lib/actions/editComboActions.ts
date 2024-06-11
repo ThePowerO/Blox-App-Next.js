@@ -43,6 +43,9 @@ export async function getComboById(comboId: string) {
       user: {
         select: {
           id: true,
+          createdAt: true,
+          updatedAt: true,
+          email: true,
           name: true,
           image: true,
         },
