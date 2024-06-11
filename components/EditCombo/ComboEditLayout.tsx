@@ -286,7 +286,7 @@ export default function ComboEditLayout({ combo }: Props) {
           <div className="">
             built by
             <HoverComboAuthor
-              authorCreatedAt={combo.user.createdAt}
+              authorCreatedAt={combo.user.createdAt || ""}
               comboAuthor={combo.user.name || ""}
               authorImage={combo.user.image || ""}
             />
