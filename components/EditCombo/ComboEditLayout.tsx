@@ -46,7 +46,6 @@ const UpdateComboTitleSchema = z.object({
 type TitleType = z.infer<typeof UpdateComboTitleSchema>;
 
 export default function ComboEditLayout({ combo }: Props) {
-  console.log("createdAt user: ", combo.user.createdAt);
   const { data: session } = useSession();
   const currentUser = session?.user as User;
   const pathName = usePathname();
