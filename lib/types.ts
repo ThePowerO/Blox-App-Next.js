@@ -1,5 +1,6 @@
 export type Combo = {
   id: string;
+  userId: string;
   difficulty: string;
   combotitle: string;
   combodescription: string;

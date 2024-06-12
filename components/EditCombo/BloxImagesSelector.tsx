@@ -4,24 +4,15 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { Check, Pencil } from "lucide-react";
 import { BloxFruitImages } from "@/BloxFruitImages";
-import { Combo } from "@prisma/client";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 import {
   Form,
-  FormControl,
-  FormItem,
-  FormField,
   FormMessage,
-  FormLabel,
 } from "../ui/form";
 
 import { z } from "zod";
@@ -30,6 +21,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { usePathname } from "next/navigation";
 import { UpdateComboImgs } from "@/lib/actions/editComboActions";
 import { toast } from "react-toastify";
+import { Combo } from "@/lib/types";
+import { useSession } from "next-auth/react";
+import { User } from "@prisma/client";
 
 const FormSchema = z.object({
   comboId: z.string(),
@@ -55,6 +49,9 @@ export default function BloxImagesSelector({ combo }: { combo: Combo }) {
   const [selectedWeapon, setSelectedWeapon] = useState(combo.weapon);
   const [selectedSword, setSelectedSword] = useState(combo.sword);
   const [selectedFruit, setSelectedFruit] = useState(combo.fruit);
+
+  const { data: session } = useSession();
+  const currentUser = session?.user as User;
   
   const pathName = usePathname();
 
@@ -74,6 +71,9 @@ export default function BloxImagesSelector({ combo }: { combo: Combo }) {
 
   const UpdateComboImgsAction: SubmitHandler<FormType> = async (FormData) => {
     try {
+      if (combo?.user.id !== currentUser.id) {
+        return null;
+      }
       await UpdateComboImgs(FormData);
       setIsEditingImgs(false);
     } catch (error) {

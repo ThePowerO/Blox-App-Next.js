@@ -1,7 +1,6 @@
 "use client";
 
 import { UploadButton } from "@/lib/uploadthing";
-import { Combo } from "@prisma/client";
 import { Separator } from "@radix-ui/react-menu";
 import { Check, Pencil, PlusCircle, XCircleIcon } from "lucide-react";
 import React, { useState } from "react";
@@ -16,6 +15,9 @@ import { isWebUri } from "valid-url";
 import ReactPlayer from "react-player";
 import ComboVideo from "../HtmlComponents/ComboVideo";
 import { DeleteComboVideo, UpdateComboVideoAction } from "@/lib/actions/editComboActions";
+import { Combo } from "@/lib/types";
+import { useSession } from "next-auth/react";
+import { User } from "@prisma/client";
 
 const FormSchama = z.object({
   comboId: z.string(),
@@ -33,6 +35,9 @@ export default function ChangeOrAddVideo({ combo }: { combo: Combo }) {
   const [isValidUrl, setIsValidUrl] = useState(true);
   const [isWMV, setIsWMV] = useState(false);
   const pathName = usePathname();
+
+  const { data: session } = useSession();
+  const currentUser = session?.user as User;
 
   const form = useForm<InputType>({
     resolver: zodResolver(FormSchama),
@@ -58,6 +63,9 @@ export default function ChangeOrAddVideo({ combo }: { combo: Combo }) {
   };
 
   const UpdateComboVideo: SubmitHandler<InputType> = async (FormData) => {
+    if (combo?.user.id !== currentUser.id) {
+      return null;
+    }
     await UpdateComboVideoAction(FormData);
     setIsEditingVideo(false);
     setIsSavingVideo(false);

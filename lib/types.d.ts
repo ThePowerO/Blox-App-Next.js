@@ -1,5 +1,6 @@
 import { User } from "@prisma/client";
 import { DefaultSession } from "next-auth";
+import { prisma } from "../lib/prisma";
 
 declare module "next-auth" {
   interface Session {
@@ -19,6 +20,6 @@ declare module "@auth/core/jwt" {
       email: User["email"];
       image: User["image"];
       name: User["name"];
-    }
+    };
   }
 }

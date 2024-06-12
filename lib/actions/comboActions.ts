@@ -114,7 +114,6 @@ export async function createComboAction(FormData: unknown, pathName: string) {
     const uniqueSlug = await generateUniqueSlug(combotitle);
     const data = await prisma.combo.create({
       data: {
-        userId: currentuser.id,
         combotitle,
         combodescription,
         comboVideo,
@@ -127,6 +126,11 @@ export async function createComboAction(FormData: unknown, pathName: string) {
         specialty,
         mainStats,
         slug: uniqueSlug,
+        user: {
+          connect: {
+            id: currentuser.id,
+          },
+        }
       },
     });
 
@@ -295,6 +299,7 @@ export async function getSlugCombo(slug: string) {
     select: {
       id: true,
       difficulty: true,
+      userId: true,
       slug: true,
       combotitle: true,
       combodescription: true,

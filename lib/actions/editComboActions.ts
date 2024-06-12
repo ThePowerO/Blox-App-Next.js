@@ -1,60 +1,24 @@
 "use server";
 
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import prisma from "@/lib/prisma";
-import { Combo } from "@prisma/client";
+import { Combo, User } from "@prisma/client";
+import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 export async function getComboById(comboId: string) {
   const data = await prisma.combo.findUnique({
     where: { id: comboId },
-    select: {
-      id: true,
-      userId: true,
-      difficulty: true,
-      slug: true,
-      combotitle: true,
-      combodescription: true,
-      fightingstyle: true,
-      weapon: true,
-      fruit: true,
-      sword: true,
-      specialty: true,
-      createdAt: true,
-      updatedAt: true,
-      mainStats: true,
-      comboVideo: true,
-      race: true,
-      user: {
-        select: {
-          id: true,
-          createdAt: true,
-          updatedAt: true,
-          email: true,
-          name: true,
-          image: true,
-        },
-      },
-      likes: {
-        select: {
-          id: true,
-          comboId: true,
-          userId: true,
-          createdAt: true,
-        },
-      },
-      favorites: {
-        select: {
-          id: true,
-          comboId: true,
-          userId: true,
-          createdAt: true,
-        },
-      },
-    },
+    include: {
+      user: true,
+      likes: true,
+      comments: true,
+      favorites: true,
+    }
   });
 
-  return data as unknown as Combo;
+  return data;
 }
 
 const UpdateTitleSchema = z.object({
@@ -69,6 +33,8 @@ const UpdateTitleSchema = z.object({
 
 export async function UpdateComboTitle(FormData: unknown) {
   const validatedFields = UpdateTitleSchema.safeParse(FormData);
+  const session = await getServerSession(authOptions);
+  const currentUser = session?.user as User;
 
   if (!validatedFields.success) {
     return {
@@ -77,6 +43,17 @@ export async function UpdateComboTitle(FormData: unknown) {
   }
 
   const { comboId, comboTitle, pathName } = validatedFields.data;
+
+  const combo = await prisma.combo.findUnique({
+    where: { id: comboId },
+    include: {
+      user: true,
+    }
+  });
+
+  if (!combo) { return null; }
+
+  if (combo.user.id !== currentUser.id) { return null; }
 
   const customEncodeURIComponent = (str: string) => {
     return encodeURIComponent(str)
@@ -142,6 +119,9 @@ const UpdateDescriptionSchema = z.object({
 
 export async function UpdateComboDescription(FormData: FormData) {
   const pathName = FormData.get("pathName") as string;
+  const session = await getServerSession(authOptions);
+  const currentUser = session?.user as User;
+
   const validatedFields = UpdateDescriptionSchema.safeParse({
     comboId: FormData.get("comboId"),
     comboDescription: FormData.get("comboDescription"),
@@ -154,6 +134,17 @@ export async function UpdateComboDescription(FormData: FormData) {
   }
 
   const { comboId, comboDescription } = validatedFields.data;
+
+  const combo = await prisma.combo.findUnique({
+    where: { id: comboId },
+    include: {
+      user: true,
+    }
+  });
+
+  if (!combo) { return null; }
+
+  if (combo.user.id !== currentUser.id) { return null; }
 
   const data = await prisma.combo.update({
     where: { id: comboId },
@@ -186,6 +177,8 @@ const UpdateComboImgsSchema = z.object({
 });
 
 export async function UpdateComboImgs(FormData: unknown) {
+  const session = await getServerSession(authOptions);
+  const currentUser = session?.user as User;
   const validatedFields = UpdateComboImgsSchema.safeParse(FormData);
 
   if (!validatedFields.success) {
@@ -196,6 +189,17 @@ export async function UpdateComboImgs(FormData: unknown) {
 
   const { comboId, FightingStyle, Fruit, Sword, Weapon, pathName } =
     validatedFields.data;
+
+  const combo = await prisma.combo.findUnique({
+    where: { id: comboId },
+    include: {
+      user: true,
+    }
+  });
+
+  if (!combo) { return null; }
+
+  if (combo.user.id !== currentUser.id) { return null; }
 
   const data = await prisma.combo.update({
     where: { id: comboId },
@@ -231,6 +235,8 @@ const UpdateComboStatsSchema = z.object({
 });
 
 export async function UpdateComboStatsAction(FormData: unknown) {
+  const session = await getServerSession(authOptions);
+  const currentUser = session?.user as User;
   const validatedFields = UpdateComboStatsSchema.safeParse(FormData);
 
   if (!validatedFields.success) {
@@ -241,6 +247,17 @@ export async function UpdateComboStatsAction(FormData: unknown) {
 
   const { comboId, Specialty, Race, Stats, Difficulty, pathName } =
     validatedFields.data;
+
+  const combo = await prisma.combo.findUnique({
+    where: { id: comboId },
+    include: {
+      user: true,
+    }
+  });
+
+  if (!combo) { return null; }
+
+  if (combo.user.id !== currentUser.id) { return null; }
 
   const data = await prisma.combo.update({
     where: { id: comboId },
@@ -267,6 +284,8 @@ const UpdateComboVideoSchema = z.object({
 });
 
 export async function UpdateComboVideoAction(FormData: unknown) {
+  const session = await getServerSession(authOptions);
+  const currentUser = session?.user as User;
   const validatedFields = UpdateComboVideoSchema.safeParse(FormData);
 
   if (!validatedFields.success) {
@@ -276,6 +295,17 @@ export async function UpdateComboVideoAction(FormData: unknown) {
   }
 
   const { comboId, comboVideo, pathName } = validatedFields.data;
+
+  const combo = await prisma.combo.findUnique({
+    where: { id: comboId },
+    include: {
+      user: true,
+    }
+  });
+
+  if (!combo) { return null; }
+
+  if (combo.user.id !== currentUser.id) { return null; }
 
   const data = await prisma.combo.update({
     where: { id: comboId },
@@ -292,6 +322,20 @@ export async function DeleteComboVideo(FormData: FormData) {
   const pathName = FormData.get("pathName") as string;
   const comboId = FormData.get("comboId") as string;
   const comboVideo = FormData.get("comboVideo") as string;
+
+  const session = await getServerSession(authOptions);
+  const currentUser = session?.user as User;
+  
+  const combo = await prisma.combo.findUnique({
+    where: { id: comboId },
+    include: {
+      user: true,
+    }
+  });
+
+  if (!combo) { return null; }
+
+  if (combo.user.id !== currentUser.id) { return null; }
 
   const data = await prisma.combo.update({
     where: { id: comboId },

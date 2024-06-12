@@ -43,6 +43,8 @@ export default function CombosDisplay({ comboData }: { comboData: Combo[] }) {
       }
     });
 
+    console.log("combo user ids: ", comboData.map((combo) => combo.userId));
+
   return (
     <>
       <section className="mb-6">
@@ -113,7 +115,9 @@ export default function CombosDisplay({ comboData }: { comboData: Combo[] }) {
                   onClick={(e) => e.stopPropagation()}
                   className="flex gap-2 flex-1 ml-2"
                 >
-                  <MoreHorizontalBtn comboId={combo.id} pathName={""} />
+                  {currentUser.id === combo.userId ? (
+                    <MoreHorizontalBtn comboId={combo.id} pathName={""} />
+                  ) : null}
                   <FavortiteLikeBtn
                     editCombo={false}
                     combo={combo}

@@ -46,10 +46,14 @@ export default function FavortiteLikeBtn({ combo, editCombo, comboId, likeId, fa
       {session?.user && currentUser.id === userId && (
         <div className="flex items-center gap-[5px]">
           {editCombo && (
-            <Link href={`/${locale}/edit-combo/${comboId}`} className="flex text-sm hover:underline cursor-pointer items-center gap-[5px] mr-[10px]">
-              <Pencil width={15} height={15} />
-              Edit Combo
-            </Link>
+            <>
+              {combo.user.id === userId ? (
+                <Link href={`/${locale}/edit-combo/${comboId}`} className="flex text-sm hover:underline cursor-pointer items-center gap-[5px] mr-[10px]">
+                  <Pencil width={15} height={15} />
+                  Edit Combo
+                </Link>
+              ) : null}
+            </>
           )}
           {isInFavoriteList ? (
             <form className="mt-1" action={removeComboFavorite}>

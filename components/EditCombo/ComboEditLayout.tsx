@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { HoverComboAuthor } from "../HtmlComponents/HoverComboAuthor";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "../ui/separator";
-import { Combo, User } from "@prisma/client";
+import { User } from "@prisma/client";
 import StopEditingLink from "./StopEditingLink";
 import { useSession } from "next-auth/react";
 import { Check, Pencil, X } from "lucide-react";
@@ -29,9 +29,10 @@ import {
 import BloxImagesSelector from "./BloxImagesSelector";
 import BadgeSelector from "./BadgeSelector";
 import ChangeOrAddVideo from "./ChangeOrAddVideo";
+import { Combo } from "@/lib/types";
 
 type Props = {
-  combo: Combo;
+  combo: Combo | null;
 };
 
 const UpdateComboTitleSchema = z.object({
@@ -53,19 +54,22 @@ export default function ComboEditLayout({ combo }: Props) {
   const [editingTitle, setEditingTitle] = useState(false);
   const [editingDescription, setEditingDescription] = useState(false);
   const [descriptionValue, setDescriptionValue] = useState(
-    combo.combodescription
+    combo?.combodescription
   );
 
   const form = useForm<TitleType>({
     resolver: zodResolver(UpdateComboTitleSchema),
     defaultValues: {
-      comboTitle: combo.combotitle,
-      comboId: combo.id,
+      comboTitle: combo?.combotitle,
+      comboId: combo?.id,
       pathName: pathName,
     },
   });
 
   const UpdateComboTitleAction: SubmitHandler<TitleType> = async (FormData) => {
+    if (combo?.user.id !== currentUser.id) {
+      return null;
+    }
     await UpdateComboTitle(FormData);
     setEditingTitle(false);
   };
@@ -81,7 +85,7 @@ export default function ComboEditLayout({ combo }: Props) {
                   onSubmit={form.handleSubmit(UpdateComboTitleAction)}
                   className="flex items-center gap-2"
                 >
-                  <input type="hidden" name="comboId" value={combo.id} />
+                  <input type="hidden" name="comboId" value={combo?.id} />
                   <input type="hidden" name="pathName" value={pathName} />
                   <FormField
                     control={form.control}
@@ -99,7 +103,7 @@ export default function ComboEditLayout({ combo }: Props) {
                                   : ""
                               }
                             `}
-                            defaultValue={combo.combotitle}
+                            defaultValue={combo?.combotitle}
                             {...field}
                           />
                         </FormControl>
@@ -129,7 +133,7 @@ export default function ComboEditLayout({ combo }: Props) {
             ) : (
               <>
                 <span className="animate-gradient bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text text-transparent">
-                  {combo.combotitle}
+                  {combo?.combotitle}
                 </span>
                 <div
                   onClick={() => setEditingTitle(!editingTitle)}
@@ -140,11 +144,11 @@ export default function ComboEditLayout({ combo }: Props) {
               </>
             )}
           </h1>
-          <StopEditingLink comboSlug={combo.slug} />
+          <StopEditingLink comboSlug={combo?.slug as string} />
         </header>
 
         <div className="flex flex-col sm:items-center sm:flex-row gap-4 mb-4">
-          <BloxImagesSelector combo={combo} />
+          <BloxImagesSelector combo={combo as Combo} />
           <Textarea
             className="h-[140px] w-full resize-none"
             onFocus={() => setEditingDescription(true)}
@@ -155,6 +159,9 @@ export default function ComboEditLayout({ combo }: Props) {
         {editingDescription && (
           <form
             action={async (FormData) => {
+              if (combo?.user.id !== currentUser.id) {
+                return null;
+              }
               await UpdateComboDescription(FormData);
               setEditingDescription(false);
             }}
@@ -165,7 +172,7 @@ export default function ComboEditLayout({ combo }: Props) {
               name="comboDescription"
               value={descriptionValue}
             />
-            <input type="hidden" name="comboId" value={combo.id} />
+            <input type="hidden" name="comboId" value={combo?.id} />
             <input type="hidden" name="pathName" value={pathName} />
             <button
               className={`ml-2 cursor-pointer text-green-500 dark:hover:bg-slate-700 hover:bg-slate-200 rounded-full p-1`}
@@ -176,7 +183,7 @@ export default function ComboEditLayout({ combo }: Props) {
             <div
               onClick={() => {
                 setEditingDescription(!editingDescription);
-                setDescriptionValue(combo.combodescription);
+                setDescriptionValue(combo?.combodescription);
               }}
               className="cursor-pointer bg-red-200 dark:hover:bg-slate-700 hover:bg-slate-200 rounded-full p-1"
             >
@@ -188,7 +195,7 @@ export default function ComboEditLayout({ combo }: Props) {
         <div className="mb-4">
           <h2 className="font-bold mb-2">Combo Properties:</h2>
           <div className="flex items-center gap-2">
-            <BadgeSelector combo={combo} />
+            <BadgeSelector combo={combo as Combo} />
           </div>
         </div>
 
@@ -196,15 +203,15 @@ export default function ComboEditLayout({ combo }: Props) {
           <div>
             Built by{" "}
             <HoverComboAuthor
-              authorCreatedAt={combo.user.createdAt}
-              comboAuthor={combo.user.name || ""}
-              authorImage={combo.user.image || ""}
+              authorCreatedAt={combo?.user.createdAt as Date}
+              comboAuthor={combo?.user.name || ""}
+              authorImage={combo?.user.image || ""}
             />
           </div>
         </div>
 
         <div>
-          <ChangeOrAddVideo combo={combo} />
+          <ChangeOrAddVideo combo={combo as Combo} />
         </div>
 
         <Separator className="text-black mt-4" />
@@ -218,7 +225,7 @@ export default function ComboEditLayout({ combo }: Props) {
                   onSubmit={form.handleSubmit(UpdateComboTitleAction)}
                   className="flex items-center gap-2"
                 >
-                  <input type="hidden" name="comboId" value={combo.id} />
+                  <input type="hidden" name="comboId" value={combo?.id} />
                   <input type="hidden" name="pathName" value={pathName} />
                   <FormField
                     control={form.control}
@@ -236,7 +243,7 @@ export default function ComboEditLayout({ combo }: Props) {
                                   : ""
                               }
                             `}
-                            defaultValue={combo.combotitle}
+                            defaultValue={combo?.combotitle}
                             {...field}
                           />
                         </FormControl>
@@ -266,7 +273,7 @@ export default function ComboEditLayout({ combo }: Props) {
             ) : (
               <>
                 <span className="animate-gradient bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text text-transparent">
-                  {combo.combotitle}
+                  {combo?.combotitle}
                 </span>
                 <div
                   onClick={() => setEditingTitle(!editingTitle)}
@@ -277,18 +284,18 @@ export default function ComboEditLayout({ combo }: Props) {
               </>
             )}
           </h1>
-          <StopEditingLink comboSlug={combo.slug} />
+          <StopEditingLink comboSlug={combo?.slug || ""} />
         </header>
         <div className="flex petit:justify-center w-full gap-2">
-          <BloxImagesSelector combo={combo} />
+          <BloxImagesSelector combo={combo as Combo} />
         </div>
         <div className="flex items-center justify-between sm:justify-normal w-full gap-1">
           <div className="">
             built by
             <HoverComboAuthor
-              authorCreatedAt={combo.user.createdAt}
-              comboAuthor={combo.user.name || ""}
-              authorImage={combo.user.image || ""}
+              authorCreatedAt={combo?.user.createdAt as Date}
+              comboAuthor={combo?.user.name || ""}
+              authorImage={combo?.user.image || ""}
             />
           </div>
         </div>
@@ -301,6 +308,9 @@ export default function ComboEditLayout({ combo }: Props) {
         {editingDescription && (
           <form
             action={async (FormData) => {
+              if (combo?.user.id !== currentUser.id) {
+                return null;
+              }
               await UpdateComboDescription(FormData);
               setEditingDescription(false);
             }}
@@ -311,7 +321,7 @@ export default function ComboEditLayout({ combo }: Props) {
               name="comboDescription"
               value={descriptionValue}
             />
-            <input type="hidden" name="comboId" value={combo.id} />
+            <input type="hidden" name="comboId" value={combo?.id} />
             <input type="hidden" name="pathName" value={pathName} />
             <button
               className={`ml-2 cursor-pointer text-green-500 dark:hover:bg-slate-700 hover:bg-slate-200 rounded-full p-1`}
@@ -322,7 +332,7 @@ export default function ComboEditLayout({ combo }: Props) {
             <div
               onClick={() => {
                 setEditingDescription(!editingDescription);
-                setDescriptionValue(combo.combodescription);
+                setDescriptionValue(combo?.combodescription);
               }}
               className="cursor-pointer bg-red-200 dark:hover:bg-slate-700 hover:bg-slate-200 rounded-full p-1"
             >
@@ -332,10 +342,10 @@ export default function ComboEditLayout({ combo }: Props) {
         )}
         <h2 className="font-bold">Combo Properties:</h2>
         <div className="petitmax:grid petitmax:grid-cols-3 items-center petitmax:mb-[30px] flex gap-2">
-          <BadgeSelector combo={combo} />
+          <BadgeSelector combo={combo as Combo} />
         </div>
         <Separator className="text-black mt-2" />
-        <ChangeOrAddVideo combo={combo} />
+        <ChangeOrAddVideo combo={combo as Combo} />
         <Separator className="text-black mt-2" />
       </section>
     </>

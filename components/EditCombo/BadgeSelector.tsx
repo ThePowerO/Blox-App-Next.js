@@ -27,12 +27,14 @@ import {
   SpecialtyBadge,
   StatsBadge,
 } from "../HtmlComponents/ComboBadges";
-import { Combo } from "@prisma/client";
 import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usePathname } from "next/navigation";
 import { UpdateComboStatsAction } from "@/lib/actions/editComboActions";
+import { Combo } from "@/lib/types";
+import { useSession } from "next-auth/react";
+import { User } from "@prisma/client";
 
 const FormSchema = z.object({
   comboId: z.string(),
@@ -53,6 +55,9 @@ export default function BadgeSelector({ combo }: { combo: Combo }) {
     combo.difficulty
   );
 
+  const { data: session } = useSession();
+  const currentUser = session?.user as User;
+
   const [isEditingStats, setIsEditingStats] = useState(false);
   const pathName = usePathname();
 
@@ -69,6 +74,9 @@ export default function BadgeSelector({ combo }: { combo: Combo }) {
   });
 
   const UpdateComboStats: SubmitHandler<InputType> = async (FormData) => {
+    if (combo?.user.id !== currentUser.id) {
+      return null;
+    }
     await UpdateComboStatsAction(FormData);
     setIsEditingStats(false);
   };
