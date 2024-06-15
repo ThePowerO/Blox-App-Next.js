@@ -43,7 +43,7 @@ export default function RootLayout({
             <NextIntlClientProvider locale={locale} messages={messages}>
               <ThemeProvider attribute='class' defaultTheme='Light' enableSystem disableTransitionOnChange>
                 <NavBar locale={locale} />
-                <div className='layout-container'>
+                <div className={`layout-container`}>
                   {children}
                   <ToastContainer />
                 </div>

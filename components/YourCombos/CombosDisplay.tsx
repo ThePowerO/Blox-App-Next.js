@@ -43,8 +43,6 @@ export default function CombosDisplay({ comboData }: { comboData: Combo[] }) {
       }
     });
 
-    console.log("combo user ids: ", comboData.map((combo) => combo.userId));
-
   return (
     <>
       <section className="mb-6">

@@ -79,43 +79,48 @@
   @apply md:max-w-[1000px] min-h-screen md:m-auto md:justify-center pt-[75px]
 }
 
-/* from Create Combo page */
-.styleDropDownCombo {
-  position: absolute;
-  border-radius: 8px;
-  background-color: #1F2028;
-  border: 2px solid #3d95ec;
-  z-index: 10;
-}
-.fruitDropDownCombo {
-  position: absolute;
-  border-radius: 8px;
-  background-color: #1F2028;
-  border: 2px solid #3d95ec;
-  z-index: 10;
-}
-.swordDropDownCombo {
-  position: absolute;
-  border-radius: 8px;
-  background-color: #1F2028;
-  border: 2px solid #3d95ec;
-  z-index: 10;
-}
-.gunDropDownCombo {
-  position: absolute;
-  border-radius: 8px;
-  background-color: #1F2028;
-  border: 2px solid #3d95ec;
-  z-index: 10;
+.slider {
+  width: 100%;
+  height: var(--height);
+  overflow: hidden;
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #303 10% 90%,
+    transparent
+  );
 }
 
-.styleMenuUpArrow {
-  width: 15px;
-  height: 15px;
-  transform: rotate(45deg);
-  background-color: #1F2028;
-  border-left: 2px solid #3d95ec;
-  border-top: 2px solid #3d95ec;
+.slider .list {
+  display: flex;
+  width: 100%;
+  min-width: calc(var(--width) * var(--quantity));
+}
+
+.slider .list .item {
+  width: var(--width);
+  height: var(--height);
+  position: absolute;
+  left: 100%;
+  animation: autoRun 10s linear infinite;
+  animation-delay: calc( (10s / var(--quantity)) * (var(--position) - 1) );
+}
+
+.slider:hover .item {
+  animation-play-state: paused!important;
+}
+
+@keyframes autoRun {
+  from {
+    left: 100%;
+  }
+  to {
+    left: calc(var(--width) * -1);
+  }
+}
+
+.slider .list .item article {
+  width: 100%;
 }
 
 @keyframes gradient-animation {

@@ -5,6 +5,7 @@ import prisma from "@/lib/prisma";
 import CredentialsProvider from "next-auth/providers/credentials";
 import * as bcrypt from 'bcrypt';
 import { User } from "@prisma/client";
+import { stripe } from "@/lib/stripe";
 
 export const authOptions: AuthOptions = {
   pages: {
@@ -73,5 +74,29 @@ export const authOptions: AuthOptions = {
       if (token) session.user = token.user as User;
       return session;
     }
-  }
+  },
+  events: {
+    createUser: async (message) => {
+      const userId = message.user.id;
+      const email = message.user.email;
+      const name = message.user.name;
+
+      if (!userId || !email) {
+        return;
+      };
+
+      const stripeCustomer = await stripe.customers.create({
+        email,
+      })
+
+      await prisma.user.update({
+        where: {
+          id: userId
+        },
+        data: {
+          stripeCustomerId: stripeCustomer.id
+        }
+      })
+    }
+  },
 };
