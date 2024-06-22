@@ -100,7 +100,7 @@ const NavBar = ({ locale }: { locale: string }) => {
           <div className="text-white hidden md:block">
             <Links locale={locale} />
           </div>
-          <div className="flex">
+          <div className="flex gap-2">
             <LanguageSelector item={links[0]} locale={locale} />
             <ThemeModeToggle />
             <ProfileSelector locale={locale} />

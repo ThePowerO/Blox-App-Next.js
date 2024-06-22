@@ -93,5 +93,5 @@ export default withUt({
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), nextui()],
+  plugins: [require("tailwindcss-animate")],
 });

@@ -126,7 +126,7 @@ const LanguageSelector = ({
             />
           ) : (
             <IoLanguageSharp
-              className={`rounded-full border hover:bg-gray-500 p-[10px] ${pathName === `/` ? "invert-0" : "invert dark:invert-0"} w-[40px] h-[40px] cursor-pointer`}
+              className={`rounded-full border dark:border-gray-700 hover:bg-gray-500 p-[10px] ${pathName === `/` ? "" : "text-white"} w-[40px] h-[40px] cursor-pointer`}
               onClick={() => setOpenMenu((prev) => !prev)}
             />
           )}

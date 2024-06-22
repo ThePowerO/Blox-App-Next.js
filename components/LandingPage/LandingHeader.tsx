@@ -70,7 +70,7 @@ export default function LandingHeader() {
                 src={Mammoth}
                 width={80}
                 height={80}
-                className="hidden sm:block sm:absolute sm:top-[-100px] sm:left-[300px] lg:top-[-100px] lg:left-[500px]"
+                className="hidden sm:block sm:absolute sm:top-[-90px] sm:left-[300px] lg:top-[-90px] lg:left-[500px]"
                 alt="Bomb"
               />
               <Image
@@ -91,7 +91,7 @@ export default function LandingHeader() {
               />
             </span>{" "}
             your favorite Combo today!
-            <strong className="block font-extrabold text-cyan-500">
+            <strong className="landing-page-header block font-extrabold text-cyan-500">
               {" "}
               Become a
               <span className="relative">

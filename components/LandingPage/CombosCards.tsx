@@ -21,6 +21,7 @@ export default function CombosCards({
 
   const { locale } = useLocale();
   const pathName = usePathname();
+
   return (
     <div className="slider" style={{
       '--height': `182px`,
@@ -29,11 +30,11 @@ export default function CombosCards({
     } as React.CSSProperties}>
       <div className="list">
         {CommunityCombos?.length === 0 && <p>no combos</p>}
-        {CommunityCombos?.map((combo) => (
+        {CommunityCombos?.map((combo, index) => (
           <article
-            style={{ "--position": `${CommunityCombos.indexOf(combo)}` } as React.CSSProperties}
+            style={{ "--position": `${index}` } as React.CSSProperties}
             key={combo.id}
-            className="item flex cursor-pointer w-[600px] petit:h-[140px] medium:h-[182px] border transition hover:shadow-xl"
+            className="item flex cursor-pointer petit:h-[140px] medium:h-[182px] border transition hover:shadow-xl"
           >
             <div className="hidden tiny:block rotate-180 [writing-mode:_vertical-lr]">
               <time
@@ -45,29 +46,14 @@ export default function CombosCards({
                 <span>{""}</span>
               </time>
             </div>
-            <div className="grid grid-cols-2 sm:hidden">
+            <div className="grid grid-cols-2">
               {[combo.fightingstyle, combo.fruit, combo.sword, combo.weapon].map(
                 (src, index) => (
                   <Image
                     key={index}
                     fetchPriority="high"
                     src={src}
-                    className="border h-full w-[60px] medium:h-full medium:w-[90px] object-cover"
-                    alt={"combo img"}
-                    width={50}
-                    height={50}
-                  />
-                )
-              )}
-            </div>
-            <div className="hidden sm:grid sm:grid-cols-2">
-              {[combo.fightingstyle, combo.fruit, combo.sword, combo.weapon].map(
-                (src, index) => (
-                  <Image
-                    key={index}
-                    fetchPriority="high"
-                    src={src}
-                    className="aspect-square border medium:h-[90px] medium:w-[90px] object-cover"
+                    className="aspect-square border h-[90px] w-[90px] object-cover"
                     alt={"combo img"}
                     width={70}
                     height={70}
@@ -91,9 +77,6 @@ export default function CombosCards({
                   onClick={(e) => e.stopPropagation()}
                   className="flex gap-2 flex-1 ml-2"
                 >
-                  {currentUser.id === combo.userId ? (
-                    <MoreHorizontalBtn comboId={combo.id} pathName={""} />
-                  ) : null}
                   <FavortiteLikeBtn
                     editCombo={false}
                     combo={combo}
@@ -124,7 +107,7 @@ export default function CombosCards({
                 </div>
                 <Link
                   href={`/${locale}/combos/${combo.slug}`}
-                  className="hidden petit:block  bg-cyan-500 p-2 tiny:px-5 tiny:py-3 text-center text-xs font-bold uppercase text-gray-900 transition hover:bg-cyan-600"
+                  className="bg-cyan-500 px-5 py-3 text-center text-xs font-bold uppercase text-gray-900 transition hover:bg-cyan-600"
                 >
                   View More
                 </Link>

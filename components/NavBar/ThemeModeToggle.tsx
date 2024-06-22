@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { usePathname } from "next/navigation";
+import { useLocale } from "@/LocaleContext";
 
 export function ThemeModeToggle() {
 
@@ -39,16 +40,17 @@ export function ThemeModeToggle() {
     }
   };
 
+  const { locale } = useLocale();
   const { setTheme } = useTheme()
   const pathName = usePathname();
 
   return (
     <div className="relative">
       <div ref={imgRef}>
-        <Button onClick={() => setOpenMenu((prev) => !prev)} className="border text-white rounded-full hover:bg-gray-500 bg-transparent" size="icon">
-          <SunIcon className={`${pathName === `/` ? "invert-0" : "invert dark:invert-0"}
+        <Button onClick={() => setOpenMenu((prev) => !prev)} className="border dark:border-gray-700 text-white rounded-full hover:bg-gray-500 bg-transparent" size="icon">
+          <SunIcon className={`${pathName === `/${locale}` ? "text-black" : ""}
             h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0`} />
-          <MoonIcon className={`${pathName === `/` ? "invert-0" : "invert dark:invert-0"}
+          <MoonIcon className={`
             absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100`} />
         </Button>
       </div>

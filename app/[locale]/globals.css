@@ -34,6 +34,38 @@
  
     --radius: 0.5rem;
   }
+
+  .light {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+ 
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+ 
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+ 
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+ 
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+ 
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+ 
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+ 
+    --radius: 0.5rem;
+  }
  
   .dark {
     --background: 210.57 29.91% 5.92%;
@@ -75,53 +107,97 @@
   }
 }
 
+:is(:where(.light) .light\:hidden) {
+  display: none;
+}
+
 .layout-container {
   @apply md:max-w-[1000px] min-h-screen md:m-auto md:justify-center pt-[75px]
+}
+
+.landing-page-header {
+  position: relative;
+}
+
+.landing-page-header::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  border-radius: 50%;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #0075FF 0%, #00FFC9 100%);
+}
+
+.curved-underline {
+  position: relative;
+}
+
+.curved-underline::after {
+  content: "";
+  width: 100%;
+  height: 100px;
+  position: absolute;
+  background-image: url("/sm-curved-underline.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  bottom: -55px;
+  left: 0;
+}
+
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: "";
+  width: 0;
+  height: 2px;
+  position: absolute;
+  background-color: rgb(103 232 249 / var(--tw-bg-opacity));
+  bottom: 0;
+  left: 0;
+  transition: 0.2s ease-in-out;
+}
+
+.nav-link:hover::after {
+  width: 100%;
 }
 
 .slider {
   width: 100%;
   height: var(--height);
   overflow: hidden;
-  mask-image: linear-gradient(
-    to right,
-    transparent,
-    #303 10% 90%,
-    transparent
-  );
+  position: relative;
+  mask-image: linear-gradient(to right, transparent, #303 10%, #303 90%, transparent);
 }
 
 .slider .list {
   display: flex;
-  width: 100%;
-  min-width: calc(var(--width) * var(--quantity));
+  width: calc(var(--width) * var(--quantity));
+  animation: scroll calc(var(--quantity) * 1s + (calc(var(--quantity) * 0.5s))) linear infinite;
 }
 
 .slider .list .item {
-  width: var(--width);
+  flex: 0 0 var(--width);
   height: var(--height);
-  position: absolute;
-  left: 100%;
-  animation: autoRun 10s linear infinite;
-  animation-delay: calc( (10s / var(--quantity)) * (var(--position) - 1) );
 }
 
-.slider:hover .item {
-  animation-play-state: paused!important;
-}
-
-@keyframes autoRun {
-  from {
-    left: 100%;
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
   }
-  to {
-    left: calc(var(--width) * -1);
+  100% {
+    transform: translateX(calc(-1 * var(--width) * (var(--quantity) / 2)));
   }
 }
 
-.slider .list .item article {
-  width: 100%;
+.slider:hover .list {
+  animation-play-state: paused;
 }
+
 
 @keyframes gradient-animation {
   0% {

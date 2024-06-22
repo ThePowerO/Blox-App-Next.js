@@ -9,8 +9,12 @@ const ActiveLink = ({ item, locale }: { item: { title: string; path: string }; l
 
   return (
     <div className=''>
-      <Link href={`/${locale}${item.path}`} className={`${pathname === `/${locale}${item.path}` ? 'text-slate-300' : ''}`}>{item.title}</Link>
-      <div className={`${pathname === `/${locale}${item.path}` ? 'bg-cyan-300 h-[2px] rounded-full' : ''}`}></div>
+      <Link
+        href={`/${locale}${item.path}`}
+        className={`nav-link ${pathname === `/${locale}${item.path}` ? 'text-cyan-300' : ''}`}
+      >
+        {item.title}
+      </Link>
     </div>
   );
 };

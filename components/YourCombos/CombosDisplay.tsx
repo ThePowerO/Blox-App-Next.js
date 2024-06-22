@@ -20,6 +20,11 @@ export default function CombosDisplay({ comboData }: { comboData: Combo[] }) {
   const SearchParams = useSearchParams();
   const selectedFilter = SearchParams.get("filter");
 
+  const [fightingStyleFilter, setFightingStyleFilter] = useState<string[]>([]);
+  const [fruitFilter, setFruitFilter] = useState<string[]>([]);
+  const [swordFilter, setSwordFilter] = useState<string[]>([]);
+  const [weaponFilter, setWeaponFilter] = useState<string[]>([]);
+
   const { locale } = useLocale();
 
   const { data: session } = useSession();
@@ -29,6 +34,46 @@ export default function CombosDisplay({ comboData }: { comboData: Combo[] }) {
     .filter((combo) =>
       combo.combotitle.toLowerCase().includes(searchValue.toLowerCase())
     )
+    .filter((combo) => {
+      if (weaponFilter.length === 0) {
+        return true;
+      } else {
+        // weapon filter matches the combo's weapon
+        return weaponFilter.some((filter) =>
+          combo.weapon.toLowerCase().includes(filter.toLowerCase())
+        );
+      }
+    })
+    .filter((combo) => {
+      if (fightingStyleFilter.length === 0) {
+        return true;
+      } else {
+        // fightingstyle filter matches the combo's fightingstyle
+        return fightingStyleFilter.some((filter) =>
+          combo.fightingstyle.toLowerCase().includes(filter.toLowerCase())
+        );
+      }
+    })
+    .filter((combo) => {
+      if (fruitFilter.length === 0) {
+        return true;
+      } else {
+        // fruit filter matches the combo's fruit
+        return fruitFilter.some((filter) =>
+          combo.fruit.toLowerCase().includes(filter.toLowerCase())
+        );
+      }
+    })
+    .filter((combo) => {
+      if (swordFilter.length === 0) {
+        return true;
+      } else {
+        // sword filter matches the combo's sword
+        return swordFilter.some((filter) =>
+          combo.sword.toLowerCase().includes(filter.toLowerCase())
+        );
+      }
+    })
     .sort((a, b) => {
       if (selectedFilter === "Recent") {
         return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
@@ -52,7 +97,16 @@ export default function CombosDisplay({ comboData }: { comboData: Combo[] }) {
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
         />
-        <ComboFilter />
+        <ComboFilter
+          fightingStyleFilter={fightingStyleFilter}
+          setFightingStyleFilter={setFightingStyleFilter}
+          fruitFilter={fruitFilter}
+          setFruitFilter={setFruitFilter}
+          swordFilter={swordFilter}
+          setSwordFilter={setSwordFilter}
+          weaponFilter={weaponFilter}
+          setWeaponFilter={setWeaponFilter}
+        />
       </section>
       <section className="flex flex-col gap-x-2 850px:grid 850px:grid-cols-2 gap-y-4">
         {filteredCombos.map((combo) => (
