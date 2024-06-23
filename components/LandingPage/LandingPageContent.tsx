@@ -16,7 +16,7 @@ export default function LandingPageContent() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center mb-24">
         <div className="p-3">
           <Image
-            className={`rounded-lg light:hidden`}
+            className={`rounded-lg hidden dark:block light:hidden`}
             src="/Create-Combo-GUIDE-Dark.png"
             width={700}
             height={700}
