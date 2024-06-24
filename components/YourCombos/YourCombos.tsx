@@ -12,7 +12,7 @@ export default async function YourCombos() {
 
   const comboData = await prisma.combo.findMany({
     where: {
-      userId: currentUser.id,
+      userId: currentUser?.id,
     },
     include: {
       favorites: true,

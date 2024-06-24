@@ -13,6 +13,8 @@ import { useLocale } from "@/LocaleContext";
 import { AlertDestructive } from "../HtmlComponents/ErrorAlert";
 import { Input } from "../ui/input";
 import ComboFilter from "./ComboFilter";
+import NoSessionLikeFav from "../HtmlComponents/NoSessionLikeFav";
+import AddLikeButton, { AddFavoriteButton } from "../HtmlComponents/SubmitButtons";
 
 export default function CombosDisplay({ comboData }: { comboData: Combo[] }) {
   const pathName = usePathname();
@@ -167,37 +169,50 @@ export default function CombosDisplay({ comboData }: { comboData: Combo[] }) {
                   onClick={(e) => e.stopPropagation()}
                   className="flex gap-2 flex-1 ml-2"
                 >
-                  {currentUser.id === combo.userId ? (
+                  {currentUser?.id === combo.userId ? (
                     <MoreHorizontalBtn comboId={combo.id} pathName={""} />
                   ) : null}
-                  <FavortiteLikeBtn
-                    editCombo={false}
-                    combo={combo}
-                    comboId={combo.id}
-                    likeId={
-                      combo.likes?.find(
-                        (like) => like.userId === currentUser.id
-                      )?.id
-                    }
-                    isInLikeList={
-                      !!combo.likes?.find(
-                        (like) => like.userId === currentUser.id
-                      )
-                    }
-                    isInFavoriteList={
-                      !!combo.favorites?.find(
-                        (like) => like.userId === currentUser.id
-                      )
-                    }
-                    favoriteId={
-                      combo.favorites?.find(
-                        (like) => like.userId === currentUser.id
-                      )?.id
-                    }
-                    userId={currentUser.id}
-                    pathName={pathName}
-                    userEmail={currentUser.email}
-                  />
+                  {currentUser?.id ? (
+                    <FavortiteLikeBtn
+                      editCombo={false}
+                      combo={combo}
+                      comboId={combo.id}
+                      likeId={
+                        combo.likes?.find(
+                          (like) => like.userId === currentUser?.id
+                        )?.id
+                      }
+                      isInLikeList={
+                        !!combo.likes?.find(
+                          (like) => like.userId === currentUser?.id
+                        )
+                      }
+                      isInFavoriteList={
+                        !!combo.favorites?.find(
+                          (like) => like.userId === currentUser?.id
+                        )
+                      }
+                      favoriteId={
+                        combo.favorites?.find(
+                          (like) => like.userId === currentUser?.id
+                        )?.id
+                      }
+                      userId={currentUser?.id}
+                      pathName={pathName}
+                      userEmail={currentUser?.email}
+                    />
+                  ) : (
+                    <div onClick={(e) => e.stopPropagation()} className="justify-center">
+                      <div className="flex items-center gap-[5px]">
+                        <div className="mt-1 flex gap-1">
+                          <AddFavoriteButton />
+                        </div>
+                        <div className="mt-1 flex gap-1">
+                          <AddLikeButton />
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <Link
                   href={`/${locale}/combos/${combo.slug}`}

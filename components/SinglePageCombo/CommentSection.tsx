@@ -5,6 +5,7 @@ import React, { useRef, useState } from "react";
 import { AvatarDemo } from "../HtmlComponents/AvatarDemo";
 import { useSession } from "next-auth/react";
 import TextareaAutosize from "react-textarea-autosize";
+import noAvatar from "@/public/Icons/noavatar.png";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -89,7 +90,7 @@ export default function CommentSection({ combo, userId }: Props) {
       <div className="flex mt-3">
         <div className="mr-[8px] rounded-full border border-black h-fit">
           <AvatarDemo
-            userImg={session?.user?.image}
+            userImg={session?.user?.image || noAvatar.src}
             userNickName={session?.user?.name}
           />
         </div>
@@ -139,19 +140,29 @@ export default function CommentSection({ combo, userId }: Props) {
                   >
                     Cancel
                   </button>
-                  <div>
-                    {!form.formState.isValid || isLoading || !containsLetter(form.getValues("text")) ? (
-                      <button
-                        disabled
-                        className="flex justify-center w-[60px] disabled:cursor-not-allowed text-black px-2 py-1 rounded-2xl dark:bg-stone-800 bg-stone-300"
-                        type="button"
-                      >
-                        <SendHorizonal className="size-6" />
-                      </button>
-                    ) : (
-                      <CreateCommentBtn />
-                    )}
-                  </div>
+                  {session?.user ? (
+                    <div>
+                      {!form.formState.isValid || isLoading || !containsLetter(form.getValues("text")) ? (
+                        <button
+                          disabled
+                          className="flex justify-center w-[60px] disabled:cursor-not-allowed text-black px-2 py-1 rounded-2xl dark:bg-stone-800 bg-stone-300"
+                          type="button"
+                        >
+                          <SendHorizonal className="size-6" />
+                        </button>
+                      ) : (
+                        <CreateCommentBtn />
+                      )}
+                    </div>
+                  ) : (
+                    <button
+                      disabled
+                      className="flex justify-center w-[60px] disabled:cursor-not-allowed text-black px-2 py-1 rounded-2xl dark:bg-stone-800 bg-stone-300"
+                      type="button"
+                    >
+                      <SendHorizonal className="size-6" />
+                    </button>
+                  )}
                 </div>
               </div>
             </form>

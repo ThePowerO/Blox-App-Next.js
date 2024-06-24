@@ -15,7 +15,6 @@ export default function LandingHeader() {
   const opeRef = useRef(null);
   const mobileOpeRef = useRef(null);
   
-
   useEffect(() => {
     const tl = gsap.timeline({ repeat: -1, yoyo: true });
     tl.to(mammothRef.current, {

@@ -3,7 +3,6 @@ import React from "react";
 import { HoverComboAuthor } from "../HtmlComponents/HoverComboAuthor";
 import FavortiteLikeBtn from "./FavortiteLikeBtn";
 import { Combo } from "@/lib/types";
-import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -15,8 +14,9 @@ import {
 import ComboVideo from "../HtmlComponents/ComboVideo";
 import { Separator } from "../ui/separator";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import LargeView from "./LargeView";
 import { User } from "@prisma/client";
+import AddLikeButton, { AddFavoriteButton, AddLikeParagraph } from "../HtmlComponents/SubmitButtons";
+import NoSessionLikeFav from "../HtmlComponents/NoSessionLikeFav";
 
 type Props = {
   combo: Combo;
@@ -25,33 +25,6 @@ type Props = {
 export default async function ComboBySlug({ combo }: Props) {
   const session = await getServerSession(authOptions);
   const currentUser = session?.user as User;
-
-  const user = await prisma.user.findUnique({
-    where: {
-      email: session?.user?.email!,
-    },
-    select: {
-      email: true,
-      id: true,
-      name: true,
-      image: true,
-      createdAt: true,
-      favoriteCombos: {
-        where: {
-          user: {
-            email: session?.user?.email,
-          },
-        },
-      },
-      commentLikes: {
-        where: {
-          user: {
-            email: session?.user?.email,
-          },
-        },
-      },
-    },
-  });
 
   return (
     <>
@@ -63,28 +36,37 @@ export default async function ComboBySlug({ combo }: Props) {
               {combo.combotitle}
             </span>
           </h1>
-          <FavortiteLikeBtn
-            editCombo={true}
-            combo={combo}
-            comboId={combo.id}
-            likeId={
-              combo.likes?.find((like) => like.userId === currentUser.id)
-                ?.comboId
-            }
-            isInLikeList={
-              !!combo.likes?.find((like) => like.userId === currentUser.id)
-            }
-            isInFavoriteList={
-              !!combo.favorites?.find((like) => like.userId === currentUser.id)
-            }
-            favoriteId={
-              combo.favorites?.find((like) => like.userId === currentUser.id)
-                ?.id
-            }
-            userId={currentUser.id}
-            pathName={""}
-            userEmail={currentUser.email}
-          />
+          {currentUser ? (
+            <FavortiteLikeBtn
+              editCombo={true}
+              combo={combo}
+              comboId={combo.id}
+              likeId={
+                combo.likes?.find((like) => like.userId === currentUser?.id)
+                  ?.comboId
+              }
+              isInLikeList={
+                !!combo.likes?.find((like) => like.userId === currentUser?.id)
+              }
+              isInFavoriteList={
+                !!combo.favorites?.find(
+                  (like) => like.userId === currentUser?.id
+                )
+              }
+              favoriteId={
+                combo.favorites?.find((like) => like.userId === currentUser?.id)
+                  ?.id
+              }
+              userId={currentUser?.id}
+              pathName={""}
+              userEmail={currentUser?.email}
+            />
+          ) : (
+            <div className="flex gap-1">
+              <NoSessionLikeFav />
+              <AddLikeParagraph combo={combo} />
+            </div>
+          )}
         </header>
 
         <div className="flex flex-col sm:items-center sm:flex-row gap-4 mb-4">
@@ -170,28 +152,33 @@ export default async function ComboBySlug({ combo }: Props) {
               authorImage={combo.user.image || ""}
             />
           </div>
-          <FavortiteLikeBtn
-            editCombo={true}
-            combo={combo}
-            comboId={combo.id}
-            likeId={
-              combo.likes?.find((like) => like.userId === currentUser.id)
-                ?.id
-            }
-            isInLikeList={
-              !!combo.likes?.find((like) => like.userId === currentUser.id)
-            }
-            isInFavoriteList={
-              !!combo.favorites?.find((like) => like.userId === currentUser.id)
-            }
-            favoriteId={
-              combo.favorites?.find((like) => like.userId === currentUser.id)
-                ?.id
-            }
-            userId={currentUser.id}
-            pathName={""}
-            userEmail={user?.email}
-          />
+          {currentUser ? (
+            <FavortiteLikeBtn
+              editCombo={true}
+              combo={combo}
+              comboId={combo.id}
+              likeId={
+                combo.likes?.find((like) => like.userId === currentUser?.id)
+                  ?.comboId
+              }
+              isInLikeList={
+                !!combo.likes?.find((like) => like.userId === currentUser?.id)
+              }
+              isInFavoriteList={
+                !!combo.favorites?.find((like) => like.userId === currentUser?.id)}
+              favoriteId={
+                combo.favorites?.find((like) => like.userId === currentUser?.id)?.id
+              }
+              userId={currentUser?.id}
+              pathName={""}
+              userEmail={currentUser?.email}
+            />
+          ) : (
+            <div className="flex gap-1">
+              <NoSessionLikeFav />
+              <AddLikeParagraph combo={combo} />
+            </div>
+          )}
         </div>
         <Textarea
           className="h-[120px]"

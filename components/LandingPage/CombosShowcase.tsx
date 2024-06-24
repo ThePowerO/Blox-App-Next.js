@@ -18,6 +18,7 @@ export default async function CombosShowcase() {
     include: {
       favorites: true,
       likes: true,
+      user: true
     },
   })
 
