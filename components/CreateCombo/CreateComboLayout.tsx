@@ -12,8 +12,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PlusMore from "@/public/Icons/PlusIcon2.png";
-import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,7 +30,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { PlusCircle, XCircleIcon, PencilIcon, Pencil } from "lucide-react";
+import { PlusCircle, XCircleIcon, PencilIcon, Pencil, ArrowRight } from "lucide-react";
 import { UploadButton } from "@/lib/uploadthing";
 import { Separator } from "../ui/separator";
 import {
@@ -46,13 +46,11 @@ import Image from "next/image";
 import { BloxFruitImages } from "@/BloxFruitImages";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTrigger } from "../ui/dialog";
+import { useLocale } from "@/LocaleContext";
 
 const FormSchema = z.object({
   fruit: z.string().min(1, "Please select a fruit"),
@@ -72,7 +70,11 @@ const FormSchema = z.object({
 
 type InputForm = z.infer<typeof FormSchema>;
 
-export default function CreateComboLayout() {
+type Props = {
+  UserMaxComboCountReached: number;
+}
+
+export default function CreateComboLayout({ UserMaxComboCountReached }: Props) {
   const [selectedFightingStyle, setSelectedFightingStyle] = useState("");
   const [selectedWeapon, setSelectedWeapon] = useState("");
   const [selectedSword, setSelectedSword] = useState("");
@@ -190,6 +192,9 @@ export default function CreateComboLayout() {
       // Optionally display an error message to the user
     }
   };
+
+  const { locale } = useLocale();
+  const router = useRouter();
 
   return (
     <section className="flex mt-[-10px] justify-center">
@@ -712,12 +717,50 @@ export default function CreateComboLayout() {
                       )}
                     </>
                   )}
-                  <Button
-                    className="bg-[#3d95ec] text-white hover:bg-[#5994cf]"
-                    type="submit"
-                  >
-                    Create Combo
-                  </Button>
+                  {UserMaxComboCountReached >= 5 ? (
+                    <Dialog>
+                      <DialogTrigger>
+                        <Button
+                          className="bg-[#3d95ec] text-white hover:bg-[#5994cf]"
+                          type="button"
+                        >
+                          Create Combo 2
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <span className="font-bold text-xl">Max Combo Count Reached</span>
+                        </DialogHeader>
+                        <DialogDescription>
+                          Enjoying the website and can't create more combos? Check out
+                          our incredible pricing packs for more.
+                        </DialogDescription>
+                        <DialogFooter>
+                          <Button
+                            onClick={() => {
+                              router.push(`/${locale}/#pricing-packs`)
+                              const element = document.getElementById("pricing-packs");
+                              if (element) {
+                                element.scrollIntoView({ behavior: "smooth" });
+                              }
+                            }}
+                            variant={"link"}
+                            className="text-blue-500 gap-1"
+                            type="button"
+                          >
+                            Check Pricing Packs <ArrowRight className="text-blue-500" width={18} height={18} />
+                          </Button>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
+                  ) : (
+                    <Button
+                      className="bg-[#3d95ec] text-white hover:bg-[#5994cf]"
+                      type="submit"
+                    >
+                      Create Combo 1
+                    </Button>
+                  )}
                 </form>
               </CardContent>
             </Card>

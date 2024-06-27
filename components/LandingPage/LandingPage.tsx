@@ -4,6 +4,7 @@ import CombosShowcase from "./CombosShowcase";
 import LandingPageContent from "./LandingPageContent";
 import PricingSection from "./PricingSection";
 import { Separator } from "../ui/separator";
+import PricingHeader from "./PricingHeader";
 
 export default function LandingPage() {
 
@@ -23,7 +24,7 @@ export default function LandingPage() {
         'Unlimited combos',
         "Up to 3 Days of highlight duration",
         '+8 Highlights',
-        "+2 Highlights first purchase",
+        "+2 Highlights first time purchase",
         "+15 Highlights per week",
         "Monthly payment",
       ]
@@ -64,7 +65,7 @@ export default function LandingPage() {
 
 
   return (
-    <main className="">
+    <main>
       <LandingHeader />
       <section className="mt-8">
         <h2 className="font-bold text-2xl mb-4">
@@ -76,14 +77,7 @@ export default function LandingPage() {
         <LandingPageContent />
       </section>
       <section>
-        <div className="mx-auto max-w-lg text-center mt-5">
-          <strong className="text-3xl font-bold sm:text-4xl">
-            Pricing Packages
-          </strong>
-          <p className="mt-4 text-gray-300">
-            Get Highlights to make your combos more atractive.
-          </p>
-        </div>
+        <PricingHeader />
         <div className="max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-16">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:items-stretch md:grid-cols-3 md:gap-8">
             {PricingPacks.map((pack) => (

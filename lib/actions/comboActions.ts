@@ -7,6 +7,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { Combo } from "../types";
 import { z } from "zod";
 import { User } from "@prisma/client";
+import createComboCountLimit, { checkUserComboLimit } from "./countLimitActions";
 
 const CreateComboFormSchema = z.object({
   combotitle: z.string({
@@ -73,6 +74,12 @@ export async function createComboAction(FormData: unknown, pathName: string) {
     mainStats,
   } = validatedFileds.data;
 
+  const userWithMaxComboCount = await checkUserComboLimit();
+
+  if (!userWithMaxComboCount) {
+    return new Error("User with max combo count reached");
+  }
+
   const customEncodeURIComponent = (str: string) => {
     return encodeURIComponent(str)
       .replace(/%2F/g, "-") // Replace / with -
@@ -133,6 +140,8 @@ export async function createComboAction(FormData: unknown, pathName: string) {
         }
       },
     });
+
+    await createComboCountLimit();
 
     revalidatePath(pathName);
     return data;
