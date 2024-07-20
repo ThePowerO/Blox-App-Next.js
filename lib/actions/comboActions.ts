@@ -327,6 +327,9 @@ export async function getSlugCombo(slug: string) {
     select: {
       id: true,
       difficulty: true,
+      highlight: true,
+      isAutoRenovate: true,
+      highlightExpiration: true,
       userId: true,
       slug: true,
       combotitle: true,
