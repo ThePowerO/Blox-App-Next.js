@@ -36,7 +36,7 @@ export default async function YourCombos() {
       {comboData.length === 0 ? (
         <AlertDestructive />
       ) : (
-        <CombosDisplay isProfilePage={false} user={user as User} comboData={comboData as any} />
+        <CombosDisplay ParamsUserId="" isProfilePage={false} user={user as User} comboData={comboData as any} />
       )}
     </div>
   );
