@@ -7,6 +7,7 @@ import Bomb from "../../public/BombFruit.webp";
 import Ope from "../../public/ControlFruit.webp";
 import gsap from 'gsap';
 import React, { useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 
 export default function LandingHeader() {
   const mammothRef = useRef(null);
@@ -49,13 +50,15 @@ export default function LandingHeader() {
     }, 0);
   }, []);
 
+  const t = useTranslations("LandingPage");
+
   return (
     <>
       <div className="relative px-4 py-16 medium:py-24 sm:px-6 lg:flex lg:px-8">
         <div className="max-w-xl text-center ltr:sm:text-left rtl:sm:text-right relative">
           <h1 className="text-3xl font-extrabold sm:text-5xl relative">
             <span className="relative">
-              Build
+              {t("h1Build")}
               <Image
                 ref={bombRef}
                 src={Bomb}
@@ -89,13 +92,13 @@ export default function LandingHeader() {
                 alt="Ope"
               />
             </span>{" "}
-            your favorite Combo today!
+            {t("h1FavComboToday")}
             <strong className="landing-page-header block font-extrabold text-cyan-500">
               {" "}
-              Become a
+              {t("h1BecameA")}
               <span className="relative">
                 {" "}
-                Hunter
+                {t("h1Hunter")}
                 <Image
                   ref={mobileOpeRef}
                   src={Ope}
@@ -109,8 +112,8 @@ export default function LandingHeader() {
           </h1>
 
           <p className="mt-4 max-w-lg sm:text-xl/relaxed">
-            Build your favorite Combo and share it to the community of your
-            kinds in just a few clicks.
+            {t("BuildAndShareTo")}
+            {t("InJustFewClicks")}
           </p>
 
           <div className="mt-8 flex flex-wrap gap-4 text-center">
@@ -118,14 +121,14 @@ export default function LandingHeader() {
               href="#"
               className="block w-full rounded bg-cyan-500 px-12 py-3 text-sm font-medium text-white shadow duration-150 ease-in-out hover:bg-cyan-600 focus:outline-none focus:ring active:bg-cyan-500 sm:w-auto"
             >
-              Get Started
+              {t("GetStarted")}
             </a>
 
             <a
               href="#"
               className="block w-full rounded bg-white px-12 py-3 text-sm font-medium text-cyan-500 shadow hover:text-cyan-700 focus:outline-none focus:ring active:text-cyan-500 sm:w-auto"
             >
-              Learn More
+              {t("LearnMore")}
             </a>
           </div>
         </div>

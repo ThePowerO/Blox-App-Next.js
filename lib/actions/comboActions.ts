@@ -48,15 +48,15 @@ const CreateComboFormSchema = z.object({
 export async function createComboAction(FormData: unknown, pathName: string) {
   const session = await getServerSession(authOptions);
   const currentuser = session?.user as User;
-  const validatedFileds = CreateComboFormSchema.safeParse(FormData);
+  const validatedFields = CreateComboFormSchema.safeParse(FormData);
 
-  if (!validatedFileds.success) {
+  if (!validatedFields.success) {
     console.error(
       "Validation errors:",
-      validatedFileds.error.flatten().fieldErrors
+      validatedFields.error.flatten().fieldErrors
     );
     return {
-      errors: validatedFileds.error.flatten().fieldErrors,
+      errors: validatedFields.error.flatten().fieldErrors,
     };
   }
 
@@ -72,13 +72,7 @@ export async function createComboAction(FormData: unknown, pathName: string) {
     difficulty,
     specialty,
     mainStats,
-  } = validatedFileds.data;
-
-  const userWithMaxComboCount = await checkUserComboLimit();
-
-  if (!userWithMaxComboCount) {
-    return new Error("User with max combo count reached");
-  }
+  } = validatedFields.data;
 
   const customEncodeURIComponent = (str: string) => {
     return encodeURIComponent(str)
@@ -291,9 +285,34 @@ export async function deleteCombo(formData: FormData) {
   const comboId = formData.get("comboId") as string;
   const pathName = formData.get("pathName") as string;
 
+  const session = await getServerSession(authOptions);
+  const sessionUser = session?.user as User;
+  const user = await prisma.user.findUnique({
+    where: {
+      id: sessionUser?.id,
+    },
+  });
+
+  if (!session?.user) {
+    return;
+  }
+
+  if (!user) {
+    return;
+  }
+
   await prisma.combo.delete({
     where: {
       id: comboId,
+    },
+  });
+
+  await prisma.comboCountLimit.update({
+    where: {
+      userId: sessionUser?.id,
+    },
+    data: {
+      count: -1,
     },
   });
 

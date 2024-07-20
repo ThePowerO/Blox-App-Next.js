@@ -1,6 +1,10 @@
+import { comboHighlight } from "@prisma/client";
+
 export type Combo = {
   id: string;
   userId: string;
+  highlight: comboHighlight
+  isAutoRenovate: boolean;
   difficulty: string;
   combotitle: string;
   combodescription: string;

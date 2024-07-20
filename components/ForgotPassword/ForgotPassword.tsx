@@ -1,12 +1,13 @@
 'use client';
 
-import { Button, Input } from '@nextui-org/react'
+import { Button } from '@nextui-org/react'
 import { MdEmail } from "react-icons/md";
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { forgotPassword } from '@/lib/actions/authActions';
+import { Input } from '../ui/input';
 
 const ForgotPassword = () => {
 
@@ -35,7 +36,7 @@ const ForgotPassword = () => {
     }
 
   return (
-    <div className='grid place-items-center mt-[20px]'>
+    <div className='grid place-items-center mt-[20px] text-white'>
         <div className='p-5 bg-[#2d3136] shadow-lg rounded-lg border-t-4 border-[#3d95ec]'>
             
             <h1 className="text-xl font-bold my-4">
@@ -46,8 +47,7 @@ const ForgotPassword = () => {
                 <Input
                     {...register('email')}
                     type="email"
-                    className='text-black'
-                    startContent={<MdEmail />}
+                    className='border dark:border-white'
                     placeholder='Email'
                 />
 

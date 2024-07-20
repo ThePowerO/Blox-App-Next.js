@@ -3,15 +3,28 @@ import React from 'react'
 import prisma from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions'
-import { User } from '@prisma/client'
-import { MAX_COMBO_COUNT } from '@/lib/constants'
 
 export default async function page() {
   const session = await getServerSession(authOptions)
-  const currentUser = session?.user as User;
+  const currentUser = session?.user;
 
   if (!currentUser) {
-    return
+    return <p>Not signed in</p>
+  }
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id: currentUser?.id,
+    },
+    select: {
+      proPack: true,
+      starterPack: true,
+      isPlusPack: true,
+    }
+  });
+
+  if (!user) {
+    return <p>User not found</p>
   }
 
   const UserComboCount = await prisma.comboCountLimit.findUnique({
@@ -21,6 +34,6 @@ export default async function page() {
   const UserMaxComboCountReached = UserComboCount?.count;
   
   return (
-    <CreateComboLayout UserMaxComboCountReached={UserMaxComboCountReached as number} />
+    <CreateComboLayout user={user} UserMaxComboCountReached={UserMaxComboCountReached as number || 0} />
   )
 }

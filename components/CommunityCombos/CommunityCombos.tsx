@@ -8,7 +8,7 @@ import CombosDisplay from "../YourCombos/CombosDisplay";
 
 export default async function CommunityCombos() {
   const session = await getServerSession(authOptions);
-  const currentUser = session?.user as User;
+  const currentUser = session?.user;
 
   const comboData = await prisma.combo.findMany({
     include: {
@@ -17,12 +17,16 @@ export default async function CommunityCombos() {
     }
   });
 
+  const user = await prisma.user.findUnique({
+    where: { id: currentUser?.id },
+  });
+
   return (
     <div className="p-4">
       {comboData.length === 0 ? (
         <AlertDestructive />
       ) : (
-        <CombosDisplay comboData={comboData as any} />
+        <CombosDisplay user={user as User} comboData={comboData as any} />
       )}
     </div>
   );

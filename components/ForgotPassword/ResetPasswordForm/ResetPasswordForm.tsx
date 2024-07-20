@@ -81,7 +81,7 @@ const ResetPasswordForm = ({ jwtUserId }: Props ) => {
                         disabled={isSubmitting}
                         isLoading={isSubmitting}
                         type="submit"
-                        className="bg-[#3d95ec] gap-[10px] hover:bg-[#51a8ff] transition-all font-bold cursor-pointer px-6 py-2">
+                        className="bg-[#3d95ec] gap-[10px] text-white hover:bg-[#51a8ff] transition-all font-bold cursor-pointer px-6 py-2">
                         {isSubmitting ? <Loader2 className="size-6 animate-spin" />: "Reset Password"}
                     </Button>
                 </form>

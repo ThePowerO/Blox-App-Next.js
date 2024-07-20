@@ -1,11 +1,9 @@
-import { AuthOptions } from "next-auth";
+import { AuthOptions, getServerSession } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import DiscordProvider from 'next-auth/providers/discord';
 import prisma from "@/lib/prisma";
 import CredentialsProvider from "next-auth/providers/credentials";
 import * as bcrypt from 'bcrypt';
-import { User } from "@prisma/client";
-import { stripe } from "@/lib/stripe";
 
 export const authOptions: AuthOptions = {
   pages: {
@@ -52,11 +50,16 @@ export const authOptions: AuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async jwt({ token, user }) {
-      if (user) token.user = user as User;
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
+        token.image = user.image;
+        token.name = user.name;
+      }
       if (user) {
         // saving user if not there yet
         const existingUser = await prisma.user.findUnique({
-          where: { email: user.email! },
+          where: { id: user.id },
         });
 
         if (!existingUser) {
@@ -71,32 +74,14 @@ export const authOptions: AuthOptions = {
     },
 
     async session({ token, session, user }) {
-      if (token) session.user = token.user as User;
+      if (token) {
+        session.user.id = token.id;
+        session.user.email = token.email;
+        session.user.image = token.image;
+        session.user.name = token.name;
+      }
+
       return session;
-    }
-  },
-  events: {
-    createUser: async (message) => {
-      const userId = message.user.id;
-      const email = message.user.email;
-      const name = message.user.name;
-
-      if (!userId || !email) {
-        return;
-      };
-
-      const stripeCustomer = await stripe.customers.create({
-        email,
-      })
-
-      await prisma.user.update({
-        where: {
-          id: userId
-        },
-        data: {
-          stripeCustomerId: stripeCustomer.id
-        }
-      })
     }
   },
 };

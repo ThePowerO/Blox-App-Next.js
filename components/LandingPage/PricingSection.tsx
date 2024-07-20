@@ -1,57 +1,103 @@
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { getServerSession } from "next-auth";
 import React from "react";
+import { stripe } from "@/lib/stripe";
+import { redirect } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 type PricingPack = {
   packname: string;
   description: string;
+  link?: string;
+  priceId?: string;
   price: string;
-  timestopay?: string;
   features: string[];
   notIncluded?: string[];
+  isSubscription?: boolean;
+  hasInfo?: boolean;
 };
 
-export default function PricingSection({
+export default async function PricingSection({
   packname,
   description,
   price,
   features,
   notIncluded,
-  timestopay,
+  link,
+  hasInfo,
+  isSubscription,
+  priceId,
 }: PricingPack) {
+  const t = useTranslations("LandingPage");
+
   return (
     <div className="divide-y divide-gray-200 rounded-2xl border border-gray-200 shadow-sm mt-7">
       <div className="p-6 sm:px-8">
         <div className="flex items-center justify-between">
           <h2 className="p-2 bg-cyan-400 rounded-full w-fit text-sm font-medium">
             {packname}
-            <span className="sr-only">Plan</span>
+            <span className="sr-only">{t("Plan")}</span>
           </h2>
-          {timestopay && <span className="p-2 text-white bg-gray-600 rounded-full w-fit text-sm font-medium">{timestopay}</span>}
         </div>
 
-        <p className="mt-2 ">{description}</p>
+        <p className="mt-2">{description}</p>
 
         <p className="mt-2 sm:mt-4">
-          <strong className="text-3xl font-bold sm:text-4xl"> ${price} </strong>
+          <strong className="text-3xl font-bold sm:text-4xl">{price} </strong>
 
-          <span className="text-sm font-medium ">/month</span>
+          {isSubscription && <span className="text-sm font-medium">/month</span>}
         </p>
 
-        <button className="mt-4 w-full block rounded border border-cyan-300 bg-cyan-300 px-12 py-3 text-center text-sm font-medium text-white hover:bg-transparent hover:text-cyan-300 focus:outline-none focus:ring active:text-cyan-300 sm:mt-6">
-          Get Started
-        </button>
+        <form>
+          <button
+            formAction={async () => {
+              "use server";
+
+              const authSession = await getServerSession(authOptions);
+              if (!authSession) {
+                return;
+              }
+
+              const session = await stripe.checkout.sessions.create({
+                mode: isSubscription ? "subscription" : "payment",
+                payment_method_types: ["card"],
+                line_items: [
+                  {
+                    price: priceId,
+                    quantity: 1,
+                  },
+                ],
+                success_url: "http://localhost:3000/",
+                cancel_url: "http://localhost:3000/",
+                metadata: {
+                  userId: authSession.user.id,
+                },
+              });
+
+              redirect(
+                (link as string) + "?prefilled_email=" + authSession.user.email
+              );
+            }}
+            className="mt-4 w-full block rounded border border-cyan-300 bg-cyan-300 px-12 py-3
+          text-center text-sm font-medium text-white hover:bg-transparent hover:text-cyan-300
+          focus:outline-none focus:ring active:text-cyan-300 sm:mt-6"
+          >
+            {isSubscription ? `${t("SubscribeNow")}` : `${t("BuyPack")}`}
+          </button>
+        </form>
       </div>
 
       <div className="p-6 sm:px-8">
-        <p className="text-lg font-medium sm:text-xl">What's included:</p>
+        <p className="text-lg font-medium sm:text-xl">{t("WhatsIncluded")}</p>
 
         <ul className="mt-2 space-y-2 sm:mt-4">
           {features.map((feature) => (
-            <li className="flex items-center gap-1">
+            <li key={feature} className="flex items-center gap-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                strokeWidth="1.5"
+                strokeWidth={1.5}
                 stroke="currentColor"
                 className="size-5 text-cyan-300"
               >
@@ -65,19 +111,40 @@ export default function PricingSection({
               <span className="">{feature}</span>
             </li>
           ))}
-          {notIncluded?.map((feature) => (
+          {hasInfo && (
             <li className="flex items-center gap-1">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="lucide lucide-info  text-purple-600"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 16v-4" />
+                <path d="M12 8h.01" />
+              </svg>
+              <span>{t("UnlimitedCombosIsPermament")}</span>
+            </li>
+          )}
+          {notIncluded?.map((feature) => (
+            <li key={feature} className="flex items-center gap-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke-width="1.5"
+                strokeWidth={1.5}
                 stroke="currentColor"
                 className="size-5 text-red-700"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M6 18L18 6M6 6l12 12"
                 />
               </svg>

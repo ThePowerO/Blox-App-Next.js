@@ -1,7 +1,7 @@
 'use client';
 
 import { UploadDropzone } from "@/lib/uploadthing";
-import { ourFileRouter } from "@/app/api/uploadthing/core";
+import { ourFileRouter } from "@/app/api/webhooks/uploadthing/core";
 import { toast } from "react-toastify";
 
 interface FileUploadProps {

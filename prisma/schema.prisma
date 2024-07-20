@@ -34,18 +34,19 @@ model Session {
 }
 
 model User {
-  id            String     @id @default(cuid())
-  name          String?
-  email         String?    @unique
-  password      String?
-  image         String?
-  highlights    Int       @default(0)
-  starterPack   String?
-  proPack       String?
-  isPlusPack    isPlusPack @default(NO)
-  emailVerified DateTime?
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
+  id                 String    @id @default(cuid())
+  name               String?
+  email              String?   @unique
+  password           String?
+  image              String?
+  highlights         Int       @default(0)
+  starterPack        Int       @default(0)
+  proPack            Int       @default(0)
+  isPlusPack         Boolean   @default(false)
+  plusPackWeeklyTime DateTime?
+  emailVerified      DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
 
   stripeCustomerId String?
 
@@ -59,11 +60,8 @@ model User {
   commentReplies  Replies[]
   repliesLikes    ReplyLike[]
   ComboCountLimit ComboCountLimit[]
-}
 
-enum isPlusPack {
-  NO
-  YES
+  @@unique([name])
 }
 
 model ComboCountLimit {
@@ -151,27 +149,29 @@ model Like {
 }
 
 model Combo {
-  id               String         @id @default(cuid())
-  slug             String         @unique
-  userId           String
-  highlight        comboHighlight @default(NONE)
-  difficulty       String
-  combotitle       String
-  combodescription String
-  fightingstyle    String
-  fruit            String
-  sword            String
-  weapon           String
-  specialty        String
-  race             String
-  mainStats        String
-  comboVideo       String
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
-  user             User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  likes            Like[]
-  favorites        Favorite[]
-  comments         Comment[]
+  id                  String         @id @default(cuid())
+  slug                String         @unique
+  userId              String
+  highlight           comboHighlight @default(NONE)
+  highlightExpiration DateTime?
+  isAutoRenovate      Boolean        @default(false)
+  difficulty          String
+  combotitle          String
+  combodescription    String
+  fightingstyle       String
+  fruit               String
+  sword               String
+  weapon              String
+  specialty           String
+  race                String
+  mainStats           String
+  comboVideo          String
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+  user                User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  likes               Like[]
+  favorites           Favorite[]
+  comments            Comment[]
 }
 
 enum comboHighlight {

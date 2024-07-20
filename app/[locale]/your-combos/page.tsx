@@ -1,8 +1,11 @@
+import CombosDisplayFallback from '@/components/YourCombos/CombosDisplayFallback'
 import YourCombos from '@/components/YourCombos/YourCombos'
-import React from 'react'
+import React, { Suspense } from 'react'
 
 export default function page() {
   return (
-    <YourCombos />
+    <Suspense fallback={<CombosDisplayFallback />}>
+      <YourCombos />
+    </Suspense>
   )
 }

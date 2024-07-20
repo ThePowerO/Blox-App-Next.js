@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Award,
   Globe,
@@ -7,23 +9,56 @@ import {
   Swords,
 } from "lucide-react";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import TextGradient from "../HtmlComponents/TextGradient";
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+import { useLocale, useTranslations } from "next-intl";
 
 export default function LandingPageContent() {
+  const t = useTranslations("LandingPage");
+  const locale = useLocale();
+  const ImageRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.to('.imagem', {
+      x: 0,
+      opacity: 1,
+      scrollTrigger: {
+        trigger: ".content-1",
+        start: "top 400px",
+        end: "bottom 500px",
+      }
+    })
+    gsap.to('.imagem-2', {
+      x: 0,
+      opacity: 1,
+      scrollTrigger: {
+        trigger: ".content-2",
+        start: "top 400px",
+        end: "bottom 500px",
+      }
+    })
+
+    return () => {
+      gsap.killTweensOf('.imagem');
+      gsap.killTweensOf('.imagem-2');
+    }
+  }, []);
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center mb-24">
-        <div className="p-3">
+      <div className="content-1 grid grid-cols-1 sm:grid-cols-2 gap-4 items-center mb-24">
+        <div ref={ImageRef} className="p-3">
           <Image
-            className={`rounded-lg hidden dark:block light:hidden`}
+            className={`imagem opacity-0 translate-x-[-400px] rounded-lg hidden dark:block light:hidden`}
             src="/Create-Combo-GUIDE-Dark.png"
             width={700}
             height={700}
             alt="combo guide"
           />
           <Image
-            className={`rounded-lg dark:hidden`}
+            className={`imagem opacity-0 translate-x-[-400px] rounded-lg dark:hidden`}
             src="/Create-Combo-GUIDE.png"
             width={700}
             height={700}
@@ -32,29 +67,50 @@ export default function LandingPageContent() {
 
         </div>
         <div className="mx-auto max-w-lg text-center">
-          <strong className="text-3xl font-bold sm:text-4xl">
-            Build a exquisite and fascinating <TextGradient from="from-blue-700" via="via-pink-700" to="to-pink-500" text="Combo" />
+          <strong className={`${locale !== "en" ? "hidden" : "block" } text-3xl font-bold sm:text-4xl`}>
+            {t("BuildAExquisiteFascinating")} <TextGradient from="from-blue-700" via="via-pink-700" to="to-pink-500" text={`${t("Combo")}`} />
+          </strong>
+          <strong className={`${locale !== "pt" ? "hidden" : "block" } text-3xl font-bold sm:text-4xl`}>
+            {t("FaçaUm")} <TextGradient from="from-blue-700" via="via-pink-700" to="to-pink-500" text={`${t("Combo")}`} /> {t("ÚnicoEfascinante")}
+          </strong>
+          <strong className={`${locale !== "fr" ? "hidden" : "block" } text-3xl font-bold sm:text-4xl`}>
+            {t("BuildAExquisiteFascinating")} <TextGradient from="from-blue-700" via="via-pink-700" to="to-pink-500" text={`${t("Combo")}`} />
+          </strong>
+          <strong className={`${locale !== "it" ? "hidden" : "block" } text-3xl font-bold sm:text-4xl`}>
+            {t("FaçaUm")} <TextGradient from="from-blue-700" via="via-pink-700" to="to-pink-500" text={`${t("Combo")}`} /> {t("ÚnicoEfascinante")}
+          </strong>
+          <strong className={`${locale !== "de" ? "hidden" : "block" } text-3xl font-bold sm:text-4xl`}>
+            {t("BuildAExquisiteFascinating")} <TextGradient from="from-blue-700" via="via-pink-700" to="to-pink-500" text={`${t("Combo")}`} />
+          </strong>
+          <strong className={`${locale !== "cn" ? "hidden" : "block" } text-3xl font-bold sm:text-4xl`}>
+            {t("FaçaUm")} <TextGradient from="from-blue-700" via="via-pink-700" to="to-pink-500" text={`${t("Combo")}`} /> {t("ÚnicoEfascinante")}
+          </strong>
+          <strong className={`${locale !== "jp" ? "hidden" : "block" } text-3xl font-bold sm:text-4xl`}>
+            {t("FaçaUm")} <TextGradient from="from-blue-700" via="via-pink-700" to="to-pink-500" text={`${t("Combo")}`} /> {t("ÚnicoEfascinante")}
+          </strong>
+          <strong className={`${locale !== "kr" ? "hidden" : "block" } text-3xl font-bold sm:text-4xl`}>
+            {t("독특하고흥미로운")} <TextGradient from="from-blue-700" via="via-pink-700" to="to-pink-500" text={`${t("콤보")}`} />{t("만들어보세요")}
           </strong>
           <p className="mt-4 text-gray-300">
-            Create a combo in just a few clicks and go enjoy very
-            exciting features. Your combo your idea.
+            {t("CreateAComboGoEnjoy")}
+            {t("ExcitingFeatures")}
           </p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center mb-24">
+      <div className="content-2 overflow-hidden grid grid-cols-1 sm:grid-cols-2 gap-4 items-center mb-24">
         <div className="mx-auto max-w-lg text-center">
           <strong className="text-3xl font-bold sm:text-4xl">
-            Encounter new and exciting ways to play
+            {t("EncounterNewWaysToPlay")}
           </strong>
           <p className="mt-4 text-gray-300">
-            Pick a combo or create one, enjoy all kinds of features and learn
-            how to win. Master how to pvp and pve by watching and playing.
+            {t("PickAComboOrCreate")}
+            {t("AndMasterHowToWin")}
           </p>
         </div>
         <div className="p-3">
           <Image
-            className="rounded-lg"
+            className="imagem-2 opacity-0 translate-x-[500px] rounded-lg"
             src="/BF-BG.png"
             width={600}
             height={600}
@@ -64,71 +120,73 @@ export default function LandingPageContent() {
       </div>
 
       <div className="mx-auto max-w-lg text-center">
-        <h3 className="text-3xl font-bold sm:text-4xl">
-          Start your journey <span className="curved-underline">here</span>
+        <h3 className={`${locale === "kr" ? "hidden" : "block"} text-3xl font-bold sm:text-4xl`}>
+          {t("StartYourJourney")} <span className="curved-underline">{t("Here")}</span>
+        </h3>
+        <h3 className={`${locale !== "kr" ? "hidden" : "block"} text-3xl font-bold sm:text-4xl`}>
+          <span className="curved-underline">{t("여기에서")}</span>{t("여행을 시작하세요")} 
         </h3>
 
         <p className="mt-4 text-gray-300">
-          Begin your journey with Blox Fruits with a great experience and enjoy
-          all kinds of features.
+          {t("BeginYourJourney")}
+          {t("AndEnjoyAllFeatures")}
         </p>
       </div>
       <div className="grid p-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-6">
         <div className="border rounded-lg cursor-pointer hover:shadow-xl hover:border-cyan-800 hover:shadow-cyan-800 transition-all dureation-300 ">
           <div className="flex flex-col gap-2 p-5">
             <Globe className="size-12" />
-            <span className="font-bold ">Join our community</span>
+            <span className="font-bold ">{t("JoinCommunity")}</span>
             <p>
-              Be part of a community who loves Blox Fruits and share your ideas
-              to those whose fits your personality and way of play.
+              {t("BePartOfCommunity")}
+              {t("WhoseFitsPersonallity")}
             </p>
           </div>
         </div>
         <div className="border rounded-lg cursor-pointer hover:shadow-xl hover:border-cyan-800 hover:shadow-cyan-800 transition-all dureation-300">
           <div className="flex flex-col gap-2 p-5">
             <PartyPopper className="size-12" />
-            <span className="font-bold ">Make Teams</span>
+            <span className="font-bold ">{t("MakeTeams")}</span>
             <p>
-              Find your team who has the same style of play and thinking as you
-              and start your Hunting.
+              {t("FindYourTeam")}
+              {t("StartHunting")}
             </p>
           </div>
         </div>
         <div className="border rounded-lg cursor-pointer hover:shadow-xl hover:border-cyan-800 hover:shadow-cyan-800 transition-all dureation-300">
           <div className="flex flex-col gap-2 p-5">
             <Search className="size-12" />
-            <span className="font-bold ">Combos</span>
+            <span className="font-bold ">{t("Combos")}</span>
             <p>
-              Take a look at others combos and inspire yourself with them to
-              tryout your new pvp style and battles.
+              {t("LookOthersCombosInspire")}
+              {t("TryOutNewPVPStyle")}
             </p>
           </div>
         </div>
         <div className="border rounded-lg cursor-pointer hover:shadow-xl hover:border-cyan-800 hover:shadow-cyan-800 transition-all dureation-300">
           <div className="flex flex-col gap-2 p-5">
             <Swords className="size-12" />
-            <span className="font-bold ">PVP</span>
+            <span className="font-bold ">{t("PVP")}</span>
             <p>
-              Challenge people to fight a pvp or a battle fight with you or your
-              team.
+              {t("ChallengeToFightPeople")}
             </p>
           </div>
         </div>
         <div className="border rounded-lg cursor-pointer hover:shadow-xl hover:border-cyan-800 hover:shadow-cyan-800 transition-all dureation-300">
           <div className="flex flex-col gap-2 p-5">
             <Award className="size-12" />
-            <span className="font-bold ">Highlight</span>
+            <span className="font-bold ">{t("Highlight")}</span>
             <p>
-              Find or Highlight combos to stand at the top of the leaderboard.
+              {t("FindOrHighlightCombos")}
             </p>
           </div>
         </div>
         <div className="border rounded-lg cursor-pointer hover:shadow-xl hover:border-cyan-800 hover:shadow-cyan-800 transition-all dureation-300">
           <div className="flex flex-col gap-2 p-5">
             <MessageCircleMore className="size-12" />
-            <span className="font-bold ">Comment</span>
+            <span className="font-bold ">{t("Comments")}</span>
             <p>
-              Discuss with people about their combos and share your thoughts.
+              {t("DiscussAndShareThoughts")}
             </p>
           </div>
         </div>

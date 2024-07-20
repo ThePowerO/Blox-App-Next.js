@@ -5,71 +5,95 @@ import LandingPageContent from "./LandingPageContent";
 import PricingSection from "./PricingSection";
 import { Separator } from "../ui/separator";
 import PricingHeader from "./PricingHeader";
+import { useTranslations } from "next-intl";
 
 export default function LandingPage() {
-
+  const t = useTranslations("LandingPage")
   const PricingPacks = [
     {
-      packname: "Starter Pack",
-      description: "For small scale projects",
-      timestopay: "3/3",
-      price: '1,99',
+      packname: `${t("StarterPack")}`,
+      description: `${t("TryOutNewFeatures")}`,
+      link:
+        process.env.NODE_ENV === "development" 
+          ? 'https://buy.stripe.com/test_5kA5lF8938B52CA3cf'
+          : '',
+      priceId:
+        process.env.NODE_ENV === "development"
+          ? "price_1PZcT4BvVijJQ1WrylJ6DThC"
+          : '',
+      price: `${t("1_99")}`,
       features: [
-        "Create up to 8 combos",
-        "1 Day of highlight duration",
-        "+3 Highlights",
-        "One time payment",
+        `${t("1DayOfHilightDuration")}`,
+        `${t("Plus3Highlights")}`,
+        `${t("Plus2FirstTime")}`,
+        `${t("OneTimePayment")}`,
+        `${t("UnlimitedPurchases")}`,
       ],
       notIncluded: [
-        'Unlimited combos',
-        "Up to 3 Days of highlight duration",
-        '+8 Highlights',
-        "+2 Highlights first time purchase",
-        "+15 Highlights per week",
-        "Monthly payment",
+        `${t("UnlimitedCombos")}`,
+        `${t("3DaysOfHighlightDuration")}`,
+        `${t("Plus8Highlights")}`,
+        `${t("Plus15PerWeek")}`,
+        `${t("MonthlyPayment")}`,
       ]
     },
-
+  
     {
-      packname: "Pro Pack",
-      description: "For large scale projects",
-      timestopay: "3/3",
-      price: '4,99',
+      packname: `${t("ProPack")}`,
+      description: `${t("EnjoyBrandNewFeatures")}`,
+      link:
+        process.env.NODE_ENV === "development" 
+          ? 'https://buy.stripe.com/test_4gwbK39d75oT5OM148'
+          : '',
+      priceId:
+        process.env.NODE_ENV === "development"
+          ? "price_1PaNzMBvVijJQ1Wr6dLNC1Dm"
+          : '',
+      price: `${t("4_99")}`,
       features: [
-        "Unlimited combos",
-        "2 Day of highlight duration",
-        "+8 Highlights",
-        "+2 Highlights first purchase",
-        "One time payment",
+        `${t("UnlimitedCombos")}`,
+        `${t("2DaysOfHighlightDuration")}`,
+        `${t("Plus8Highlights")}`,
+        `${t("Plus2FirstTime")}`,
+        `${t("OneTimePayment")}`,
+        `${t("UnlimitedPurchases")}`,
       ],
       notIncluded: [
-        "Up to 3 Days of highlight duration",
-        "+15 Highlights per week",
-        "Monthly payment",
+        `${t("3DaysOfHighlightDuration")}`,
+        `${t("Plus15PerWeek")}`,
+        `${t("MonthlyPayment")}`,
       ]
     },
-
+  
     {
-      packname: "Plus Pack",
-      description: "For large scale projects",
-      price: '10,99',
+      packname: `${t("PlusPack")}`,
+      isSubscription: true,
+      description: `${t("UnlockFullPotential")}`,
+      hasInfo: true,
+      link:
+        process.env.NODE_ENV === "development" 
+          ? 'https://buy.stripe.com/test_6oE3dxfBv04zeli9AF'
+          : '',
+      priceId:
+        process.env.NODE_ENV === "development"
+          ? "price_1PaOJnBvVijJQ1WrXqLRbQBK"
+          : '',
+      price: `${t("9_50")}`,
       features: [
-        "Unlimited combos",
-        "Up to 3 Days of highlight duration",
-        "+15 Highlights per week",
-        "Monthly payment",
-        "All previous features",
+        `${t("UnlimitedCombos")}`,
+        `${t("3DaysOfHighlightDuration")}`,
+        `${t("Plus15PerWeek")}`,
+        `${t("MonthlyPayment")}`,
       ],
     },
   ]
-
 
   return (
     <main>
       <LandingHeader />
       <section className="mt-8">
         <h2 className="font-bold text-2xl mb-4">
-          Take a look at the community combos
+          {t("TakeALookAtCombos")}
         </h2>
         <CombosShowcase />
       </section>
@@ -88,7 +112,10 @@ export default function LandingPage() {
                 price={pack.price}
                 features={pack.features}
                 notIncluded={pack.notIncluded}
-                timestopay={pack.timestopay}
+                link={pack.link}
+                priceId={pack.priceId}
+                isSubscription={pack.isSubscription}
+                hasInfo={pack.hasInfo}
               />
             ))}
           </div>

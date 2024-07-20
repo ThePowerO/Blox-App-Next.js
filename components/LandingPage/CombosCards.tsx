@@ -8,7 +8,6 @@ import MoreHorizontalBtn from "../HtmlComponents/MoreHorizontal";
 import FavortiteLikeBtn from "../SinglePageCombo/FavortiteLikeBtn";
 import { usePathname } from "next/navigation";
 import { useLocale } from "@/LocaleContext";
-import { User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { Heart, Star } from "lucide-react";
 import AddLikeButton, { AddFavoriteButton, AddLikeParagraph } from "../HtmlComponents/SubmitButtons";
@@ -21,7 +20,7 @@ export default function CombosCards({
   CommunityCombos: Combo[];
 }) {
   const { data: session } = useSession();
-  const currentUser = session?.user as User;
+  const currentUser = session?.user;
 
   const { locale } = useLocale();
   const pathName = usePathname();
@@ -68,11 +67,11 @@ export default function CombosCards({
             <div className="flex flex-1 flex-col justify-between">
               <div className="border-s border-gray-900/10 p-2 sm:border-l-transparent sm:p-2">
                 <Link href={`/${locale}/combos/${combo.slug}`}>
-                  <h3 className="font-bold tinymax420px:line-clamp-1 hover:underline uppercase text-gray-900 dark:text-white">
+                  <h3 className="font-bold line-clamp-1 hover:underline uppercase text-gray-900 dark:text-white">
                     {combo.combotitle}
                   </h3>
                 </Link>
-                <p className="mt-2 line-clamp-3 petit:line-clamp-1 tinymax:line-clamp-1 tiny:line-clamp-2 sm:line-clamp-1 md:line-clamp-3 text-sm/relaxed text-gray-700 dark:text-white">
+                <p className="mt-2 line-clamp-2 text-sm/relaxed text-gray-700 dark:text-white">
                   {combo.combodescription}
                 </p>
               </div>
@@ -124,7 +123,7 @@ export default function CombosCards({
                       userImg={combo.user.image || ""}
                       userNickName={combo.user.name || ""}
                     />
-                    <span className="hover:underline">@{combo.user.name}</span>
+                    <Link href={`/${locale}/profile/${combo.user.id}`} className="hover:underline">@{combo.user.name}</Link>
                   </div>
                   <Link
                     href={`/${locale}/combos/${combo.slug}`}
