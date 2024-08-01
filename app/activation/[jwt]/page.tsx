@@ -1,4 +1,4 @@
-import { activateUser } from "@/lib/actions/authActions"
+ =import { activateUser } from "@/lib/actions/authActions"
 import "@/app/activation/[jwt]/jwt.modules.css"
 import Link from "next/link";
 
