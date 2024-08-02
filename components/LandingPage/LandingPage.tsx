@@ -7,7 +7,18 @@ import { Separator } from "../ui/separator";
 import PricingHeader from "./PricingHeader";
 import { useLocale, useTranslations } from "next-intl";
 
-export default function LandingPage() {
+type currentUser = {
+  id: string;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+} | undefined
+
+type Props = {
+  currentUser: currentUser;
+}
+
+export default function LandingPage({ currentUser }: Props) {
   const t = useTranslations("LandingPage")
   const locale = useLocale();
   const PricingPacks = [
@@ -152,6 +163,7 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:items-stretch md:grid-cols-3 md:gap-8">
             {PricingPacks.map((pack) => (
               <PricingSection
+                currentUser={currentUser}
                 key={pack.packname}
                 packname={pack.packname}
                 description={pack.description}

@@ -5,8 +5,24 @@ import { stripe } from "@/lib/stripe";
 import { redirect } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import TextGradient from "../HtmlComponents/TextGradient";
+import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "../ui/dialog";
+import { Button } from "../ui/button";
+import { FcGoogle } from "react-icons/fc";
+import { IoLogoDiscord } from "react-icons/io5";
+import { signIn } from "next-auth/react";
+import { LoginGoogleDiscord } from "../HtmlComponents/NoSessionLikeFav";
+
+type currentUser =
+  | {
+      id: string;
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
+    }
+  | undefined;
 
 type PricingPack = {
+  currentUser: currentUser;
   packname: string;
   description: string;
   link?: string;
@@ -20,6 +36,7 @@ type PricingPack = {
 };
 
 export default function PricingSection({
+  currentUser,
   packname,
   description,
   price,
@@ -32,61 +49,97 @@ export default function PricingSection({
   priceId,
 }: PricingPack) {
   const t = useTranslations("LandingPage");
+  const t2 = useTranslations("SignInPage");
 
   return (
-    <div className={`${relevant === true ? "shadow-xl border-cyan-800 shadow-cyan-500 divide-cyan-900" : "border-gray-200 divide-gray-200"} divide-y divide-gray-200 rounded-2xl border  shadow-sm mt-7`}>
+    <div
+      className={`${
+        relevant === true
+          ? "shadow-xl border-cyan-800 shadow-cyan-500 divide-cyan-900"
+          : "border-gray-200 divide-gray-200"
+      } divide-y divide-gray-200 rounded-2xl border  shadow-sm mt-7`}
+    >
       <div className="p-6 sm:px-8">
         <div className={`mdmax:flex 940px:flex items-center justify-between`}>
           <h2 className="p-2 size-fit bg-cyan-400 rounded-full w-fit text-sm font-medium">
             {packname}
           </h2>
-          {relevant && <TextGradient text={t("BestOffer")} from={`from-amber-600 text-sm`} via="via-yellow-300" to="to-amber-700" />}
+          {relevant && (
+            <TextGradient
+              text={t("BestOffer")}
+              from={`from-amber-600 text-sm`}
+              via="via-yellow-300"
+              to="to-amber-700"
+            />
+          )}
         </div>
 
         <p className="mt-2">{description}</p>
 
         <p className="mt-2 sm:mt-4">
           <strong className="text-3xl font-bold sm:text-4xl">{price} </strong>
-          {isSubscription && <span className="text-sm font-medium">/{t("PerMonth")}</span>}
+          {isSubscription && (
+            <span className="text-sm font-medium">/{t("PerMonth")}</span>
+          )}
         </p>
 
-        <form>
-          <button
-            formAction={async () => {
-              "use server";
+        {currentUser ? (
+          <form>
+            <button
+              formAction={async () => {
+                "use server";
 
-              const authSession = await getServerSession(authOptions);
-              if (!authSession) {
-                return;
-              }
+                const authSession = await getServerSession(authOptions);
+                if (!authSession) {
+                  return;
+                }
 
-              const session = await stripe.checkout.sessions.create({
-                mode: isSubscription ? "subscription" : "payment",
-                payment_method_types: ["card"],
-                line_items: [
-                  {
-                    price: priceId,
-                    quantity: 1,
+                const session = await stripe.checkout.sessions.create({
+                  mode: isSubscription ? "subscription" : "payment",
+                  payment_method_types: ["card"],
+                  line_items: [
+                    {
+                      price: priceId,
+                      quantity: 1,
+                    },
+                  ],
+                  success_url: "http://localhost:3000/",
+                  cancel_url: "http://localhost:3000/",
+                  metadata: {
+                    userId: authSession.user.id,
                   },
-                ],
-                success_url: "http://localhost:3000/",
-                cancel_url: "http://localhost:3000/",
-                metadata: {
-                  userId: authSession.user.id,
-                },
-              });
+                });
 
-              redirect(
-                (link as string) + "?prefilled_email=" + authSession.user.email
-              );
-            }}
-            className="mt-4 w-full block rounded border border-cyan-300 bg-cyan-300 px-12 py-3
+                redirect(
+                  (link as string) +
+                    "?prefilled_email=" +
+                    authSession.user.email
+                );
+              }}
+              className="mt-4 w-full block rounded border border-cyan-300 bg-cyan-300 px-12 py-3
           text-center text-sm font-medium text-white hover:bg-transparent hover:text-cyan-300
           focus:outline-none focus:ring active:text-cyan-300 sm:mt-6"
-          >
-            {isSubscription ? `${t("SubscribeNow")}` : `${t("BuyPack")}`}
-          </button>
-        </form>
+            >
+              {isSubscription ? `${t("SubscribeNow")}` : `${t("BuyPack")}`}
+            </button>
+          </form>
+        ) : (
+          <Dialog>
+            <DialogTrigger>
+              <button
+                className="mt-4 w-full block rounded border border-cyan-300 bg-cyan-300 px-12 py-3
+                text-center text-sm font-medium text-white hover:bg-transparent hover:text-cyan-300
+                focus:outline-none focus:ring active:text-cyan-300 sm:mt-6"
+              >
+                {isSubscription ? `${t("SubscribeNow")}` : `${t("BuyPack")}`}
+              </button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>{t2("h1")}</DialogHeader>
+              <LoginGoogleDiscord />
+            </DialogContent>
+          </Dialog>
+        )}
       </div>
 
       <div className="p-6 sm:px-8">
