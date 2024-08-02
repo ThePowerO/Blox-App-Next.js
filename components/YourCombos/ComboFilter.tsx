@@ -3,15 +3,6 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useState } from "react";
-
-export const FilterTypes = [
-  "Recent",
-  "Old",
-  "Likes",
-  "Favorite",
-  "Highlighted",
-];
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,8 +13,8 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "../ui/button";
 
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import Image from "next/image";
 import TextGradient from "../HtmlComponents/TextGradient";
+import { useTranslations } from "next-intl";
 
 type Props = {
   fightingStyleFilter: string[];
@@ -150,6 +141,15 @@ export default function ComboFilter({
   weaponFilter,
   setWeaponFilter,
 }: Props) {
+  const t = useTranslations("YourCombos")
+  const FilterTypes = [
+    `${t("Recent")}`,
+    `${t("Old")}`,
+    `${t("Likes")}`,
+    `${t("Favorites")}`,
+    `${t("Highlighted")}`,
+  ];
+
   const SearchParams = useSearchParams();
   const selectedFilter = SearchParams.get("filter");
   const [isOpen, setIsOpen] = useState(false);
@@ -191,7 +191,7 @@ export default function ComboFilter({
       <div className="mt-[20px] flex flex-col gap-1">
         <div className="flex w-full tinymax:px-[10px] px-[40px] py-2 items-center border rounded-xl dark:border-none dark:bg-[#212529]">
           <div className="flex flex-wrap tinymax:gap-1 gap-4 items-center text-sm">
-            <p className="text-zinc-400">Filter by:</p>
+            <p className="text-zinc-400">{t("FilterBy")}</p>
             {FilterTypes.map((filterType) => (
               <Link
                 key={filterType}
@@ -215,10 +215,10 @@ export default function ComboFilter({
         <DropdownMenu modal={false} open={isOpen} onOpenChange={setIsOpen}>
           <DropdownMenuTrigger>
             <Button className="flex items-center gap-1">
-              Filter via references {isOpen ? <ChevronUp /> : <ChevronDown />}
+              {t("FilterViaReferences")} {isOpen ? <ChevronUp /> : <ChevronDown />}
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="" align="start">
+          <DropdownMenuContent align="start">
             <ScrollArea className="w-[290px] petit:w-[360px] tiny:w-[400px] medium:w-[500px] sm:w-[650px] md:w-[780px] lg:w-[1024px] whitespace-nowrap rounded-md border">
               <div className="flex w-max space-x-2 p-2">
                 <div className="p-2 border flex flex-col gap-1 flex-wrap rounded-lg max-h-[460px]">

@@ -1,24 +1,27 @@
 import React from 'react';
 import ActiveLink from './ActiveLink/ActiveLink';
 import { IoLanguageSharp } from 'react-icons/io5';
+import { useTranslations } from 'next-intl';
 
 const Links = ({ locale }: { locale: string }) => {
+  const t = useTranslations('NavBar');
+  const t2 = useTranslations('CreateComboPage');
   const links = [
     {
-      title: 'About',
-      path: '/about',
-    },
-    {
-      title: 'Users',
+      title: `${t('Users')}`,
       path: '/users',
     },
     {
-      title: 'Combos',
+      title: `${t('Combos')}`,
       path: '/combos',
     },
     {
-      title: 'Your Combos',
+      title: `${t('YourCombos')}`,
       path: '/your-combos',
+    },
+    {
+      title: `${t2('CreateCombo')}`,
+      path: "/create-combo",
     },
   ];
 

@@ -72,7 +72,6 @@
         "BuildAndShareTo": "Crie seu combo favorito e compartilhe para a comunidade de seu ",
         "InJustFewClicks": "gosto em apenas alguns cliques.",
         "GetStarted": "Começar",
-
         "LearnMore": "Saiba Mais",
         "TakeALookAtCombos": "Dê uma olhada nos combos da comunidade",
         "FaçaUm": "Faça um ",
@@ -102,13 +101,13 @@
         "FindOrHighlightCombos": "Veja combos Destacados ou faça um por voçê mesmo para ficar entre os melhores.",
         "Comments": "Comentários",
         "DiscussAndShareThoughts": "Converse com pessoas sobre seus combos e compartilhe seu pensamento.",
-        "PricingPackages": "Pricing Packages",
+        "PricingPackages": "Planos e Pacotes",
         "MakeCombosAtractive": "Receba Highlights para fazer seus combos mais chamativos e ficar entre os melhores.",
         "Plan": "Plan",
         "WhatsIncluded": "O que está incluído:",
-        "StarterPack": "Starter Pack",
-        "TryOutNewFeatures": "Para voçê quer experimentar recursos exclusivos",
-        "1_99": "R$5,00",
+        "StarterPack": "Pacote Inicial",
+        "TryOutNewFeatures": "Em um preço imbatível, experimente recursos exclusivos e mais.",
+        "1_99": "R$4,99",
         "1DayOfHilightDuration": "1 Dia de duração de Highlight",
         "Plus3Highlights": "+3 Highlights",
         "Plus2FirstTime": "+2 Highlights na primeira compra",
@@ -119,15 +118,121 @@
         "Plus8Highlights": "+8 Highlights",
         "Plus15PerWeek": "+15 Highlights por semana",
         "MonthlyPayment": "Pagamento Mensal",
-        "ProPack": "Pro Pack",
+        "ProPack": "Pacote Pro",
         "4_99": "R$11,00",
-        "EnjoyBrandNewFeatures": "Para voçê que quer imersão e usufruir de tudo que tem.",
+        "EnjoyBrandNewFeatures": "Em apenas R$11,00 eleve sua experiência com Combos ilimitados, durações de Highlights estendidos e mais.",
         "2DaysOfHighlightDuration": "Até de 2 Dias de duração do Highlight",
-        "PlusPack": "Plus Pack",
+        "PlusPack": "Pacote Plus",
         "9_50": "R$19,50",
-        "UnlockFullPotential": "Para voçê que quer entrar na Jornada de Hunting.",
+        "UnlockFullPotential": "O Pacote Plus fornece acesso valioso e contínuo a recursos premium. Faça quantos Combos exclusivos quiser e mantenha seus Highlights por até três dias inteiros.",
         "UnlimitedCombosIsPermament": "Combos Ilimitados é permanente",
         "BuyPack": "Comprar Pacote",
-        "SubscribeNow": "Assinar Agora"
+        "SubscribeNow": "Assinar Agora",
+        "PerMonth": "mês",
+        "BestOffer": "MELHOR OFERTA",
+        "PlusMemberTag": "Tag para Membros Plus"
+    },
+    "ComboBySlug": {
+        "ViewingCombo": "Visualizando Combo:",
+        "ComboProperties": "Propriedades do Combo:",
+        "BuiltBy": "Feito por:"
+    },
+    "CommentSection": {
+        "CommentRequired": "Comentário obrigatório",
+        "Comments": "Comentários",
+        "WriteComment": "Escreva um comentário..."
+    },
+    "CommentDisplay": {
+        "NoComments": "Nenhum comentário.",
+        "View": "Ver",
+        "Replies": "Respostas",
+        "Reply": "Resposta"
+    },
+    "CommentText": {
+        "Cancel": "Cancelar",
+        "Save": "Salvar",
+        "DeletingComment": "Excluindo Comentário...",
+        "DeleteComment": "Excluir Comentário",
+        "ShowLess": "Mostrar menos... >",
+        "ShowMore": "Mostrar mais... >",
+        "EditComment": "Editar Comentário"
+    },
+    "ALertDestructive": {
+        "NoComboFound": "Nenhum combo encontrado",
+        "CreateYourCombo": "Crie seu combo para ver ele aqui!",
+        "CreateCombo": "Criar Combo"
+    },
+    "YourCombos": {
+        "searchPlaceholder": "Procurar combo",
+        "Recent": "Recente",
+        "Old": "Antigo",
+        "Likes": "Likes",
+        "Favorites": "Favoritos",
+        "Highlighted": "Highlightado",
+        "FilterViaReferences": "Filtrar por referências",
+        "FilterBy": "Filtrar por: ",
+        "HighlightedCombo": "Esse combo está com highlight.",
+        "HighlightBonus": "Combos com highlight recebem bonus extras.",
+        "Highlight": "Highlight",
+        "ConfirmHighlight": "Vocé esta prestes a ",
+        "ConfirmHighlight2": "fazer highlight ",
+        "ConfirmHighlight3": "nesse combo.",
+        "WhenHighlighted": "Depois do highlight, receberá novas",
+        "Features": "funcionalidades",
+        "HighlightConfigurations": "Configurações de Highlight",
+        "AutoRenovate": "Auto Renovar",
+        "AutomaticallyRenovate": "Renovar automaticamente o highlight logo após o fim do highlight.",
+        "HighlightTime": ". Highlights duram por 1 dia.",
+        "IncreaseHighlightTime": "Deseja aumentar o tempo de highlight?",
+        "CheckPacks": "Ver pacotes",
+        "MakeHighlight": "Fazer Highlight",
+        "ViewMore": "Ver Mais",
+        "LoadMore": "Carregar mais"
+    },
+    "ProfilePage": {
+        "TopCombos": "Top Combos",
+        "TopComments": "Top Comentários",
+        "Relevant": "Relevante",
+        "ImageRequired": "Imagem é obrigatória",
+        "UsernameRequired": "Username é obrigatório",
+        "TooLong": "Username é muito longo",
+        "TooShort": "Username é muito curto",
+        "AllowedCharacters": "Apenas letras, números e underlines são permitidos",
+        "ImageAtLeast150px": "Imagem deve ter pelo menos 150px x 150px",
+        "SaveImg": "Salvar imagem",
+        "UsernameChange": "Mudança Username",
+        "UsernameChangeTime": "Depois de alterar o username, você poderá alterar novamente em 7 dias.",
+        "NewUsername": "Digite o novo username",
+        "PlusMember": "Este usuário é um Plus Member e por isso pode receber recompensas extras.",
+        "Combos": "Combos:",
+        "TotalLikes": "Total de Likes:",
+        "TotalFavorites": "Total de Favoritos:",
+        "Update": "Atualizar"
+    },
+    "NavBar": {
+        "SignOut": "Sair",
+        "SignIn": "Logar",
+        "Users": "Usuários",
+        "Combos": "Combos",
+        "YourCombos": "Seus Combos"
+    },
+    "UsersPage": {
+        "MostCombos": "Com mais combos",
+        "MostLikes": "Com mais curtidas",
+        "MostFavorites": "Com mais favoritos",
+        "MostComments": "Com mais comentários",
+        "PlusMembers": "Membros Plus",
+        "SearchUsersMessage": "Aqui você pode pesquisar usuários ou usar o filtro para obter seus resultados.",
+        "SearchUser": "Pesquisar por usuário",
+        "UsersPage": "Página de usuários"
+    },
+    "Description": {
+        "DescriptionRequired": "Descrição é necessária",
+        "DescriptionShort": "A descrição é muito curta",
+        "DescriptionLong": "A descrição é muito longa"
+    },
+    "CreateComboLayout": {
+        "ComboCountReached": "Contagem máxima de combinações alcançada",
+        "DiscoverPacks": "Aproveitando o seu tempo no site e quer fazer mais combos? Descubra nossos pacotes incríveis para experiências aprimoradas."
     }
 }

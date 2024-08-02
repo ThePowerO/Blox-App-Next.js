@@ -92,13 +92,13 @@
         "FindOrHighlightCombos": "Finden oder markieren Sie Combos, um an der Spitze der Bestenliste zu stehen.",
         "Comments": "Comments",
         "DiscussAndShareThoughts": "Diskutieren Sie mit anderen über ihre Combos und teilen Sie Ihre Gedanken.",
-        "PricingPackages": "Preispakete",
+        "PricingPackages": "Pläne & Pakete",
         "MakeCombosAtractive": "Holen Sie sich Highlights, um Ihre Combos attraktiver zu machen und zu den Besten zu gehören.",
         "Plan": "Plan",
         "WhatsIncluded": "Was ist inbegriffen:",
         "StarterPack": "Starter Pack",
-        "TryOutNewFeatures": "Für alle, die neue Feature ausprobieren möchten.",
-        "1_99": "€1.99",
+        "TryOutNewFeatures": "Erleben Sie exklusive Funktionen und mehr zu einem unschlagbaren Preis.",
+        "1_99": "€1,99",
         "1DayOfHilightDuration": "1 Tag Highlight-Dauer",
         "Plus3Highlights": "+3 Highlights",
         "Plus2FirstTime": "+2 Highlights beim ersten Kauf",
@@ -110,14 +110,119 @@
         "Plus15PerWeek": "+15 Highlights pro Woche",
         "MonthlyPayment": "Monatliche Bezahlung",
         "ProPack": "Pro Pack",
-        "4_99": "€4.99",
-        "EnjoyBrandNewFeatures": "Für diejenigen, die dabei bleiben und brandneue Feature genießen möchten.",
+        "4_99": "€4,99",
+        "EnjoyBrandNewFeatures": "Erweitern Sie Ihr Erlebnis für nur €4,99 mit unbegrenzten Combos, verlängerten Highlight-Dauern und mehr.",
         "2DaysOfHighlightDuration": "Bis zu 2 Tage Highlight-Dauer",
         "PlusPack": "Plus Pack",
-        "9_50": "€9.50",
-        "UnlockFullPotential": "Für alle, die die Hunter Journey wirklich genießen möchten.",
+        "9_50": "€9,50",
+        "UnlockFullPotential": "Das Plus Pack bietet wertvollen und kontinuierlichen Zugriff auf Premium-Funktionen. Erstellen Sie beliebig viele einzigartige Combos und behalten Sie Ihre Highlights bis zu drei volle Tage lang.",
         "UnlimitedCombosIsPermament": "Unbegrenzte Combos sind ein dauerhaftes Feature",
         "BuyPack": "Paket kaufen",
-        "SubscribeNow": "Jetzt abonnieren"
+        "SubscribeNow": "Jetzt abonnieren",
+        "PerMonth": "Monat",
+        "BestOffer": "BESTES ANGEBOT",
+        "PlusMemberTag": "Plus Member Tag"
+    },
+    "ALertDestructive": {
+        "NoComboFound": "Kein Kombo gefunden",
+        "CreateYourCombo": "Erstellen Sie Ihre Combo, um sie hier zu sehen!",
+        "CreateCombo": "Combo erstellen"
+    },
+    "YourCombos": {
+        "searchPlaceholder": "Combo durchsuchen...",
+        "Recent": "Neueste",
+        "Old": "Alte",
+        "Likes": "Likes",
+        "Favorites": "Favoriten",
+        "Highlighted": "Highlightet",
+        "FilterViaReferences": "Via Referenzen filtern",
+        "FilterBy": "Filtern nach: ",
+        "HighlightedCombo": "Dieser Combo ist highlightet.",
+        "HighlightBonus": "Highlighted Combos erhalten zusätzliche Bonus.",
+        "Highlight": "Highlight",
+        "ConfirmHighlight": "Sie sind dabei, ",
+        "ConfirmHighlight2": "diese Combo ",
+        "ConfirmHighlight3": "hervorheben",
+        "WhenHighlighted": "Wenn highlightet, erhalten Sie zusätzliche",
+        "Features": "Bonus",
+        "HighlightConfigurations": "Highlight Configuration",
+        "AutoRenovate": "Auto Renovieren",
+        "AutomaticallyRenovate": "Automatisch neu erstellen und bei Bedarf erneuern.",
+        "HighlightTime": ". Highlightzeit ist 1 Tag.",
+        "IncreaseHighlightTime": "Wollen Sie die Highlightzeit erhöhen?",
+        "CheckPacks": "Packs prüfen",
+        "MakeHighlight": "Highlight erstellen",
+        "ViewMore": "Mehr anzeigen"
+    },
+    "ComboBySlug": {
+        "ViewingCombo": "Visualisierung der Combos:",
+        "ComboProperties": "Eigenschaften der Combos:",
+        "BuiltBy": "Erstellt von:"
+    },
+    "CommentSection": {
+        "CommentRequired": "Kommentar erforderlich",
+        "Comments": "Kommentare",
+        "WriteComment": "Schreibe einen Kommentar..."
+    },
+    "CommentDisplay": {
+        "NoComments": "Keine Kommentare.",
+        "View": "anzeigen",
+        "Replies": "Antworten",
+        "Reply": "Antwort"
+    },
+    "CommentText": {
+        "Cancel": "Abbrechen",
+        "Save": "Speichern",
+        "DeletingComment": "Kommentar wird gelöscht...",
+        "DeleteComment": "Kommentar löschen",
+        "ShowLess": "weniger... >",
+        "ShowMore": "mehr... >",
+        "EditComment": "Kommentar bearbeiten"
+    },
+    "ProfilePage": {
+        "TopCombos": "Top Combos",
+        "TopComments": "Top-Kommentare",
+        "Relevant": "Relevant",
+        "ImageRequired": "Bild ist erforderlich",
+        "UsernameRequired": "Benutzername wird benötigt",
+        "TooLong": "Der Benutzername ist zu lang",
+        "TooShort": "Der Benutzername ist zu kurz",
+        "AllowedCharacters": "Erlaubt sind nur Buchstaben, Zahlen und Unterstriche",
+        "ImageAtLeast150px": "Das Bild muss mindestens 150 x 150 Pixel groß sein.",
+        "SaveImg": "Bild speichern",
+        "UsernameChange": "Benutzernamenänderung",
+        "UsernameChangeTime": "Nach der Änderung des Benutzernamens ist eine erneute Änderung nur innerhalb der nächsten 7 Tage möglich.",
+        "NewUsername": "Neuen Benutzernamen eingeben",
+        "PlusMember": "Dieser Benutzer ist ein Plus-Mitglied und kann daher zusätzliche Prämien erhalten.",
+        "Combos": "Combos:",
+        "TotalLikes": "Gesamtzahl der Likes:",
+        "TotalFavorites": "Favoriten gesamt:",
+        "Update": "Aktualisieren"
+    },
+    "NavBar": {
+        "SignOut": "Abmelden",
+        "SignIn": "Anmelden",
+        "Users": "Benutzer",
+        "Combos": "Combo",
+        "YourCombos": "Ihre Combo"
+    },
+    "UsersPage": {
+        "MostCombos": "Mit den meisten Combos",
+        "MostLikes": "Mit den meisten Likes",
+        "MostFavorites": "Mit den meisten Favoriten",
+        "MostComments": "Mit den meisten Kommentaren",
+        "PlusMembers": "Plus-Mitglieder",
+        "SearchUsersMessage": "Here you can search for users or use the filter to get your results.",
+        "SearchUser": "Nach Benutzer suchen",
+        "UsersPage": "Benutzerseite"
+    },
+    "Description": {
+        "DescriptionRequired": "Beschreibung ist erforderlich",
+        "DescriptionShort": "Beschreibung ist zu kurz",
+        "DescriptionLong": "Beschreibung ist zu lang"
+    },
+    "CreateComboLayout": {
+        "ComboCountReached": "Maximale Combo-Anzahl erreicht",
+        "DiscoverPacks": "Genießen Sie Ihre Zeit auf der Website und möchten mehr Kombos erstellen? Entdecken Sie unsere unglaublichen Pakete für verbesserte Erlebnisse."
     }
 }

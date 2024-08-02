@@ -2,13 +2,12 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
 import React from "react";
 import prisma from "@/lib/prisma";
-import { Combo, User } from "@prisma/client";
 import CombosDisplay from "./CombosDisplay";
 import { AlertDestructive } from "../HtmlComponents/ErrorAlert";
 
 export default async function YourCombos() {
   const session = await getServerSession(authOptions);
-  const currentUser = session?.user as User;
+  const currentUser = session?.user;
 
   if (!currentUser) {
     return <AlertDestructive />
@@ -36,7 +35,7 @@ export default async function YourCombos() {
       {comboData.length === 0 ? (
         <AlertDestructive />
       ) : (
-        <CombosDisplay ParamsUserId="" isProfilePage={false} user={user as User} comboData={comboData as any} />
+        <CombosDisplay isCombosPage={false} ParamsUserId="" isProfilePage={false} user={user as any} comboData={comboData as any} />
       )}
     </div>
   );

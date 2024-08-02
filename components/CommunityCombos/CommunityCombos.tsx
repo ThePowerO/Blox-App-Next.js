@@ -2,7 +2,6 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
 import React from "react";
 import prisma from "@/lib/prisma";
-import { User } from "@prisma/client";
 import { AlertDestructive } from "../HtmlComponents/ErrorAlert";
 import CombosDisplay from "../YourCombos/CombosDisplay";
 
@@ -14,6 +13,7 @@ export default async function CommunityCombos() {
     include: {
       favorites: true,
       likes: true,
+      user: true,
     }
   });
 
@@ -26,7 +26,7 @@ export default async function CommunityCombos() {
       {comboData.length === 0 ? (
         <AlertDestructive />
       ) : (
-        <CombosDisplay ParamsUserId="" isProfilePage={false} user={user as User} comboData={comboData as any} />
+        <CombosDisplay isCombosPage={true} ParamsUserId="" isProfilePage={false} user={user as any} comboData={comboData as any} />
       )}
     </div>
   );

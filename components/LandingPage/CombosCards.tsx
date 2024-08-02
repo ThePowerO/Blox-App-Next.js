@@ -118,13 +118,13 @@ export default function CombosCards({
                   </div>
                 </div>
                 <div className="flex justify-between ml-2 mt-2">
-                  <div className="flex gap-2 items-center">
+                  <Link href={`/${locale}/profile/${combo.user.id}`} className="flex gap-2 hover:underline cursor-pointer items-center">
                     <AvatarDemo
                       userImg={combo.user.image || ""}
                       userNickName={combo.user.name || ""}
                     />
-                    <Link href={`/${locale}/profile/${combo.user.id}`} className="hover:underline">@{combo.user.name}</Link>
-                  </div>
+                    <span>@{combo.user.name}</span>
+                  </Link>
                   <Link
                     href={`/${locale}/combos/${combo.slug}`}
                     className="bg-cyan-500 px-5 py-3 text-center text-xs font-bold uppercase text-gray-900 transition hover:bg-cyan-600"

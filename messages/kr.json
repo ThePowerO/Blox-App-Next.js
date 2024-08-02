@@ -64,7 +64,6 @@
         "BuildAndShareTo": "단 몇 번의 클릭만으로 좋아하는 콤보를 만들고 ",
         "InJustFewClicks": "같은 종류의 커뮤니티에 공유할 수 있습니다.",
         "GetStarted": "시작해보다",
-
         "LearnMore": "Learn More",
         "TakeALookAtCombos": "커뮤니티 콤보를 확인해보세요",
         "독특하고흥미로운": "독특하고 흥미로운 ",
@@ -99,8 +98,8 @@
         "Plan": "Plan",
         "WhatsIncluded": "포함된 것:",
         "StarterPack": "Starter Pack",
-        "TryOutNewFeatures": "새로운 기능을 사용해 보고 싶은 분들을 위한 제품입니다.",
-        "1_99": "₩1.99",
+        "TryOutNewFeatures": "최고의 가격으로 독점적인 기능 등을 경험하세요.",
+        "1_99": "2,500원",
         "1DayOfHilightDuration": "하이라이트 기간 1일",
         "Plus3Highlights": "+3 하이라이트",
         "Plus2FirstTime": "+2 하이라이트 첫 구매",
@@ -112,14 +111,118 @@
         "Plus15PerWeek": "주당 +15개 하이라이트",
         "MonthlyPayment": "월별 결제",
         "ProPack": "Pro Pack",
-        "4_99": "₩4.99",
-        "EnjoyBrandNewFeatures": "새로운 기능을 고수하고 즐기고 싶은 사람들을 위한 제품입니다.",
+        "4_99": "5,500원",
+        "EnjoyBrandNewFeatures": "단 5,500원에 무제한 콤보, 연장된 하이라이트 지속 시간 등으로 경험을 한 단계 업그레이드하세요.",
         "2DaysOfHighlightDuration": "하이라이트 기간 최대 2일",
         "PlusPack": "Plus Pack",
-        "9_50": "₩9.50",
-        "UnlockFullPotential": "헌터 저니를 진정으로 즐기고 싶은 분들을 위한 제품입니다.",
+        "9_50": "9,500원",
+        "UnlockFullPotential": "플러스 팩은 프리미엄 기능에 대한 가치 있고 지속적인 액세스를 제공합니다. 고유한 콤보를 원하는 만큼 만들고 하이라이트를 최대 3일 동안 보관하세요.",
         "UnlimitedCombosIsPermament": "무제한 콤보는 영구적입니다.",
         "BuyPack": "팩 구매",
-        "SubscribeNow": "지금 가입하기"
+        "SubscribeNow": "지금 가입하기",
+        "PerMonth": "월",
+        "BestOffer": "최고 제공",
+        "PlusMemberTag": "플러스 멤버 태그"
+    },
+    "ALertDestructive": {
+        "NoComboFound": "콤보를 찾을 수 없습니다",
+        "CreateYourCombo": "콤보 만들기, 여기를 참조하세요!",
+        "CreateCombo": "콤보 만들기"
+    },
+    "YourCombos": {
+        "searchPlaceholder": "콤보 검색",
+        "Recent": "최근",
+        "Old": "오래된",
+        "Likes": "좋아요",
+        "Favorites": "가장 좋아하는",
+        "Highlighted": "하이라이트",
+        "FilterViaReferences": "참조로 필터링",
+        "FilterBy": "참조로: ",
+        "HighlightedCombo": "이 콤보가 하이라이트된다.",
+        "HighlightBonus": "하이라이트 콤보는 부가적인 보너스를 받습니다.",
+        "Highlight": "하이라이트",
+        "ConfirmHighlight": "이 콤보를 하이라이트는 데",
+        "ConfirmHighlight2": "한 단계",
+        "ConfirmHighlight3": "남았습니다.",
+        "WhenHighlighted": "하이라이트 콤보를 사용하면",
+        "Features": "추가 특색",
+        "HighlightConfigurations": "하이라이트 설정",
+        "AutoRenovate": "자동차 리노베이션",
+        "AutomaticallyRenovate": "하이라이트 시간이 끝나면 하이라이트를 자동으로 갱신합니다.",
+        "HighlightTime": "에 액세스할 수 있습니다. 하이라이트는 1일 동안 유지됩니다.",
+        "IncreaseHighlightTime": "하이라이트 시간을 늘리고 싶으신가요?",
+        "CheckPacks": "팩 확인",
+        "MakeHighlight": "하이라이트 만들기",
+        "ViewMore": "더 보기",
+        "LoadMore": "더 불러오기"
+    },
+    "ComboBySlug": {
+        "ViewingCombo": "콤보 확인:",
+        "ComboProperties": "콤보 속성:",
+        "BuiltBy": "만든 사람"
+    },
+    "CommentSection": {
+        "CommentRequired": "댓글이 필요합니다",
+        "Comments": "댓글",
+        "WriteComment": "댓글 입력하기..."
+    },
+    "CommentDisplay": {
+        "NoComments": "댓글이 없습니다.",
+        "View": "답글",
+        "Replies": "개 보기"
+    },
+    "CommentText": {
+        "Cancel": "중지",
+        "Save": "저장",
+        "DeletingComment": "댓글을 삭제하는 중...",
+        "DeleteComment": "댓글 삭제",
+        "ShowLess": "덜 보기... >",
+        "ShowMore": "더 보기... >",
+        "EditComment": "댓글 수정"
+    },
+    "ProfilePage": {
+        "TopCombos": "인기 콤보",
+        "TopComments": "인기 댓글",
+        "Relevant": "관련 있는",
+        "ImageRequired": "이미지가 필요합니다",
+        "UsernameRequired": "사용자 이름이 필요합니다",
+        "TooLong": "사용자 이름이 너무 깁니다",
+        "TooShort": "사용자 이름이 너무 짧습니다",
+        "AllowedCharacters": "문자, 숫자, 밑줄만 허용됩니다.",
+        "ImageAtLeast150px": "이미지는 최소 150px x 150px이어야 합니다.",
+        "SaveImg": "이미지를 저장",
+        "UsernameChange": "사용자 이름 변경",
+        "UsernameChangeTime": "사용자 이름을 변경한 후에는 다음 7일 동안만 다시 변경할 수 있습니다.",
+        "NewUsername": "새로운 사용자 이름을 입력하세요",
+        "PlusMember": "이 사용자는 Plus Member이므로 추가 보상을 받을 수 있습니다.",
+        "Combos": "콤보:",
+        "TotalLikes": "좋아요 총 개수:",
+        "TotalFavorites": "즐겨찾기 총 개수:"
+    },
+    "NavBar": {
+        "SignOut": "로그 아웃",
+        "SignIn": "로그인",
+        "Users": "사용자",
+        "Combos": "콤보",
+        "YourCombos": "개인 콤보"
+    },
+    "UsersPage": {
+        "MostCombos": "가장 많은 콤보",
+        "MostLikes": "가장 많은 좋아요",
+        "MostFavorites": "가장 많은 즐겨찾기",
+        "MostComments": "가장 많은 댓글",
+        "PlusMembers": "플러스 멤버",
+        "SearchUsersMessage": "여기에서 사용자를 검색하거나 필터를 사용하여 결과를 얻을 수 있습니다.",
+        "SearchUser": "사용자 검색",
+        "UsersPage": "사용자 페이지"
+    },
+    "Description": {
+        "DescriptionRequired": "설명이 필요합니다",
+        "DescriptionShort": "설명이 너무 짧습니다",
+        "DescriptionLong": "설명이 너무 깁니다"
+    },
+    "CreateComboLayout": {
+        "ComboCountReached": "최대 콤보 수에 도달했습니다",
+        "DiscoverPacks": "사이트에서 즐거운 시간을 보내고 더 많은 콤보를 만들고 싶으신가요? 더 향상된 경험을 위해 우리의 놀라운 팩을 확인해보세요."
     }
 }

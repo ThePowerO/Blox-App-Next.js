@@ -40,6 +40,8 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Switch } from "@/components/ui/switch";
+import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
   comboId: z.string(),
@@ -65,7 +67,10 @@ export default function MoreHorizontalBtn({
   combo: Combo;
   user: User;
 }) {
+  const router = useRouter();
   const { locale } = useLocale();
+  const t = useTranslations("YourCombos");
+  const t2 = useTranslations("CommentText");
 
   const form = useForm<FormType>({
     resolver: zodResolver(FormSchema),
@@ -109,21 +114,19 @@ export default function MoreHorizontalBtn({
   return (
     <div>
       <DropdownMenu>
-        <DropdownMenuTrigger className="outline-none">
-          <div className="hover:bg-slate-200 dark:hover:bg-stone-600 p-1 rounded-full transition-all">
-            <MoreHorizontal width={18} height={18} />
-          </div>
+        <DropdownMenuTrigger className="hover:bg-slate-200 dark:hover:bg-stone-600 p-1 rounded-full transition-all">
+          <MoreHorizontal width={18} height={18} />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
           <div className="p-1">
             <Dialog>
-              <DialogTrigger>
-                <Button className="w-full bg-yellow-400 hover:bg-yellow-500 text-black flex gap-1">
+              <DialogTrigger className="w-full">
+                <Button type="button" className="w-full bg-yellow-400 hover:bg-yellow-500 text-black flex gap-1">
                   <Award width={18} height={18} />
                   <span>
                     {combo.highlight === "HIGHLIGHTED"
                       ? "Configurate"
-                      : "Highlight"}
+                      : `${t("Highlight")}`}
                   </span>
                 </Button>
               </DialogTrigger>
@@ -132,13 +135,13 @@ export default function MoreHorizontalBtn({
                   <DialogTitle>
                     {combo.highlight === "HIGHLIGHTED" ? (
                       <span className="text-amber-400">
-                        Highlight Configurations
+                        {t("HighlightConfigurations")}
                       </span>
                     ) : (
                       <>
-                        You are about to{" "}
-                        <span className="text-amber-400">highlight</span> this
-                        combo.
+                        {t("ConfirmHighlight")}
+                        <span className="text-amber-400">{t("ConfirmHighlight2")}</span>
+                        {t("ConfirmHighlight3")}
                       </>
                     )}
                   </DialogTitle>
@@ -157,10 +160,10 @@ export default function MoreHorizontalBtn({
                                   <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                                     <div className="space-y-0.5">
                                       <FormLabel className="text-base font-bold">
-                                        Auto Renovate
+                                        {t("AutoRenovate")}
                                       </FormLabel>
                                       <FormDescription>
-                                        Automatically renew the highlight after the end of the highlight time.
+                                        {t("AutomaticallyRenovate")}
                                       </FormDescription>
                                     </div>
                                     <FormControl>
@@ -177,26 +180,33 @@ export default function MoreHorizontalBtn({
                               className="bg-cyan-400 w-fit hover:bg-cyan-500 text-black"
                               type="submit"
                             >
-                              Save
+                              {t2("Save")}
                             </Button>
                           </form>
                         </Form>
                       </>
                     ) : (
                       <>
-                        When highlighted you will gain access to{" "}
-                        <span className="text-green-600">customize</span> it,
-                        highlights remains for 1 day.
+                        {t("WhenHighlighted")}{" "}
+                        <span className="text-green-600">{t("Features")}</span>
+                        {t("HighlightTime")}
                         <Button
+                          onClick={() => {
+                            router.push(`/${locale}/`);
+                            setTimeout(() => {
+                              router.push(`/${locale}/#pricing-packs`);
+                            }, 500);
+                            const element = document.getElementById("pricing-packs");
+                            if (element) {
+                              element.scrollIntoView({ behavior: "smooth" });
+                            }
+                          }}
                           variant={"link"}
-                          className="block pl-0 text-blue-500"
+                          className="flex pl-0 items-center text-blue-500 gap-1"
+                          type="button"
                         >
-                          <Link
-                            className="flex gap-1 items-center"
-                            href={`/${locale}/`}
-                          >
-                            Learn More <ArrowRight size={18} />
-                          </Link>
+                          {t("CheckPacks")}
+                          <ArrowRight className="text-blue-500" width={18} height={18} />
                         </Button>
                       </>
                     )}
@@ -216,7 +226,7 @@ export default function MoreHorizontalBtn({
                             type="submit"
                           >
                             <DollarSign width={18} height={18} />
-                            Make Highlight
+                            {t("MakeHighlight")}
                           </Button>
                         </form>
                       </Form>
@@ -225,7 +235,7 @@ export default function MoreHorizontalBtn({
                         className="bg-yellow-400 hover:bg-yellow-500 text-black"
                         type="button"
                       >
-                        highlight No
+                        {t("MakeHighlight")}
                       </Button>
                     )}
                   </DialogFooter>

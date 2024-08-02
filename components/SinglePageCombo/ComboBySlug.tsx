@@ -1,7 +1,6 @@
 import Image from "next/image";
 import React from "react";
 import { HoverComboAuthor } from "../HtmlComponents/HoverComboAuthor";
-import FavortiteLikeBtn from "./FavortiteLikeBtn";
 import { Combo } from "@/lib/types";
 import { getServerSession } from "next-auth";
 import { Textarea } from "@/components/ui/textarea";
@@ -17,12 +16,18 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { User } from "@prisma/client";
 import AddLikeButton, { AddFavoriteButton, AddLikeParagraph } from "../HtmlComponents/SubmitButtons";
 import NoSessionLikeFav from "../HtmlComponents/NoSessionLikeFav";
+import { useTranslations } from "next-intl";
+import FavortiteLikeBtn from "./FavortiteLikeBtn";
 
 type Props = {
   combo: Combo;
 };
 
+
 export default async function ComboBySlug({ combo }: Props) {
+
+  const t = useTranslations("ComboBySlug")
+  
   const session = await getServerSession(authOptions);
   const currentUser = session?.user as User;
 
@@ -31,7 +36,7 @@ export default async function ComboBySlug({ combo }: Props) {
       <section className="hidden sm:block w-full p-4 rounded-lg">
         <header className="flex items-center justify-between border-b pb-2 mb-4">
           <h1 className="text-lg font-semibold">
-            Viewing Combo:{" "}
+            {t("ViewingCombo")}{" "}
             <span className="text-gradient bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text text-transparent">
               {combo.combotitle}
             </span>
@@ -93,7 +98,7 @@ export default async function ComboBySlug({ combo }: Props) {
         </div>
 
         <div className="mb-4">
-          <h2 className="font-bold mb-2">Combo Properties:</h2>
+          <h2 className="font-bold mb-2">{t("ComboProperties")}</h2>
           <div className="flex gap-2">
             <SpecialtyBadge specialty={combo.specialty} />
             <RaceBadge race={combo.race} />
@@ -104,7 +109,7 @@ export default async function ComboBySlug({ combo }: Props) {
 
         <div className="flex items-center justify-between mb-4">
           <div>
-            Built by{" "}
+            {t("BuiltBy")}{" "}
             <HoverComboAuthor
               authorCreatedAt={combo.user.createdAt}
               comboAuthor={combo.user.name || ""}
@@ -122,7 +127,7 @@ export default async function ComboBySlug({ combo }: Props) {
       <section className="sm:hidden w-full grid grid-cols-1 gap-2 p-2">
         <div className="flex items-center w-full gap-2 border rounded-[8px] p-2">
           <h1 className="text-[12px]">
-            You are viewing the combo{" "}
+            {t("ViewingCombo")}{" "}
             <span className="bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text font-extrabold text-transparent">
               {combo.combotitle}
             </span>
@@ -185,7 +190,7 @@ export default async function ComboBySlug({ combo }: Props) {
           readOnly
           value={combo.combodescription}
         />
-        <h2 className="font-bold">Combo Properties:</h2>
+        <h2 className="font-bold">{t("ComboProperties")}</h2>
         <div className="flex gap-2">
           <SpecialtyBadge specialty={combo.specialty} />
           <RaceBadge race={combo.race} />

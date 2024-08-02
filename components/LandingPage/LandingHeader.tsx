@@ -8,8 +8,10 @@ import Ope from "../../public/ControlFruit.webp";
 import gsap from 'gsap';
 import React, { useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 export default function LandingHeader() {
+  const learnMoreRef = useRef<HTMLDivElement>(null);
   const mammothRef = useRef(null);
   const leopardRef = useRef(null);
   const bombRef = useRef(null);
@@ -51,6 +53,12 @@ export default function LandingHeader() {
   }, []);
 
   const t = useTranslations("LandingPage");
+
+  useEffect(() => {
+    if (window.location.hash === "#learn-more-section" && learnMoreRef.current) {
+      learnMoreRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
 
   return (
     <>
@@ -125,7 +133,7 @@ export default function LandingHeader() {
             </a>
 
             <a
-              href="#"
+              href="#learn-more-section"
               className="block w-full rounded bg-white px-12 py-3 text-sm font-medium text-cyan-500 shadow hover:text-cyan-700 focus:outline-none focus:ring active:text-cyan-500 sm:w-auto"
             >
               {t("LearnMore")}
@@ -133,7 +141,7 @@ export default function LandingHeader() {
           </div>
         </div>
       </div>
-      <div className="flex justify-center">
+      <div ref={learnMoreRef} id="learn-more-section" className="flex justify-center">
         <Image alt="" src={"/SquigleArrowShort.png"} width={60} height={60} />
       </div>
     </>

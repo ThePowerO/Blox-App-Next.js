@@ -29,7 +29,7 @@ import { it } from 'date-fns/locale';
 import { zhCN } from 'date-fns/locale';
 import { ptBR } from 'date-fns/locale';
 import { enUS } from 'date-fns/locale';
-import { useLocale } from "@/LocaleContext"; 
+import { useLocale, useTranslations } from "next-intl";
 
 const locales = {
   en: enUS,
@@ -71,11 +71,12 @@ type Props = {
 };
 
 export default function SubMessages({ comment }: Props) {
+  const t = useTranslations("CommentDisplay");
   const [showMore, setShowMore] = useState(false);
   const { data: session } = useSession();
-  const currentUser = session?.user as User;
+  const currentUser = session?.user;
   const pathName = usePathname();
-  const { locale } = useLocale();
+  const locale = useLocale();
 
   const replies = comment.replies as Replies[];
 
@@ -85,8 +86,8 @@ export default function SubMessages({ comment }: Props) {
         onClick={() => setShowMore((prev) => !prev)}
         variant="link"
         className={`absolute rounded-lg
-        ${currentUser.id === comment.user.id ? "top-[-30px] petit:top-[-30px]" : "top-[-25px]" }
-        ${comment.userId === currentUser.id ? "left-[50px] petit:left-[170px]" : "left-[25px] petit:left-[140px]"} flex p-0 items-center gap-1 w-fit h-[30px] ${
+        ${currentUser?.id === comment.user.id ? "top-[-30px] petit:top-[-30px]" : "top-[-25px]" }
+        ${comment.userId === currentUser?.id ? "left-[50px] petit:left-[170px]" : "left-[25px] petit:left-[140px]"} flex p-0 items-center gap-1 w-fit h-[30px] ${
           showMore && "underline"
         }`}
       >
@@ -97,7 +98,21 @@ export default function SubMessages({ comment }: Props) {
             ) : (
               <ChevronDown className="size-[16px]" />
             )}
-            {`View ${replies.length} replies`}
+            {`${locale === 'jp' ? (
+              `${replies.length}${t("Replies")}`
+            ) : ''}`}
+            {`${locale === 'kr' ? (
+              `${t("View")} ${replies.length} ${t("Replies")}`
+            ) : ''}`}
+            {`${locale === 'cn' ? (
+              `${t("View")} ${replies.length} ${t("Replies")}`
+            ) : ''}`}
+            {`${locale === 'de' ? (
+              `${replies.length} ${replies.length === 1 ? t("Reply") + " " + t("View") : t("Replies") + " " + t("View")}`
+            ) : ''}`}
+            {`${locale === 'jp' || locale === 'de' || locale === 'kr' || locale === 'cn' ? (
+              ''
+            ) : `${t("View")} ${replies.length} ${replies.length === 1 ? t("Reply") : t("Replies")}`}`}
           </>
         ) : null}
       </Button>
@@ -122,7 +137,7 @@ export default function SubMessages({ comment }: Props) {
                   </div>
                   <div className="petit:order-first petit:items-center flex justify-end w-full">
                     {!!reply.likes?.find(
-                      (like) => like.userId === currentUser.id
+                      (like) => like.userId === currentUser?.id
                     ) ? (
                       <form action={UnlikeReply}>
                         <input
@@ -157,7 +172,7 @@ export default function SubMessages({ comment }: Props) {
                   </div>
                   <span>
                     <ReplyText
-                      userId={currentUser.id}
+                      userId={currentUser?.id as string}
                       replies={reply}
                       comment={comment}
                     />

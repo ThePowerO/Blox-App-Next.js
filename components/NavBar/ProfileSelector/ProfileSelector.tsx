@@ -9,20 +9,22 @@ import { useRouter } from "next/navigation";
 import { LogOut, SquareUser, CogIcon, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { User } from "@prisma/client";
+import { useTranslations } from "next-intl";
 
 const ProfileSelector = ({
   locale,
-  userHighlights,
+  user,
 }: {
   locale: string;
-  userHighlights: number;
+  user: User;
 }) => {
+  const t = useTranslations("NavBar");
   const { data: session } = useSession();
   const currentUser = session?.user as User;
 
   const [openMenu, setOpenMenu] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  const imgRef = useRef<HTMLImageElement | null>(null);
+  const imgRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -53,18 +55,24 @@ const ProfileSelector = ({
     await signOut({ callbackUrl: `/${locale}/sign-in` });
   };
 
+  const router = useRouter();
+
   return (
     <div className="justify-center">
       <div className="relative">
-        <Image
-          alt=""
+        <button
           ref={imgRef}
-          src={session?.user?.image || NoAvatar}
-          width={40}
-          height={40}
+          className="size-fit"
           onClick={() => setOpenMenu((prev) => !prev)}
-          className="w-[40px] h-[40px] rounded-full border-[2px] hover:border-gray-500 border-cyan-300 cursor-pointer"
-        />
+        >
+          <Image
+            alt=""
+            src={user?.image || NoAvatar}
+            width={40}
+            height={40}
+            className="w-[40px] h-[40px] rounded-full border-[2px] hover:border-gray-500 border-cyan-300 cursor-pointer"
+          />
+        </button>
         {openMenu && ( //w 140 l -95 className="z-[50] text-white bg-[#212529] p-4 w-[140px] shadow-lg absolute -left-[95px] top-[50px] rounded-lg"
           <div
             ref={menuRef}
@@ -81,30 +89,28 @@ const ProfileSelector = ({
                       className="w-full flex items-center justify-start gap-2 dark:hover:bg-gray-500 dark:text-white"
                     >
                       <Award color="yellow" size={18} />
-                      <span>{userHighlights}</span>
+                      <span>{user?.highlights}</span>
                     </Button>
                   </li>
                   <li className="w-full">
-                    <Link href={`/${locale}/profile`}>
-                      <Button
-                        variant="ghost"
-                        className="w-full flex items-center justify-start gap-2 dark:hover:bg-gray-500 dark:text-white"
-                      >
-                        <SquareUser size={18} />
-                        {currentUser.name}
-                      </Button>
-                    </Link>
+                    <Button
+                      variant="ghost"
+                      onClick={() => router.push(`/${locale}/profile/${user.id}`)}
+                      className="w-full flex items-center justify-start gap-2 dark:hover:bg-gray-500 dark:text-white"
+                    >
+                      <SquareUser size={18} />
+                      {user.name}
+                    </Button>
                   </li>
                   <li className="w-full">
-                    <Link href={`/${locale}/create-combo`}>
-                      <Button
-                        variant="ghost"
-                        className="w-full flex items-center justify-start gap-2 dark:hover:bg-gray-500 dark:text-white"
-                      >
-                        <CogIcon size={18} />
-                        Settings
-                      </Button>
-                    </Link>
+                    <Button
+                      variant="ghost"
+                      onClick={() => router.push(`/${locale}/create-combo`)}
+                      className="w-full flex items-center justify-start gap-2 dark:hover:bg-gray-500 dark:text-white"
+                    >
+                      <CogIcon size={18} />
+                      Settings
+                    </Button>
                   </li>
                   <li className="w-full">
                     <Button
@@ -113,7 +119,7 @@ const ProfileSelector = ({
                       className="w-full flex items-center gap-2 hover:text-white text-white"
                     >
                       <LogOut size={18} />
-                      Sign Out
+                      {t("SignOut")}
                     </Button>
                   </li>
                 </>
@@ -127,7 +133,7 @@ const ProfileSelector = ({
                         className="w-full flex items-center gap-2 hover:bg-blue-700 text-white hover:text-white"
                       >
                         <LogOut />
-                        Sign In
+                        {t("SignIn")}
                       </Button>
                     </Link>
                   </li>

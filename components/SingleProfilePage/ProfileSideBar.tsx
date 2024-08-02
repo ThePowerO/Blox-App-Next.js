@@ -7,9 +7,10 @@ import prisma from "@/lib/prisma";
 
 type Props = {
   ParamsUserId: string;
+  isUsersPage: boolean;
 };
 
-export default async function ProfileSideBar({ ParamsUserId }: Props) {
+export default async function ProfileSideBar({ ParamsUserId, isUsersPage }: Props) {
   const user = await prisma.user.findUnique({
     where: {
       id: ParamsUserId,
@@ -18,13 +19,15 @@ export default async function ProfileSideBar({ ParamsUserId }: Props) {
 
   return (
     <div>
-      <ul className="flex flex-col gap-5">
-        <li>
-          <span className="flex hover:underline cursor-pointer items-center gap-2">
-            <User size={20} /> <p>{user?.name}</p>
-          </span>
-        </li>
-        <SideBarElements />
+      <ul className="grid grid-cols-1 petit:grid-cols-2 sm:flex md:flex-col gap-5">
+        {isUsersPage === false && (
+          <li>
+            <span className="flex hover:underline cursor-pointer items-center gap-2">
+              <User size={20} /> <p>{user?.name}</p>
+            </span>
+          </li>
+        )}
+        <SideBarElements isUsersPage={isUsersPage} />
       </ul>
     </div>
   );

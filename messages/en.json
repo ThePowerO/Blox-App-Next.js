@@ -1,18 +1,4 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
 {
-    
     "Home": {
         "h1": "Main Page"
     },
@@ -114,12 +100,12 @@
         "FindOrHighlightCombos": "Find or Highlight combos to stand at the top of the leaderboard.",
         "Comments": "Comments",
         "DiscussAndShareThoughts": "Discuss with people about their combos and share your thoughts.",
-        "PricingPackages": "Highlight Packages",
+        "PricingPackages": "Plans & Packages",
         "MakeCombosAtractive": "Get Highlights to make your combos more attractive.",
         "Plan": "Plan",
         "WhatsIncluded": "What's included:",
         "StarterPack": "Starter Pack",
-        "TryOutNewFeatures": "For those who wants to try out new features.",
+        "TryOutNewFeatures": "At an unbeatable price, dive into an enhanced experience with our exclusive highlights and more.",
         "1_99": "$1.99",
         "1DayOfHilightDuration": "1 Day of highlight duration",
         "Plus3Highlights": "+3 Highlights",
@@ -133,13 +119,119 @@
         "MonthlyPayment": "Monthly Payment",
         "ProPack": "Pro Pack",
         "4_99": "$4.99",
-        "EnjoyBrandNewFeatures": "For those who wants to stick around and enjoy brand new features.",
+        "EnjoyBrandNewFeatures": "At just $4.99, elevate your experience with unlimited combos, extended highlight durations and more.",
         "2DaysOfHighlightDuration": "Up to 2 Days of highlight duration",
-        "PlusPack": "PlusPack",
+        "PlusPack": "Plus Pack",
         "9_50": "$9.50",
-        "UnlockFullPotential": "For those who wants to truly enjoy the Hunter Journey.",
+        "UnlockFullPotential": "Plus Pack provides valuable and continuous access to premium features. Make as many unique Combos and keep your highlights for up to three full days.",
         "UnlimitedCombosIsPermament": "Unlimited combos is a permanent feature",
         "BuyPack": "Buy Pack",
-        "SubscribeNow": "Subscribe Now"
+        "SubscribeNow": "Subscribe Now",
+        "PerMonth": "month",
+        "BestOffer": "BEST OFFER",
+        "PlusMemberTag": "Plus Member Tag"
+    },
+    "ALertDestructive": {
+        "NoComboFound": "No combo found",
+        "CreateYourCombo": "Go create your combo to see it here!",
+        "CreateCombo": "Create Combo"
+    },
+    "YourCombos": {
+        "searchPlaceholder": "Search Combo",
+        "Recent": "Recent",
+        "Old": "Old",
+        "Likes": "Likes",
+        "Favorites": "Favorites",
+        "Highlighted": "Highlighted",
+        "FilterViaReferences": "Filter via references",
+        "FilterBy": "Filter by: ",
+        "HighlightedCombo": "This combo is highlighted.",
+        "HighlightBonus": "Highlighted Combos receive additional bonuses.",
+        "Highlight": "Highlight",
+        "ConfirmHighlight": "You are about to ",
+        "ConfirmHighlight2": "highlight ",
+        "ConfirmHighlight3": "this combo.",
+        "WhenHighlighted": "When highlighted you will gain access to extra",
+        "Features": "features",
+        "HighlightConfigurations": "Highlight Configurations",
+        "AutoRenovate": "Auto Renovate",
+        "AutomaticallyRenovate": "Automatically renew the highlight after the end of the highlight time.",
+        "HighlightTime": ". Highlights remains for 1 day.",
+        "IncreaseHighlightTime": "Want to increase the highlight time?",
+        "CheckPacks": "Check Packs",
+        "MakeHighlight": "Make highlight",
+        "ViewMore": "View More",
+        "LoadMore": "Load More"
+    },
+    "ComboBySlug": {
+        "ViewingCombo": "Viewing combo:",
+        "ComboProperties": "Combo Properties:",
+        "BuiltBy": "Made by"
+    },
+    "CommentSection": {
+        "CommentRequired": "Comment is required",
+        "Comments": "Comments",
+        "WriteComment": "Write a comment..."
+    },
+    "CommentDisplay": {
+        "NoComments": "No comments to show.",
+        "View": "View",
+        "Replies": "Replies",
+        "Reply": "Reply"
+    },
+    "CommentText": {
+        "Cancel": "Cancel",
+        "Save": "Save",
+        "DeletingComment": "Deleting Comment...",
+        "DeleteComment": "Delete Comment",
+        "ShowLess": "Show Less... >",
+        "ShowMore": "Show More... >",
+        "EditComment": "Edit Comment"
+    },
+    "ProfilePage": {
+        "TopCombos": "Top Combos",
+        "TopComments": "Top Comments",
+        "Relevant": "Relevant",
+        "ImageRequired": "Image is Required",
+        "UsernameRequired": "Username is Required",
+        "TooLong": "Username is too long",
+        "TooShort": "Username is too short",
+        "AllowedCharacters": "Only letters, numbers and underscores are allowed",
+        "ImageAtLeast150px": "Image must be at least 150px x 150px",
+        "SaveImg": "Save Image",
+        "UsernameChange": "Username Change",
+        "UsernameChangeTime": "After changing the username, you will only be able to change it again for the next 7 days.",
+        "NewUsername": "Enter new username",
+        "PlusMember": "This user is a Plus Member and so can receive extra rewards.",
+        "Combos": "Combos:",
+        "TotalLikes": "Total Likes:",
+        "TotalFavorites": "Total Favorites:",
+        "Update": "Update"
+    },
+    "NavBar": {
+        "SignOut": "Sign Out",
+        "SignIn": "Sign In",
+        "Users": "Users",
+        "Combos": "Combos",
+        "YourCombos": "Your Combos"
+    },
+    "UsersPage": {
+        "MostCombos": "With most combos",
+        "MostLikes": "With most likes",
+        "MostFavorites": "With most favorites",
+        "MostComments": "With most comments",
+        "PlusMembers": "Plus Members",
+        "SearchUsersMessage": "Here you can search for users or use the filter to get your results.",
+        "SearchUser": "Search for User",
+        "UsersPage": "Users Page"
+    },
+    "Description": {
+        "DescriptionRequired": "Description is required",
+        "DescriptionShort": "Description is too short",
+        "DescriptionLong": "Description is too long"
+    },
+    "CreateComboLayout": {
+        "ComboCountReached": "Max Combo Count Reached",
+        "DiscoverPacks": "Enjoying your time on the website and want to make more combos? Discover our incredible packs for enhanced experiences."
     }
 }

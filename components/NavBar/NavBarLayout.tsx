@@ -1,10 +1,11 @@
+import { User } from "@prisma/client";
 import NavBarContent from "./NavBarContent";
 
-const NavBarLayout = ({ locale, userHighlights }: { locale: string, userHighlights: number }) => {
+const NavBarLayout = ({ locale, user }: { locale: string, user: User | null }) => {
   
 
   return (
-    <NavBarContent locale={locale} userHighlights={userHighlights} />
+    <NavBarContent locale={locale} user={user as User} />
   );
 };
 

@@ -6,6 +6,7 @@ import { Combo } from '@/lib/types'
 import { User } from '@prisma/client'
 import { getServerSession } from 'next-auth'
 import React from 'react'
+import prisma from '@/lib/prisma'
 
 type Props = {
   params: {
@@ -18,14 +19,20 @@ export default async function page({ params }: Props) {
   const slug = params.slug
   const combo: Combo | null = await getSlugCombo(slug)
   const session = await getServerSession(authOptions)
-  const user = session?.user as User
-  const userId = user?.id
+  const userSession = session?.user
+  const userId = userSession?.id
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId
+    }
+  })
 
   return (
     <main>
       <ComboBySlug combo={combo as Combo} />
 
-      <CommentSection userId={userId} combo={combo as Combo} />
+      <CommentSection user={user as User} userId={userId as string} combo={combo as Combo} />
     </main>
   )
 }

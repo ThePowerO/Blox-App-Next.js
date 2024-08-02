@@ -22,6 +22,7 @@ import { Comment } from "@/lib/types";
 import { Button } from "../ui/button";
 import { SendCommentReply } from "../HtmlComponents/SubmitButtons";
 import { CreateReply, createComment } from "@/lib/actions/commentActions";
+import { useTranslations } from "next-intl";
 
 type Props = {
   comment: Comment;
@@ -32,6 +33,7 @@ type Props = {
 // #212529
 
 export default function CommentReply({ comment, replyUserName, toggleReplying }: Props) {
+  const t = useTranslations("CommentText");
   const [textValue, setTextValue] = useState("@" + replyUserName + " ");
   const pathName = usePathname();
 
@@ -46,7 +48,7 @@ export default function CommentReply({ comment, replyUserName, toggleReplying }:
   const form = useForm<InputType>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      text: "@" + comment.user.name + " ",
+      text: "@" + comment.user.name,
     },
   });
 
@@ -82,7 +84,7 @@ export default function CommentReply({ comment, replyUserName, toggleReplying }:
   };
 
   const containsLetter = (text: string) => {
-    const userName = "@" + replyUserName + " ";
+    const userName = "@" + replyUserName;
     const trimmedText = text.replace(userName, "").trim();
     return /[^\s]/.test(trimmedText);
   };
@@ -134,9 +136,9 @@ export default function CommentReply({ comment, replyUserName, toggleReplying }:
               }}
               type="button"
               variant="outline"
-              className="rounded-lg w-[60px] h-[30px] dark:hover:bg-stone-800 hover:bg-stone-300"
+              className="rounded-lg w-fit h-[30px] dark:hover:bg-stone-800 hover:bg-stone-300"
             >
-              <span>Cancel</span>
+              <span>{t("Cancel")}</span>
             </Button>
             {!containsLetter(textValue) ? (
               <div className="cursor-not-allowed">

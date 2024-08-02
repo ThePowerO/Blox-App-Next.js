@@ -19,10 +19,10 @@ type Props = {
 export default function SingleProfilePage({ ParamsUserId }: Props) {
   return (
     <main className="flex">
-      <section className="hidden sm:block w-[200px]  p-3 pt-8 h-screen border-r-2">
-        <ProfileSideBar ParamsUserId={ParamsUserId} />
+      <section className="hidden md:block w-[200px] p-3 pt-8 border-r-2">
+        <ProfileSideBar isUsersPage={false} ParamsUserId={ParamsUserId} />
       </section>
-      <section className="flex flex-col divide-y divide-gray-400 gap-8 p-5 sm:p-10 sm:pr-5 lg:pr-0">
+      <section className="w-full flex flex-col divide-y divide-gray-400 gap-8 p-5 sm:p-10 sm:pr-5 lg:pr-0">
         <UserMainContent ParamsUserId={ParamsUserId} />
         <ProflieCombos ParamsUserId={ParamsUserId} />
       </section>

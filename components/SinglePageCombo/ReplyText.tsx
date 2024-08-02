@@ -42,6 +42,7 @@ import {
   SaveEditCommentBtn,
 } from "../HtmlComponents/SubmitButtons";
 import CommentReply from "./CommentReply";
+import { useTranslations } from "next-intl";
 
 type Props = {
   replies: Replies;
@@ -50,6 +51,7 @@ type Props = {
 };
 
 export default function ReplyText({ comment, replies, userId }: Props) {
+  const t = useTranslations("CommentText");
   const [fullComment, setFullComment] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
@@ -129,19 +131,19 @@ export default function ReplyText({ comment, replies, userId }: Props) {
                   toggleEditing();
                 }}
                 variant="outline"
-                className="rounded-lg w-[60px] h-[30px] dark:hover:bg-stone-800 hover:bg-stone-300"
+                className="rounded-lg w-fit h-[30px] dark:hover:bg-stone-800 hover:bg-stone-300"
               >
-                <span>Cancel</span>
+                <span>{t("Cancel")}</span>
               </Button>
-              {textValue === replies.text ? (
+              {textValue.trim() === replies.text || !textValue || textValue.trim() === "" ? (
                 <div className="cursor-not-allowed">
                   <Button
                     disabled
                     type="button"
                     variant="outline"
-                    className="rounded-lg w-[50px] h-[30px] bg-slate-300"
+                    className="rounded-lg w-fit h-[30px] bg-slate-300"
                   >
-                    <span className="dark:text-black">Save</span>
+                    <span className="dark:text-black">{t("Save")}</span>
                   </Button>
                 </div>
               ) : (
@@ -163,7 +165,7 @@ export default function ReplyText({ comment, replies, userId }: Props) {
                 className="cursor-pointer underline my-2"
                 onClick={() => setFullComment(!fullComment)}
               >
-                {`Show Less... >`}
+                {t("ShowLess")}
               </p>
             </>
           ) : (
@@ -191,7 +193,7 @@ export default function ReplyText({ comment, replies, userId }: Props) {
                         <p
                           className="cursor-pointer underline my-2"
                           onClick={() => setFullComment(!fullComment)}
-                        >{`Show More... >`}</p>
+                        >{t("ShowMore")}</p>
                       </>
                     )}
                   </div>
@@ -230,7 +232,7 @@ export default function ReplyText({ comment, replies, userId }: Props) {
                       className="flex w-full items-center gap-1"
                     >
                       <Pencil width={18} height={18} />
-                      <span>Edit Comment</span>
+                      <span>{t("EditComment")}</span>
                     </Button>
                   </div>
                 </DropdownMenuItem>

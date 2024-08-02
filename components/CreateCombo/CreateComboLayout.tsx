@@ -35,6 +35,7 @@ import {
   PencilIcon,
   Pencil,
   ArrowRight,
+  Loader,
 } from "lucide-react";
 import { UploadButton } from "@/lib/uploadthing";
 import { Separator } from "../ui/separator";
@@ -81,6 +82,7 @@ export default function CreateComboLayout({
   user,
 }: Props) {
   const t = useTranslations("CreateComboPage");
+
   const [selectedFightingStyle, setSelectedFightingStyle] = useState("");
   const [selectedWeapon, setSelectedWeapon] = useState("");
   const [selectedSword, setSelectedSword] = useState("");
@@ -101,7 +103,7 @@ export default function CreateComboLayout({
     fruit: z.string().min(1, `${t("SelectFruitMsg")}`),
     fightingstyle: z.string().min(1, `${t("SelectFightStyleMsg")}`),
     sword: z.string().min(1, `${t("SelectSwordMsg")}`),
-    weapon: z.string().min(1, `${t("Select WeaponMsg")}`),
+    weapon: z.string().min(1, `${t("SelectWeaponMsg")}`),
     combotitle: z.string().min(1, `${t("PleaseEnterAComboNameMsg")}`),
     combodescription: z
       .string()
@@ -216,7 +218,7 @@ export default function CreateComboLayout({
         "You have reached the maximum number of combos of Free Trial."
       );
       return;
-    } else if (user.proPack >= 1 && UserMaxComboCountReached >= 0) {
+    } else if (user.proPack >= 1 || UserMaxComboCountReached >= 0) {
       try {
         const result = await createComboAction(FormData, pathName);
         console.log("Form submission ended with result:", result);
@@ -796,12 +798,23 @@ export default function CreateComboLayout({
                       )}
                     </>
                   )}
-                  <Button
-                    type="submit"
-                    className="w-full bg-[#3d95ec] text-white hover:bg-[#5994cf]"
-                  >
-                    {t("CreateCombo")}
-                  </Button>
+                  {user.isPlusPack === false && user.proPack === 0 && user.starterPack >= 0 && UserMaxComboCountReached >= 5 ? (
+                    <LimitComboReachedDialog />
+                  ) : (
+                    <>
+                      {user.proPack >= 1 || UserMaxComboCountReached >= 0 && (
+                        <Button
+                          disabled={!form.formState.isValid || form.formState.isSubmitting}
+                          type="submit"
+                          className={`w-full bg-[#3d95ec] text-white hover:bg-[#5994cf] ${
+                            form.formState.isSubmitting ? "cursor-not-allowed" : ""
+                          }`}
+                        >
+                          {form.formState.isSubmitting ? <Loader size={16} className="animate-spin" /> : `${t("CreateCombo")}`}
+                        </Button>
+                      )}
+                    </>
+                  )}
                 </form>
               </CardContent>
             </Card>
@@ -813,25 +826,27 @@ export default function CreateComboLayout({
 }
 
 const LimitComboReachedDialog = () => {
+  const t = useTranslations("CreateComboPage");
+  const t2 = useTranslations("CreateComboLayout");
+  const t3 = useTranslations("YourCombos");
   const router = useRouter();
   const { locale } = useLocale();
   return (
     <Dialog>
-      <DialogTrigger>
+      <DialogTrigger className="w-full">
         <Button
-          className="bg-[#3d95ec] text-white hover:bg-[#5994cf]"
+          className="bg-[#3d95ec] w-full text-white hover:bg-[#5994cf]"
           type="button"
         >
-          Create Combo
+          {t("CreateCombo")}
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <span className="font-bold text-xl">Max Combo Count Reached</span>
+          <span className="font-bold text-xl">{t2("ComboCountReached")}</span>
         </DialogHeader>
         <DialogDescription>
-          Enjoying the website and want to create more combos? Check out our
-          incredible pricing packs for more.
+          {t2("DiscoverPacks")}
         </DialogDescription>
         <DialogFooter>
           <Button
@@ -849,7 +864,7 @@ const LimitComboReachedDialog = () => {
             className="text-blue-500 gap-1"
             type="button"
           >
-            Check Pricing Packs{" "}
+            {t3("CheckPacks")}{" "}
             <ArrowRight className="text-blue-500" width={18} height={18} />
           </Button>
         </DialogFooter>

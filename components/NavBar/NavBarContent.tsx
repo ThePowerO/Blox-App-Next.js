@@ -9,8 +9,9 @@ import LanguageSelector from "./LanguageSelector/LanguageSelector";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import { User } from "@prisma/client";
 
-export default function NavBarContent({ locale, userHighlights }: { locale: string, userHighlights: number }) {
+export default function NavBarContent({ locale, user }: { locale: string, user: User }) {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -80,7 +81,7 @@ export default function NavBarContent({ locale, userHighlights }: { locale: stri
           <div className="flex gap-2">
             <LanguageSelector item={links[0]} locale={locale} />
             <ThemeModeToggle />
-            <ProfileSelector userHighlights={userHighlights} locale={locale} />
+            <ProfileSelector user={user} locale={locale} />
           </div>
         </nav>
       ) : (
@@ -103,7 +104,7 @@ export default function NavBarContent({ locale, userHighlights }: { locale: stri
           <div className="flex gap-2">
             <LanguageSelector item={links[0]} locale={locale} />
             <ThemeModeToggle />
-            <ProfileSelector userHighlights={userHighlights} locale={locale} />
+            <ProfileSelector user={user} locale={locale} />
           </div>
         </nav>
       )}

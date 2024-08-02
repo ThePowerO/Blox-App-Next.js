@@ -32,6 +32,7 @@ import { DeleteComment, UpdateCommentText } from "@/lib/actions/commentActions";
 import { usePathname } from "next/navigation";
 import { DeleteCommentBtn, SaveEditCommentBtn } from "../HtmlComponents/SubmitButtons";
 import CommentReply from "./CommentReply";
+import { useTranslations } from "next-intl";
 
 type Props = {
   comment: Comment;
@@ -39,6 +40,9 @@ type Props = {
 };
 
 export default function CommentText({ comment, userId }: Props) {
+  const t = useTranslations("CommentText");
+  const t2 = useTranslations("CommentSection")
+
   const [fullComment, setFullComment] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
@@ -64,9 +68,11 @@ export default function CommentText({ comment, userId }: Props) {
   };
 
   const EditFormSchema = z.object({
-    text: z.string().min(1, {
-      message: "Comment is required",
-    }),
+    text: z
+    .string()
+    .min(1, {
+      message: t2("CommentRequired"),
+    })
   });
 
   type InputType = z.infer<typeof EditFormSchema>;
@@ -115,19 +121,19 @@ export default function CommentText({ comment, userId }: Props) {
                   toggleEditing();
                 }}
                 variant="outline"
-                className="rounded-lg w-[60px] h-[30px] dark:hover:bg-stone-800 hover:bg-stone-300"
+                className="rounded-lg w-fit h-[30px] dark:hover:bg-stone-800 hover:bg-stone-300"
               >
-                <span>Cancel</span>
+                <span>{t("Cancel")}</span>
               </Button>
-              {textValue === comment.text ? (
+              {textValue.trim() === comment.text || !textValue || textValue.trim() === "" ? (
                 <div className="cursor-not-allowed">
                   <Button
                     disabled
                     type="button"
                     variant="outline"
-                    className="rounded-lg w-[50px] h-[30px] bg-slate-300"
+                    className="rounded-lg w-fit h-[30px] bg-slate-300"
                   >
-                    <span className="dark:text-black">Save</span>
+                    <span className="dark:text-black">{t("Save")}</span>
                   </Button>
                 </div>
               ) : (
@@ -149,7 +155,7 @@ export default function CommentText({ comment, userId }: Props) {
                 className="cursor-pointer underline my-2"
                 onClick={() => setFullComment(!fullComment)}
               >
-                {`Show Less... >`}
+                {t("ShowLess")}
               </p>
             </>
           ) : (
@@ -177,7 +183,7 @@ export default function CommentText({ comment, userId }: Props) {
                         <p
                           className="cursor-pointer underline my-2"
                           onClick={() => setFullComment(!fullComment)}
-                        >{`Show More... >`}</p>
+                        >{t("ShowMore")}</p>
                       </>
                     )}
                   </div>
@@ -216,7 +222,7 @@ export default function CommentText({ comment, userId }: Props) {
                       className="flex w-full items-center gap-1"
                     >
                       <Pencil width={18} height={18} />
-                      <span>Edit Comment</span>
+                      <span>{t("EditComment")}</span>
                     </Button>
                   </div>
                 </DropdownMenuItem>

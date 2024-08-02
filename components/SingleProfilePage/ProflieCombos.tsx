@@ -1,7 +1,7 @@
 import React from "react";
 import CombosDisplay from "../YourCombos/CombosDisplay";
 import prisma from "@/lib/prisma";
-import { User } from "@prisma/client";
+import ProfileSideBar from "./ProfileSideBar";
 
 type Props = {
   ParamsUserId: string;
@@ -16,7 +16,14 @@ export default async function ProflieCombos({ ParamsUserId }: Props) {
     },
     include: {
       Combo: true,
-      comments: true,
+      commentLikes: true,
+      comments: {
+        include: {
+          likes: true,
+          user: true,
+          combo: true,
+        }
+      }
     },
   });
 
@@ -37,6 +44,11 @@ export default async function ProflieCombos({ ParamsUserId }: Props) {
   })
 
   return (
-    <CombosDisplay ParamsUserId={id} user={user as User} isProfilePage={true} comboData={comboData as any} />
+    <section>
+      <div className="block md:hidden pt-3">
+        <ProfileSideBar isUsersPage={false} ParamsUserId={ParamsUserId} />
+      </div>
+      <CombosDisplay isCombosPage={false} ParamsUserId={id} user={user as any} isProfilePage={true} comboData={comboData as any} />
+    </section>
   );
 }

@@ -50,20 +50,150 @@ export default function LandingPageContent() {
     <>
       <div className="content-1 grid grid-cols-1 sm:grid-cols-2 gap-4 items-center mb-24">
         <div ref={ImageRef} className="p-3">
-          <Image
-            className={`imagem opacity-0 translate-x-[-400px] rounded-lg hidden dark:block light:hidden`}
-            src="/Create-Combo-GUIDE-Dark.png"
-            width={700}
-            height={700}
-            alt="combo guide"
-          />
-          <Image
-            className={`imagem opacity-0 translate-x-[-400px] rounded-lg dark:hidden`}
-            src="/Create-Combo-GUIDE.png"
-            width={700}
-            height={700}
-            alt="combo guide"
-          />
+          {locale === "en" && (
+            <>
+              <Image
+                className={`imagem opacity-0 translate-x-[-400px] rounded-lg hidden dark:block light:hidden`}
+                src="/Create-Combo-GUIDE-Dark.png"
+                width={700}
+                height={700}
+                alt="combo guide"
+              />
+              <Image
+                className={`imagem opacity-0 translate-x-[-400px] rounded-lg dark:hidden`}
+                src="/Create-Combo-GUIDE.png"
+                width={700}
+                height={700}
+                alt="combo guide"
+              />
+            </>
+          )}
+          {locale === "kr" && (
+            <>
+              <Image
+                className={`imagem opacity-0 translate-x-[-400px] rounded-lg hidden dark:block light:hidden`}
+                src="/Create-Combo-GUIDE-KR-Dark.png"
+                width={700}
+                height={700}
+                alt="combo guide"
+              />
+              <Image
+                className={`imagem opacity-0 translate-x-[-400px] rounded-lg dark:hidden`}
+                src="/Create-Combo-GUIDE-KR.png"
+                width={700}
+                height={700}
+                alt="combo guide"
+              />
+            </>
+          )}
+          {locale === "jp" && (
+            <>
+              <Image
+                className={`imagem opacity-0 translate-x-[-400px] rounded-lg hidden dark:block light:hidden`}
+                src="/Create-Combo-GUIDE-JP-Dark.png"
+                width={700}
+                height={700}
+                alt="combo guide"
+              />
+              <Image
+                className={`imagem opacity-0 translate-x-[-400px] rounded-lg dark:hidden`}
+                src="/Create-Combo-GUIDE-JP.png"
+                width={700}
+                height={700}
+                alt="combo guide"
+              />
+            </>
+          )}
+          {locale === "cn" && (
+            <>
+              <Image
+                className={`imagem opacity-0 translate-x-[-400px] rounded-lg hidden dark:block light:hidden`}
+                src="/Create-Combo-GUIDE-CN-Dark.png"
+                width={700}
+                height={700}
+                alt="combo guide"
+              />
+              <Image
+                className={`imagem opacity-0 translate-x-[-400px] rounded-lg dark:hidden`}
+                src="/Create-Combo-GUIDE-IMG.png"
+                width={700}
+                height={700}
+                alt="combo guide"
+              />
+            </>
+          )}
+          {locale === "fr" && (
+            <>
+              <Image
+                className={`imagem opacity-0 translate-x-[-400px] rounded-lg hidden dark:block light:hidden`}
+                src="/Create-Combo-GUIDE-FR-Dark.png"
+                width={700}
+                height={700}
+                alt="combo guide"
+              />
+              <Image
+                className={`imagem opacity-0 translate-x-[-400px] rounded-lg dark:hidden`}
+                src="/Create-Combo-GUIDE-FR-IMG.png"
+                width={700}
+                height={700}
+                alt="combo guide"
+              />
+            </>
+          )}
+          {locale === "it" && (
+            <>
+              <Image
+                className={`imagem opacity-0 translate-x-[-400px] rounded-lg hidden dark:block light:hidden`}
+                src="/Create-Combo-GUIDE-IT-Dark.png"
+                width={700}
+                height={700}
+                alt="combo guide"
+              />
+              <Image
+                className={`imagem opacity-0 translate-x-[-400px] rounded-lg dark:hidden`}
+                src="/Create-Combo-GUIDE-IT.png"
+                width={700}
+                height={700}
+                alt="combo guide"
+              />
+            </>
+          )}
+          {locale === "pt" && (
+            <>
+              <Image
+                className={`imagem opacity-0 translate-x-[-400px] rounded-lg hidden dark:block light:hidden`}
+                src="/Create-Combo-GUIDE-PT-Dark.png"
+                width={700}
+                height={700}
+                alt="combo guide"
+              />
+              <Image
+                className={`imagem opacity-0 translate-x-[-400px] rounded-lg dark:hidden`}
+                src="/Create-Combo-GUIDE-PT.png"
+                width={700}
+                height={700}
+                alt="combo guide"
+              />
+            </>
+          )}
+          {locale === "de" && (
+            <>
+              <Image
+                className={`imagem opacity-0 translate-x-[-400px] rounded-lg hidden dark:block light:hidden`}
+                src="/Create-Combo-GUIDE-DE-Dark.png"
+                width={700}
+                height={700}
+                alt="combo guide"
+              />
+              <Image
+                className={`imagem opacity-0 translate-x-[-400px] rounded-lg dark:hidden`}
+                src="/Create-Combo-GUIDE-DE.png"
+                width={700}
+                height={700}
+                alt="combo guide"
+              />
+            </>
+          )}
 
         </div>
         <div className="mx-auto max-w-lg text-center">
@@ -77,16 +207,16 @@ export default function LandingPageContent() {
             {t("BuildAExquisiteFascinating")} <TextGradient from="from-blue-700" via="via-pink-700" to="to-pink-500" text={`${t("Combo")}`} />
           </strong>
           <strong className={`${locale !== "it" ? "hidden" : "block" } text-3xl font-bold sm:text-4xl`}>
-            {t("FaçaUm")} <TextGradient from="from-blue-700" via="via-pink-700" to="to-pink-500" text={`${t("Combo")}`} /> {t("ÚnicoEfascinante")}
+            {t("CreareUn")} <TextGradient from="from-blue-700" via="via-pink-700" to="to-pink-500" text={`${t("Combo")}`} /> {t("ExquisiteFascinating")}
           </strong>
           <strong className={`${locale !== "de" ? "hidden" : "block" } text-3xl font-bold sm:text-4xl`}>
             {t("BuildAExquisiteFascinating")} <TextGradient from="from-blue-700" via="via-pink-700" to="to-pink-500" text={`${t("Combo")}`} />
           </strong>
           <strong className={`${locale !== "cn" ? "hidden" : "block" } text-3xl font-bold sm:text-4xl`}>
-            {t("FaçaUm")} <TextGradient from="from-blue-700" via="via-pink-700" to="to-pink-500" text={`${t("Combo")}`} /> {t("ÚnicoEfascinante")}
+            {t("BuildAExquisiteFascinating")}<TextGradient from="from-blue-700" via="via-pink-700" to="to-pink-500" text={`${t("Combo")}`}/>
           </strong>
           <strong className={`${locale !== "jp" ? "hidden" : "block" } text-3xl font-bold sm:text-4xl`}>
-            {t("FaçaUm")} <TextGradient from="from-blue-700" via="via-pink-700" to="to-pink-500" text={`${t("Combo")}`} /> {t("ÚnicoEfascinante")}
+            {t("BuildAExquisiteFascinating")}<TextGradient from="from-blue-700" via="via-pink-700" to="to-pink-500" text={`${t("Combo")}`} />{t("Build")}
           </strong>
           <strong className={`${locale !== "kr" ? "hidden" : "block" } text-3xl font-bold sm:text-4xl`}>
             {t("독특하고흥미로운")} <TextGradient from="from-blue-700" via="via-pink-700" to="to-pink-500" text={`${t("콤보")}`} />{t("만들어보세요")}
@@ -120,11 +250,17 @@ export default function LandingPageContent() {
       </div>
 
       <div className="mx-auto max-w-lg text-center">
-        <h3 className={`${locale === "kr" ? "hidden" : "block"} text-3xl font-bold sm:text-4xl`}>
+        <h3 className={`${locale === "jp" || locale === "cn" || locale === "kr" ? "hidden" : "block"} text-3xl font-bold sm:text-4xl`}>
           {t("StartYourJourney")} <span className="curved-underline">{t("Here")}</span>
         </h3>
         <h3 className={`${locale !== "kr" ? "hidden" : "block"} text-3xl font-bold sm:text-4xl`}>
           <span className="curved-underline">{t("여기에서")}</span>{t("여행을 시작하세요")} 
+        </h3>
+        <h3 className={`${locale !== "cn" ? "hidden" : "block" } text-3xl font-bold sm:text-4xl`}>
+          <span className="curved-underline">{t("Here")}</span>{t("StartYourJourney")} 
+        </h3>
+        <h3 className={`${locale !== "jp" ? "hidden" : "block" } text-3xl font-bold sm:text-4xl`}>
+          <span className="curved-underline">{t("Here")}</span>{t("StartYourJourney")} 
         </h3>
 
         <p className="mt-4 text-gray-300">

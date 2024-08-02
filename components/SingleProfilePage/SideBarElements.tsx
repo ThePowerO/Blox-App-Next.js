@@ -1,25 +1,35 @@
-import { MessageCircleMore, TrendingUp, Trophy, User } from "lucide-react";
-import { useLocale } from "next-intl";
+'use client';
+
+import { Gem, MessageCircleMore, TrendingUp, Trophy, User } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import React from "react";
 
-export default function SideBarElements() {
-  const locale = useLocale();
+type Props = {
+  isUsersPage: boolean;
+}
+
+export default function SideBarElements({ isUsersPage }: Props) {
+  const t = useTranslations("ProfilePage");
+  const t2 = useTranslations("UsersPage");
+  const searchParams = useSearchParams();
+  const selectedFilter = searchParams.get("filter");
   const SideBarElements = [
     {
-      name: "Top Combos",
+      name: isUsersPage === true ? `${t2("MostCombos")}` : `${t("TopCombos")}`,	
       icon: <Trophy size={20} />,
-      url: "TopCombos"
+      url: isUsersPage === true ? "MostCombos" : "TopCombos",
     },
     {
-      name: "Top Comments",
+      name: isUsersPage === true ? `${t2("MostComments")}` : `${t("TopComments")}`,
       icon: <MessageCircleMore size={20} />,
-      url: "TopComments"
+      url: isUsersPage === true ? "MostComments" : "TopComments",
     },
     {
-      name: "Relevant",
+      name: isUsersPage === true ? `${t2("MostLikes")}` : `${t("Relevant")}`,
       icon: <TrendingUp size={20} />,
-      url: "Relevant"
+      url: isUsersPage === true ? "MostLikes" : "Relevant",
     },
   ]
   
@@ -32,7 +42,7 @@ export default function SideBarElements() {
               href={`?${new URLSearchParams({
                 filter: `${Element.url}`,
               })}`}
-              className="flex hover:underline cursor-pointer items-center gap-2"
+              className={`${selectedFilter === Element.url ? "text-blue-500" : ""} flex hover:underline cursor-pointer items-center gap-2`}
             >
               {Element.icon}
               {Element.name}
@@ -40,6 +50,19 @@ export default function SideBarElements() {
           </li>
         );
       })}
+      {isUsersPage === true && (
+        <li className="apperance-none">
+          <Link
+            href={`?${new URLSearchParams({
+              filter: "PlusMember",
+            })}`}
+            className={`${selectedFilter === "PlusMember" ? "text-blue-500" : ""} flex hover:underline cursor-pointer items-center gap-2`}
+          >
+            <Gem size={20} />
+            {t2("PlusMembers")}
+          </Link>
+        </li>
+      )}
     </>
   );
 }

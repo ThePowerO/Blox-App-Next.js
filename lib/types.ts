@@ -47,6 +47,25 @@ export type Comment = {
   createdAt: Date;
 }
 
+// For CombosDisplay especifically
+export type CommentCBDisplay = {
+  id: string;
+  text: string;
+  comboId: string;
+  userId: string;
+  replies: Replies[];
+  user: {
+    id: string;
+    name: string | null;
+    image: string | null;
+    createdAt: Date;
+  };
+  combo: Combo;
+  likes: CommentLike[];
+  updatedAt: Date;
+  createdAt: Date;
+}
+
 export type Replies = {
   id: string;
   parentId: string;
@@ -69,8 +88,10 @@ export type User = {
   name: string;
   email: string;
   image: string;
+  description: string;
   createdAt: Date;
   updatedAt: Date;
+  isPlusPack: boolean;
   emailVerified: Date;
   favorites: Favorite[];
   comments: Comment[];
@@ -78,6 +99,7 @@ export type User = {
   replyLikes: ReplyLike[];
   commentLikes: CommentLike[];
   commentReplies: Replies[];
+  Combo: Combo[];
 }
 
 export type Like = {

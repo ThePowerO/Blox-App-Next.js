@@ -116,19 +116,21 @@ const LanguageSelector = ({
       <div className="relative">
         <div ref={imgRef}>
           {selectedLanguage ? (
-            <Image
-              className="rounded-full border hover:bg-gray-500 p-[10px] cursor-pointer transition-all"
-              onClick={() => setOpenMenu((prev) => !prev)}
-              src={selectedLanguage}
-              alt="Selected Language"
-              width={40}
-              height={40}
-            />
+            <button className="size-fit" onClick={() => setOpenMenu((prev) => !prev)}>
+              <Image
+                className="rounded-full border hover:bg-gray-500 p-[10px] cursor-pointer transition-all"
+                src={selectedLanguage}
+                alt="Selected Language"
+                width={40}
+                height={40}
+              />
+            </button>
           ) : (
-            <IoLanguageSharp
-              className={`rounded-full border dark:border-gray-700 hover:bg-gray-500 p-[10px] ${pathName === `/` ? "" : "text-white"} w-[40px] h-[40px] cursor-pointer`}
-              onClick={() => setOpenMenu((prev) => !prev)}
-            />
+            <button className="size-fit" onClick={() => setOpenMenu((prev) => !prev)}>
+              <IoLanguageSharp
+                className={`rounded-full border dark:border-gray-700 hover:bg-gray-500 p-[10px] ${pathName === `/` ? "" : "text-white"} w-[40px] h-[40px] cursor-pointer`}
+              />
+            </button>
           )}
         </div>
         {openMenu && (

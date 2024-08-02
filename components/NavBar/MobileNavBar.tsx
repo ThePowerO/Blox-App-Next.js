@@ -18,20 +18,18 @@ import {
 import { Button } from "../ui/button";
 import MobileActiveLink from "./navLinks/ActiveLink/MobileActiveLink";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export default function MobileNavBar({ locale }: { locale: string }) {
+  const t = useTranslations("NavBar");
   const pathName = usePathname();
   const links = [
     {
-      title: "About",
-      path: "/about",
-    },
-    {
-      title: "Users",
+      title: `${t("Users")}`,
       path: "/users",
     },
     {
-      title: "Combos",
+      title: `${t("Combos")}`,
       path: "/combos",
     },
     {
@@ -39,20 +37,8 @@ export default function MobileNavBar({ locale }: { locale: string }) {
       path: "/create-combo",
     },
     {
-      title: "Your Combos",
+      title: `${t("YourCombos")}`,
       path: "/your-combos",
-    },
-    {
-      title: "Community",
-      path: "/",
-    },
-    {
-      title: "Sign In",
-      path: "/sign-in",
-    },
-    {
-      title: "Sign Up",
-      path: "/sign-up",
     },
   ];
 

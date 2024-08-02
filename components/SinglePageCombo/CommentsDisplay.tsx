@@ -2,12 +2,9 @@
 
 import { Comment, Replies } from "@/lib/types";
 import React, { useState } from "react";
-import { AvatarDemo } from "../HtmlComponents/AvatarDemo";
-import { Link } from "@/navigation";
 import CommentText from "./CommentText";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { User } from "@prisma/client";
 import {
   AddCommentLkeBtn,
   RemoveCommentLikeBtn,
@@ -68,7 +65,7 @@ type Props = {
 export default function CommentsDisplay({ comments, userId }: Props) {
   const pathName = usePathname();
   const { data: session } = useSession();
-  const currentUser = session?.user as User;
+  const currentUser = session?.user;
   const { locale } = useLocale();
   const SearchParams = useSearchParams();
   const selectedFilter = SearchParams.get("filter");
@@ -117,7 +114,7 @@ export default function CommentsDisplay({ comments, userId }: Props) {
                 </div>
                 <div className="petit:order-first customtiny:order-last petit:items-center flex justify-end w-full">
                   {!!comment.likes?.find(
-                    (like) => like.userId === currentUser.id
+                    (like) => like.userId === currentUser?.id
                   ) ? (
                     <form action={UnlikeComment}>
                       <input

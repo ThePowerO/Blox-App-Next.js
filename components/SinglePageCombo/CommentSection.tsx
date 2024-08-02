@@ -1,26 +1,18 @@
 "use client";
 
-import Link from "next/link";
 import React, { useRef, useState } from "react";
 import { AvatarDemo } from "../HtmlComponents/AvatarDemo";
 import { useSession } from "next-auth/react";
 import TextareaAutosize from "react-textarea-autosize";
 import noAvatar from "@/public/Icons/noavatar.png";
 
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { revalidatePath } from "next/cache";
-import { useRouter } from "next/router";
-import { toast } from "react-toastify";
 import { SendHorizonal } from "lucide-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -28,21 +20,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createComment } from "@/lib/actions/commentActions";
 import { Combo } from "@/lib/types";
 import { usePathname } from "next/navigation";
-import { text } from "node:stream/consumers";
 import CommentFilter from "./CommentFilter";
 import CommentsDisplay from "./CommentsDisplay";
-import { useOptimistic } from "react";
-import { Comment } from "@/lib/types";
-import { CommentLike } from "@/lib/types";
+import { useTranslations } from "next-intl";
 import { CreateCommentBtn } from "../HtmlComponents/SubmitButtons";
-
-const FormSchema = z.object({
-  text: z.string().min(1, {
-    message: "Comment is required",
-  }),
-});
-
-type InputValue = z.infer<typeof FormSchema>;
+import { User } from "@prisma/client";
 
 const hasNoSpaces = (text: string) => {
   return text && !/\s/.test(text);
@@ -51,10 +33,30 @@ const hasNoSpaces = (text: string) => {
 type Props = {
   combo: Combo;
   userId: string;
+  user: User;
 };
 
-export default function CommentSection({ combo, userId }: Props) {
-  const form = useForm({
+export default function CommentSection({ combo, userId, user }: Props) {
+
+  const t = useTranslations("CommentSection")
+  const t2 = useTranslations("CommentText")
+
+  const FormSchema = z.object({
+    text: z
+    .string()
+    .trim()
+    .min(1, {
+      message: t("CommentRequired"),
+    })
+    .refine(val => val.trim().length > 0, {
+      message: t("CommentRequired"),
+    })
+  });
+
+  type InputValue = z.infer<typeof FormSchema>;
+
+
+  const form = useForm<InputValue>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       text: "",
@@ -80,18 +82,18 @@ export default function CommentSection({ combo, userId }: Props) {
   return (
     <div className="p-2">
       <div className="flex items-center gap-2">
-        <p>Comments</p>
+        <p>{t("Comments")}</p>
         <div className="px-[6px] bg-zinc-500 text-white rounded-full">
           <span className="font-bold">
-            {combo.comments.length + combo.comments[0]?.replies?.length || 0}
-            </span>
+            {combo.comments.length || 0}
+          </span>
         </div>
       </div>
       <div className="flex mt-3">
         <div className="mr-[8px] rounded-full border border-black h-fit">
           <AvatarDemo
-            userImg={session?.user?.image || noAvatar.src}
-            userNickName={session?.user?.name}
+            userImg={user.image}
+            userNickName={user.name}
           />
         </div>
 
@@ -120,7 +122,7 @@ export default function CommentSection({ combo, userId }: Props) {
                         minRows={1}
                         maxLength={4000}
                         className={`border-b-[2px]  dark:border-white bg-transparent w-full border-black outline-none text-sm`}
-                        placeholder="Write a comment..."
+                        placeholder={t("WriteComment")}
                         style={{ resize: "none" }}
                       />
                     </FormControl>
@@ -138,11 +140,11 @@ export default function CommentSection({ combo, userId }: Props) {
                     }}
                     className="cursor-pointer px-4 py-1 mr-1 dark:hover:bg-stone-800 hover:bg-stone-300 rounded-2xl"
                   >
-                    Cancel
+                    {t2("Cancel")}
                   </button>
                   {session?.user ? (
                     <div>
-                      {!form.formState.isValid || isLoading || !containsLetter(form.getValues("text")) ? (
+                      {!form.formState.isValid || isLoading || form.watch("text").trim() === "" ? (
                         <button
                           disabled
                           className="flex justify-center w-[60px] disabled:cursor-not-allowed text-black px-2 py-1 rounded-2xl dark:bg-stone-800 bg-stone-300"
@@ -173,7 +175,7 @@ export default function CommentSection({ combo, userId }: Props) {
             className="flex cursor-text gap-[4px] flex-col items-center border-none p-1 rounded-lg w-full"
           >
             <p className="border-b-[2px] dark:border-white text-zinc-400 w-full border-black outline-none text-sm">
-              Write a comment...
+              {t("WriteComment")}
             </p>
           </div>
         )}

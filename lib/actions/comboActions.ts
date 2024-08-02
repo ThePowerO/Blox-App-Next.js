@@ -301,6 +301,12 @@ export async function deleteCombo(formData: FormData) {
     return;
   }
 
+  const userCountLimits = await prisma.comboCountLimit.findUnique({
+    where: {
+      userId: user.id,
+    }
+  })
+
   await prisma.combo.delete({
     where: {
       id: comboId,
@@ -312,7 +318,7 @@ export async function deleteCombo(formData: FormData) {
       userId: sessionUser?.id,
     },
     data: {
-      count: -1,
+      count: userCountLimits?.count! -1,
     },
   });
 

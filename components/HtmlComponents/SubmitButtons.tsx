@@ -13,12 +13,23 @@ import { useFormStatus } from "react-dom";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import { Combo, Comment, Replies } from "@/lib/types";
+import { useTranslations } from "next-intl";
+
+function formatNumber(num: number): string {
+  if (num < 1000) {
+    return num.toString();
+  } else if (num < 1000000) {
+    return (num / 1000).toFixed(1) + 'k';
+  } else {
+    return (num / 1000000).toFixed(2) + 'm';
+  }
+};
 
 export function AddLikeParagraph({ combo }: { combo: Combo }) {
   const { pending } = useFormStatus();
   return (
     <p title={`${combo.likes.length} likes`} className="text-[14px]">
-      {pending ? combo.likes.length + 1 : combo.likes.length}
+      {pending ? formatNumber(combo.likes.length + 1) : formatNumber(combo.likes.length)}
     </p>
   );
 }
@@ -27,7 +38,7 @@ export function RemoveLikeParagraph({ combo }: { combo: Combo }) {
   const { pending } = useFormStatus();
   return (
     <p title={`${combo.likes.length} likes`} className="text-[14px]">
-      {pending ? combo.likes.length - 1 : combo.likes.length}
+      {pending ? formatNumber(combo.likes.length - 1) : formatNumber(combo.likes.length)}
     </p>
   );
 }
@@ -155,14 +166,14 @@ export function DeleteComboBtn() {
     <>
       {pending ? (
         <Button
-          typeof="button"
+          type="button"
           className="w-full flex gap-1"
           variant="destructive"
         >
           <Loader className="animate-spin" width={18} height={18} />
         </Button>
       ) : (
-        <Button className="w-full flex gap-1" variant="destructive">
+        <Button type="button" className="w-full flex gap-1" variant="destructive">
           <Trash2 width={18} height={18} />
         </Button>
       )}
@@ -237,6 +248,7 @@ export function RemoveCommentLike(comment: Comment) {
 }
 
 export function SaveEditCommentBtn() {
+  const t = useTranslations("CommentText");
   const { pending } = useFormStatus();
   return (
     <>
@@ -255,10 +267,10 @@ export function SaveEditCommentBtn() {
         <Button
           type="submit"
           variant="outline"
-          className="rounded-lg w-[50px] hover:dark:text-black dark:text-black
+          className="rounded-lg w-fit hover:dark:text-black dark:text-black
           hover:bg-cyan-500 h-[30px] bg-cyan-300 shadow-md shadow-cyan-500/50"
         >
-          <span>Save</span>
+          <span>{t("Save")}</span>
         </Button>
       )}
     </>
@@ -266,8 +278,8 @@ export function SaveEditCommentBtn() {
 }
 
 export function DeleteCommentBtn() {
+  const t = useTranslations("CommentText");
   const { pending } = useFormStatus();
-
   return (
     <Button
       disabled={pending}
@@ -277,12 +289,12 @@ export function DeleteCommentBtn() {
       {pending ? (
         <>
           <LoaderIcon className="animate-spin" width={18} height={18} />
-          <span>Deleting Comment...</span>
+          <span>{t("DeletingComment")}</span>
         </>
       ) : (
         <>
           <Trash2 width={18} height={18} />
-          <span>Delete Comment</span>
+          <span>{t("DeleteComment")}</span>
         </>
       )}
     </Button>
@@ -353,7 +365,7 @@ export function SendCommentReply() {
             disabled={pending}
             type="button"
             variant="outline"
-            className="rounded-lg dark:text-black w-[50px] h-[30px] bg-slate-300"
+            className="rounded-lg dark:text-black w-fit h-[30px] bg-slate-300"
           >
             <Loader width={18} height={18} className="animate-spin" />
           </Button>
@@ -362,7 +374,7 @@ export function SendCommentReply() {
         <Button
           type="submit"
           variant="outline"
-          className="rounded-lg w-[50px] hover:dark:text-black dark:text-black
+          className="rounded-lg w-fit hover:dark:text-black dark:text-black
           hover:bg-cyan-500 h-[30px] bg-cyan-300 shadow-md shadow-cyan-500/50"
         >
           <SendHorizonal width={18} height={18} />

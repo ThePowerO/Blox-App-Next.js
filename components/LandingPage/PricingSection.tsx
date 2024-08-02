@@ -3,7 +3,8 @@ import { getServerSession } from "next-auth";
 import React from "react";
 import { stripe } from "@/lib/stripe";
 import { redirect } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import TextGradient from "../HtmlComponents/TextGradient";
 
 type PricingPack = {
   packname: string;
@@ -15,9 +16,10 @@ type PricingPack = {
   notIncluded?: string[];
   isSubscription?: boolean;
   hasInfo?: boolean;
+  relevant?: boolean;
 };
 
-export default async function PricingSection({
+export default function PricingSection({
   packname,
   description,
   price,
@@ -26,26 +28,26 @@ export default async function PricingSection({
   link,
   hasInfo,
   isSubscription,
+  relevant,
   priceId,
 }: PricingPack) {
   const t = useTranslations("LandingPage");
 
   return (
-    <div className="divide-y divide-gray-200 rounded-2xl border border-gray-200 shadow-sm mt-7">
+    <div className={`${relevant === true ? "shadow-xl border-cyan-800 shadow-cyan-500 divide-cyan-900" : "border-gray-200 divide-gray-200"} divide-y divide-gray-200 rounded-2xl border  shadow-sm mt-7`}>
       <div className="p-6 sm:px-8">
-        <div className="flex items-center justify-between">
-          <h2 className="p-2 bg-cyan-400 rounded-full w-fit text-sm font-medium">
+        <div className={`mdmax:flex 940px:flex items-center justify-between`}>
+          <h2 className="p-2 size-fit bg-cyan-400 rounded-full w-fit text-sm font-medium">
             {packname}
-            <span className="sr-only">{t("Plan")}</span>
           </h2>
+          {relevant && <TextGradient text={t("BestOffer")} from={`from-amber-600 text-sm`} via="via-yellow-300" to="to-amber-700" />}
         </div>
 
         <p className="mt-2">{description}</p>
 
         <p className="mt-2 sm:mt-4">
           <strong className="text-3xl font-bold sm:text-4xl">{price} </strong>
-
-          {isSubscription && <span className="text-sm font-medium">/month</span>}
+          {isSubscription && <span className="text-sm font-medium">/{t("PerMonth")}</span>}
         </p>
 
         <form>

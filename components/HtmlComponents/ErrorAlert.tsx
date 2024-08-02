@@ -1,7 +1,6 @@
 'use client';
 
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons"
-import { useLocale } from "@/LocaleContext";
 
 import {
   Alert,
@@ -9,22 +8,24 @@ import {
   AlertTitle,
 } from "@/components/ui/alert"
 import Link from "next/link"
+import { useLocale, useTranslations } from "next-intl";
 
 export function AlertDestructive() {
 
-    const { locale } = useLocale();
+  const locale = useLocale();
+  const t = useTranslations("ALertDestructive") 
 
   return (
     <Alert className="static flex" variant="default">
       <div className="mr-[15px]">
-          <ExclamationTriangleIcon color="red" className="block h-4 w-4" />
+          <ExclamationTriangleIcon className="block h-4 w-4" />
       </div>
       <div>
-          <AlertTitle>No Combos Found</AlertTitle>
+          <AlertTitle>{t("NoComboFound")}</AlertTitle>
           <AlertDescription>
-            Go create your first combo to see it here!
+            {t("CreateYourCombo")}
             <Link href={`/${locale}/create-combo`}>
-              <span className="text-blue-500 hover:underline"> Create Combo</span>
+              <span className="text-blue-500 hover:underline"> {t("CreateCombo")}</span>
             </Link>
           </AlertDescription>
       </div>

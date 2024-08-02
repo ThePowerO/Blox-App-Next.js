@@ -66,6 +66,7 @@ export const authOptions: AuthOptions = {
           await prisma.user.create({
             data: {
               ...user,
+              name: user.name!,
             },
           });
         }
