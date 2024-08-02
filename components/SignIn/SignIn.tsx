@@ -74,7 +74,7 @@ const SignIn = () => {
 
   return (
     <div className='p-2 grid grid-cols-1 place-items-center mt-[55px]'>
-      <div className=' bg-stone-50 dark:bg-zinc-800 p-5 w-full tiny:max-w-[400px] sm:max-w-[400px] md:max-w-[400px] border-t-4 border-[#3d95ec] rounded-lg shadow-lg'>
+      <div className='bg-stone-50 dark:bg-zinc-800 p-5 w-full tiny:max-w-[400px] sm:max-w-[400px] md:max-w-[400px] border-t-4 border-[#3d95ec] rounded-lg shadow-lg'>
         <div className='flex flex-col gap-[10px]'>
           <h1>{t("h1")}</h1>
 
