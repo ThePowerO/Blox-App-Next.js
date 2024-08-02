@@ -98,7 +98,7 @@ export function LoginGoogleDiscord() {
         type="button"
         onClick={LoginWithGoogle}
         className="flex gap-[5px] text-black hover:text-black dark:bg-[#fff]
-                border border-input dark:hover:bg-stone-200 transition-all"
+        border border-input dark:hover:bg-stone-200 transition-all"
         variant="outline"
       >
         <FcGoogle className="text-2xl" />
