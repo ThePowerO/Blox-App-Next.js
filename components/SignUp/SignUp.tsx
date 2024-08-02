@@ -37,8 +37,6 @@ const SignUp = () => {
       .string()
       .min(1, `${t2("PasswordMinimum")}`)
       .max(30, `${t2("PasswordMaximum")}`),
-    accepted: z
-      .literal(true, { errorMap: () => ({ message: `${t2("AcceptTerms")}` }) }),
   })
   
   type InputType = z.infer<typeof FormSchema>
@@ -52,7 +50,7 @@ const SignUp = () => {
   });
 
   const saveUser: SubmitHandler<InputType> = async (data) => {
-    const { accepted,  ...user } = data;
+    const { ...user } = data;
     try {
       const result = await registerUser(user)       
       toast.success('User created. Check your Email Box to activate your account')
@@ -68,16 +66,6 @@ const SignUp = () => {
     }
 
   }
-
-  const customStyles = {
-    checkboxWrapper: {
-      display: 'inline-block',
-      verticalAlign: 'middle',
-      width: '16px', // Largura da caixa simulada
-      height: '16px', // Altura da caixa simulada
-      borderRadius: '4px', // Raio da borda para criar cantos arredondados
-    },
-  };
   
   return (
     <div className='p-2  grid grid-cols-1 place-items-center mt-[55px]'>
@@ -101,22 +89,7 @@ const SignUp = () => {
               </span>
             </div>
             {errors.password && <p className='text-red-500 text-sm'>{errors.password.message}</p>}
-            <div className='relative'>
-            <div className='absolute left-[9px] top-[12px] bg-[#3d95ec] dark:bg-[#3d95ec]' style={customStyles.checkboxWrapper}></div>
-              <Controller  control={control} name="accepted" render={({ field }) =>
-                <Checkbox checked={field.value} onChange={field.onChange} onBlur={field.onBlur} id="terms" >
-                  <label
-                  htmlFor="terms"
-                  className="text-sm ml-[5px] font-medium "
-                  >
-                    {t("pTerms")}
-                    <Link href={`/`} className="text-[#3d95ec] underline">{t("LinkToTerms")}</Link>
-                  </label>
-                </Checkbox>
-              } />
-            </div>
-            {!!errors.accepted && (<p className='text-red-500 text-sm'>{errors.accepted.message}</p>)}
-            <Button disabled={isSubmitting} className='bg-[#3d95ec] text-white hover:bg-[#5994cf]' type='submit'>
+            <Button disabled={isSubmitting} className='bg-[#3d95ec] mt-5 text-white hover:bg-[#5994cf]' type='submit'>
               {isSubmitting? <Loader2 className="w-6 h-6 animate-spin" />: `${t("CreateBtn")}`}
             </Button>
           </form>

@@ -7,7 +7,9 @@ import { compileActivationTemplate, compileResetPasswordTemplate, sendMail } fro
 import { signJwt, verifyJwt } from '../jwt';
 import NoAvatar from '@/public/Icons/noavatar.png';
 
-export async function registerUser( user: Omit<User, "id" | "image" | "emailVerified" | "createdAt" | "updatedAt" | "stripeCustomerId" | "highlights" | "starterPack" | "proPack" | "isPlusPack" | "plusPackWeeklyTime" | "nameChangeExpiration"> ) {
+export async function registerUser( user: Omit<User, "id" | "image" | "emailVerified" | "createdAt" | "updatedAt" 
+  | "stripeCustomerId" | "highlights" | "starterPack" | "proPack" | "isPlusPack" | "plusPackWeeklyTime" 
+  | "nameChangeExpiration" | "description"> ) {
   const result = await prisma.user.create({
     data: {
       image: NoAvatar.src,

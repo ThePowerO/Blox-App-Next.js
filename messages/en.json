@@ -25,7 +25,8 @@
         "signinwith": "Sign in with",
         "withgoogle": "Sign In with Google",
         "withroblox": "Sign In with Roblox",
-        "withdiscord": "Sign In with Discord"
+        "withdiscord": "Sign In with Discord",
+        "ForgotPassword": "Forgot Password"
     },
     "SignUpPage": {
         "h1": "Register",

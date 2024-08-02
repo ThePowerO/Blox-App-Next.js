@@ -94,7 +94,7 @@ const SignIn = () => {
             {!!errors.password && <p className='text-red-500 text-sm'>{errors.password.message}</p>}
             <div>
               <Link href={`/${locale}/forgot-password`}>
-                <span className="text-sm underline text-[#3d95ec]">Forgot Password</span>
+                <span className="text-sm underline text-[#3d95ec]">{t("ForgotPassword")}</span>
               </Link>
             </div>
             <Button disabled={isSubmitting} className='bg-[#3d95ec] text-white hover:bg-[#386da1]' type='submit'>

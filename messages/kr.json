@@ -25,7 +25,16 @@
         "signinwith": "아카이트으로 로그인하기",
         "withgoogle": "Google으로 로그인하기",
         "withroblox": "로블록스으로 로그인하기",
-        "withdiscord": "디스코드으로 로그인하기"
+        "withdiscord": "디스코드으로 로그인하기",
+        "ForgotPassword": "비밀번호를 잊으 셨나요"
+    },
+    "SignUpPage": {
+        "h1": "가입하기",
+        "CreateBtn": "가입하기",
+        "TextLinkToSignIn": "아카이트가 없음다",
+        "SpanSignIn": "로그인",
+        "pTerms": "동의하기",
+        "LinkToTerms": "조건"
     },
     "CreateComboPage": {
         "ComboTrigger": "콤보",

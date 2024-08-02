@@ -25,7 +25,16 @@
         "signinwith": "Anmelden mit",
         "withgoogle": "Anmelden mit Google",
         "withroblox": "Anmelden mit Roblox",
-        "withdiscord": "Anmelden mit Discord"
+        "withdiscord": "Anmelden mit Discord",
+        "ForgotPassword": "Passwort vergessen"
+    },
+    "SignUpPage": {
+        "h1": "Registrieren",
+        "CreateBtn": "Registrieren",
+        "TextLinkToSignIn": "Hast du bereits ein Konto?",
+        "SpanSignIn": "Anmelden",
+        "pTerms": "Ich akzeptiere die ",
+        "LinkToTerms": "Bedingungen"
     },
     "CreateComboPage": {
         "ComboTrigger": "Combo",

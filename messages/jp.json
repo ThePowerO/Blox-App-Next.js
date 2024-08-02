@@ -25,7 +25,16 @@
         "signinwith": "次のアカウントでサインイン",
         "withgoogle": "Google でサインイン",
         "withroblox": "ロブテックス でサインイン",
-        "withdiscord": "Discord でサインイン"
+        "withdiscord": "Discord でサインイン",
+        "ForgotPassword": "パスワードをお忘れですか"
+    },
+    "SignUpPage": {
+        "h1": "サインアップ",
+        "CreateBtn": "サインアップ",
+        "TextLinkToSignIn": "アカウントがありませんか？",
+        "SpanSignIn": "サインイン",
+        "pTerms": "承認",
+        "LinkToTerms": "利用規約"
     },
     "CreateComboPage": {
         "ComboTrigger": "コンボ",

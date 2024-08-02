@@ -21,11 +21,11 @@
     "SignInPage": {
         "h1": "Login",
         "button": "Login",
-        "text": "Não possui uma conta?",
+        "text": "Não tem possui conta?",
         "signinwith": "Entrar com",
-        "withgoogle": "Logar com o Google",
-        "withroblox": "Logar com o Roblox",
-        "withdiscord": "Logar com o Discord"
+        "withgoogle": "Entrar com o Google",
+        "withdiscord": "Entrar com o Discord",
+        "ForgotPassword": "Esqueci a senha"
     },
     "SignUpPage": {
         "h1": "Registrar",
@@ -211,7 +211,7 @@
     },
     "NavBar": {
         "SignOut": "Sair",
-        "SignIn": "Logar",
+        "SignIn": "Entrar",
         "Users": "Usuários",
         "Combos": "Combos",
         "YourCombos": "Seus Combos"
