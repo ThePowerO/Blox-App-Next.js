@@ -74,11 +74,6 @@ export default function CommentSection({ combo, userId, user }: Props) {
     setIsCommenting((prevState) => !prevState);
   };
 
-  const containsLetter = (text: string) => {
-    const trimmedText = text.trim();
-    return /[^\s]/.test(trimmedText);
-  };
-
   return (
     <div className="p-2">
       <div className="flex items-center gap-2">
@@ -92,7 +87,7 @@ export default function CommentSection({ combo, userId, user }: Props) {
       <div className="flex mt-3">
         <div className="mr-[8px] rounded-full border border-black h-fit">
           <AvatarDemo
-            userImg={user.image}
+            userImg={session?.user ? user.image : noAvatar}
             userNickName={user.name}
           />
         </div>

@@ -22,6 +22,16 @@ export default async function page({ params }: Props) {
   const userSession = session?.user
   const userId = userSession?.id
 
+  if (!userSession) {
+    return (
+      <main>
+        <ComboBySlug combo={combo as Combo} />
+
+        <CommentSection user={{} as User} userId={userId as string} combo={combo as Combo} />
+      </main>
+    )
+  }
+
   const user = await prisma.user.findUnique({
     where: {
       id: userId

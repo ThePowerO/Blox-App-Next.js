@@ -48,9 +48,9 @@ export default function ComboCard({
   const locale = useLocale();
   const router = useRouter();
   return (
-    <Link
-      href={`/${locale}/combos/${combo.slug}`}
-      className={`petit:flex relative cursor-pointer petit:h-fit customtiny:h-fit medium:h-[182px] border transition hover:shadow-xl
+    <article
+      className={`petit:flex relative cursor-pointer petit:h-fit customtiny:h-fit 
+        medium:h-[182px] border transition hover:shadow-xl
                     ${combo.highlight === `HIGHLIGHTED` ? "" : ""}
                   `}
     >
@@ -114,7 +114,10 @@ export default function ComboCard({
           <span>{""}</span>
         </time>
       </div>
-      <div className="petitmax:flex customtiny:flex customtiny:flex-col size-fit medium:hidden">
+      <Link
+        href={`/${locale}/combos/${combo.slug}`}
+        className="petitmax:flex customtiny:flex customtiny:flex-col size-fit medium:hidden"
+      >
         {[combo.fightingstyle, combo.fruit, combo.sword, combo.weapon].map(
           (src, index) => (
             <Image
@@ -128,8 +131,11 @@ export default function ComboCard({
             />
           )
         )}
-      </div>
-      <div className="hidden medium:grid medium:grid-cols-2">
+      </Link>
+      <Link
+        href={`/${locale}/combos/${combo.slug}`}
+        className="hidden medium:grid medium:grid-cols-2"
+      >
         {[combo.fightingstyle, combo.fruit, combo.sword, combo.weapon].map(
           (src, index) => (
             <Image
@@ -143,13 +149,15 @@ export default function ComboCard({
             />
           )
         )}
-      </div>
+      </Link>
       <div className="flex w-full flex-1 flex-col justify-between">
         <div className="border-s border-gray-900/10 p-2 sm:border-l-transparent sm:p-2">
           <Link href={`/${locale}/combos/${combo.slug}`}>
             <h3
               className={`${
-                isCombosPage === true ? "line-clamp-2 medium:line-clamp-1" : "tinymax420px:line-clamp-1"
+                isCombosPage === true
+                  ? "line-clamp-2 medium:line-clamp-1"
+                  : "tinymax420px:line-clamp-1"
               } font-bold
                hover:underline uppercase text-gray-900 dark:text-white`}
             >
@@ -157,9 +165,9 @@ export default function ComboCard({
             </h3>
           </Link>
           <p
-            className={`${isCombosPage === true ? "line-clamp-4 medium:line-clamp-2" : ""} ${
-              isProfilePage === true ? "md:line-clamp-2" : ""
-            } mt-2 
+            className={`${
+              isCombosPage === true ? "line-clamp-4 medium:line-clamp-2" : ""
+            } ${isProfilePage === true ? "md:line-clamp-2" : ""} mt-2 
                
               text-sm/relaxed text-gray-700 dark:text-white`}
           >
@@ -170,12 +178,13 @@ export default function ComboCard({
           <>
             <div className="flex flex-col">
               <div className="flex w-full medium:items-end medium:justify-end">
-                <div
-                  onClick={(e) => e.stopPropagation()}
-                  className="flex gap-2 flex-1 ml-2"
-                >
+                <div className="flex gap-2 flex-1 ml-2">
                   {currentUser?.id === combo.userId ? (
-                    <MoreHorizontalBtn user={user} combo={combo} pathName={""} />
+                    <MoreHorizontalBtn
+                      user={user}
+                      combo={combo}
+                      pathName={""}
+                    />
                   ) : null}
                   {currentUser?.id ? (
                     <FavortiteLikeBtn
@@ -215,18 +224,15 @@ export default function ComboCard({
                 </div>
               </div>
               <div className="flex justify-between ml-2 mt-2">
-                <Link href={`/${locale}/profile/${combo.user?.id}`}
+                <Link
+                  href={`/${locale}/profile/${combo.user?.id}`}
                   className="flex hover:underline cursor-pointer gap-2 items-center"
                 >
                   <AvatarDemo
                     userImg={combo.user?.image}
                     userNickName={combo.user?.name}
                   />
-                  <span
-                    className=""
-                  >
-                    @{combo.user?.name}
-                  </span>
+                  <span className="">@{combo.user?.name}</span>
                 </Link>
                 <Link
                   href={`/${locale}/combos/${combo.slug}`}
@@ -242,10 +248,7 @@ export default function ComboCard({
           </>
         ) : (
           <div className="flex w-full medium:items-end medium:justify-end">
-            <div
-              onClick={(e) => e.stopPropagation()}
-              className="flex gap-2 flex-1 ml-2"
-            >
+            <div className="flex gap-2 flex-1 ml-2">
               {currentUser?.id === combo.userId ? (
                 <MoreHorizontalBtn user={user} combo={combo} pathName={""} />
               ) : null}
@@ -278,18 +281,9 @@ export default function ComboCard({
                   userEmail={currentUser?.email}
                 />
               ) : (
-                <div
-                  onClick={(e) => e.stopPropagation()}
-                  className="justify-center"
-                >
-                  <div className="flex items-center gap-[5px]">
-                    <div className="mt-1 flex gap-1">
-                      <AddFavoriteButton />
-                    </div>
-                    <div className="mt-1 flex gap-1">
-                      <AddLikeButton />
-                    </div>
-                  </div>
+                <div className="flex items-center gap-1">
+                  <NoSessionLikeFav />
+                  <AddLikeParagraph combo={combo} />
                 </div>
               )}
             </div>
@@ -305,6 +299,6 @@ export default function ComboCard({
           </div>
         )}
       </div>
-    </Link>
+    </article>
   );
 }

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { Gem, MessageCircleMore, TrendingUp, Trophy, User } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
@@ -8,21 +8,23 @@ import React from "react";
 
 type Props = {
   isUsersPage: boolean;
-}
+};
 
 export default function SideBarElements({ isUsersPage }: Props) {
   const t = useTranslations("ProfilePage");
   const t2 = useTranslations("UsersPage");
+  const locale = useLocale();
   const searchParams = useSearchParams();
   const selectedFilter = searchParams.get("filter");
   const SideBarElements = [
     {
-      name: isUsersPage === true ? `${t2("MostCombos")}` : `${t("TopCombos")}`,	
+      name: isUsersPage === true ? `${t2("MostCombos")}` : `${t("TopCombos")}`,
       icon: <Trophy size={20} />,
       url: isUsersPage === true ? "MostCombos" : "TopCombos",
     },
     {
-      name: isUsersPage === true ? `${t2("MostComments")}` : `${t("TopComments")}`,
+      name:
+        isUsersPage === true ? `${t2("MostComments")}` : `${t("TopComments")}`,
       icon: <MessageCircleMore size={20} />,
       url: isUsersPage === true ? "MostComments" : "TopComments",
     },
@@ -31,8 +33,8 @@ export default function SideBarElements({ isUsersPage }: Props) {
       icon: <TrendingUp size={20} />,
       url: isUsersPage === true ? "MostLikes" : "Relevant",
     },
-  ]
-  
+  ];
+
   return (
     <>
       {SideBarElements.map((Element) => {
@@ -42,7 +44,9 @@ export default function SideBarElements({ isUsersPage }: Props) {
               href={`?${new URLSearchParams({
                 filter: `${Element.url}`,
               })}`}
-              className={`${selectedFilter === Element.url ? "text-blue-500" : ""} flex hover:underline cursor-pointer items-center gap-2`}
+              className={`${
+                selectedFilter === Element.url ? "text-blue-500" : ""
+              } flex hover:underline cursor-pointer items-center gap-2`}
             >
               {Element.icon}
               {Element.name}
@@ -51,17 +55,29 @@ export default function SideBarElements({ isUsersPage }: Props) {
         );
       })}
       {isUsersPage === true && (
-        <li className="apperance-none">
-          <Link
-            href={`?${new URLSearchParams({
-              filter: "PlusMember",
-            })}`}
-            className={`${selectedFilter === "PlusMember" ? "text-blue-500" : ""} flex hover:underline cursor-pointer items-center gap-2`}
-          >
-            <Gem size={20} />
-            {t2("PlusMembers")}
-          </Link>
-        </li>
+        <>
+          <li className="apperance-none">
+            <Link
+              href={`?${new URLSearchParams({
+                filter: "PlusMember",
+              })}`}
+              className={`${
+                selectedFilter === "PlusMember" ? "text-blue-500" : ""
+              } flex hover:underline cursor-pointer items-center gap-2`}
+            >
+              <Gem size={20} />
+              {t2("PlusMembers")}
+            </Link>
+          </li>
+          <li className="apperance-none">
+            <Link
+              href={`/${locale}/users`}
+              className={`flex border rounded-lg p-1 text-sm hover:underline cursor-pointer items-center gap-2`}
+            >
+              Remove Filters
+            </Link>
+          </li>
+        </>
       )}
     </>
   );

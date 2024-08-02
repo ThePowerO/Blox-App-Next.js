@@ -23,6 +23,7 @@ import { Button } from "../ui/button";
 import { SendCommentReply } from "../HtmlComponents/SubmitButtons";
 import { CreateReply, createComment } from "@/lib/actions/commentActions";
 import { useTranslations } from "next-intl";
+import { useSession } from "next-auth/react";
 
 type Props = {
   comment: Comment;
@@ -32,8 +33,14 @@ type Props = {
 
 // #212529
 
-export default function CommentReply({ comment, replyUserName, toggleReplying }: Props) {
+export default function CommentReply({
+  comment,
+  replyUserName,
+  toggleReplying,
+}: Props) {
   const t = useTranslations("CommentText");
+  const { data: session } = useSession();
+  const currentUser = session?.user;
   const [textValue, setTextValue] = useState("@" + replyUserName + " ");
   const pathName = usePathname();
 
@@ -92,11 +99,13 @@ export default function CommentReply({ comment, replyUserName, toggleReplying }:
   return (
     <div className="relative w-full mt-2">
       <Form {...form}>
-        <form action={async (FormData) => {
-          form.reset();
-          toggleReplying();
-          await CreateReply(FormData);
-        }}>
+        <form
+          action={async (FormData) => {
+            form.reset();
+            toggleReplying();
+            await CreateReply(FormData);
+          }}
+        >
           <input type="hidden" name="pathName" value={pathName} />
           <input type="hidden" name="comboId" value={comment.comboId} />
           <input type="hidden" name="parentId" value={comment.id} />
@@ -128,19 +137,40 @@ export default function CommentReply({ comment, replyUserName, toggleReplying }:
               </FormItem>
             )}
           />
-          <div className="w-full flex justify-end gap-2">
-            <Button
-              onClick={() => {
-                form.reset();
-                toggleReplying();
-              }}
-              type="button"
-              variant="outline"
-              className="rounded-lg w-fit h-[30px] dark:hover:bg-stone-800 hover:bg-stone-300"
-            >
-              <span>{t("Cancel")}</span>
-            </Button>
-            {!containsLetter(textValue) ? (
+          {currentUser ? (
+            <div className="w-full flex justify-end gap-2">
+              <Button
+                onClick={() => {
+                  form.reset();
+                  toggleReplying();
+                }}
+                type="button"
+                variant="outline"
+                className="rounded-lg w-fit h-[30px] dark:hover:bg-stone-800 hover:bg-stone-300"
+              >
+                <span>{t("Cancel")}</span>
+              </Button>
+              {!containsLetter(textValue) ? (
+                <div className="cursor-not-allowed">
+                  <Button
+                    disabled
+                    type="button"
+                    variant="outline"
+                    className="rounded-lg w-[50px] h-[30px] bg-slate-300"
+                  >
+                    <SendHorizonal
+                      className="dark:text-black"
+                      width={18}
+                      height={18}
+                    />
+                  </Button>
+                </div>
+              ) : (
+                <SendCommentReply />
+              )}
+            </div>
+          ) : (
+            <div className="w-full flex justify-end gap-2">
               <div className="cursor-not-allowed">
                 <Button
                   disabled
@@ -148,13 +178,15 @@ export default function CommentReply({ comment, replyUserName, toggleReplying }:
                   variant="outline"
                   className="rounded-lg w-[50px] h-[30px] bg-slate-300"
                 >
-                  <SendHorizonal className="dark:text-black" width={18} height={18} />
+                  <SendHorizonal
+                    className="dark:text-black"
+                    width={18}
+                    height={18}
+                  />
                 </Button>
               </div>
-            ) : (
-              <SendCommentReply />
-            )}
-          </div>
+            </div>
+          )}
         </form>
       </Form>
     </div>

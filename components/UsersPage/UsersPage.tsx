@@ -34,12 +34,12 @@ export default function UsersPage({ users, currentUser }: Props) {
   return (
     <main className="p-6 flex">
       <section className="hidden md:block w-[200px] p-3 pt-8 border-r-2">
-        <ProfileSideBar isUsersPage={true} ParamsUserId={currentUser?.id as string} />
+        <ProfileSideBar isUsersPage={true} ParamsUserId={currentUser?.id as string || ""} />
       </section>
       <section className="w-full p-4">
         <h1 className="text-2xl font-bold mb-7">{t("UsersPage")}</h1>
         <div className="block md:hidden border rounded-lg p-3 mb-5">
-          <ProfileSideBar isUsersPage={true} ParamsUserId={currentUser?.id as string} />
+          <ProfileSideBar isUsersPage={true} ParamsUserId={currentUser?.id as string || ""} />
         </div>
         <UsersCards users={users} />
       </section>

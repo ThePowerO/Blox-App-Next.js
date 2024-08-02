@@ -1,44 +1,39 @@
 import React from "react";
-
-export const FilterTypes = [
-  "Recent",
-  "Old",
-  "Likes",
-  "Favorite",
-  "Highlighted",
-];
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, ChevronUp, Heart, Star } from "lucide-react";
+import { ChevronDown, Heart, Star } from "lucide-react";
 import { Button } from "../ui/button";
 
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import Image from "next/image";
 import TextGradient from "../HtmlComponents/TextGradient";
 import { ReferencesSearchItems } from "./ComboFilter";
-import MoreHorizontalBtn from "../HtmlComponents/MoreHorizontal";
 import { Input } from "../ui/input";
 import { Skeleton } from "../ui/skeleton";
-import AddLikeButton, {
-  AddFavoriteButton,
-} from "../HtmlComponents/SubmitButtons";
+import { useTranslations } from "next-intl";
 
 export default function CombosDisplayFallback() {
+  const t = useTranslations("YourCombos");
+  const FilterTypes = [
+    `${t("Recent")}`,
+    `${t("Old")}`,
+    `${t("Likes")}`,
+    `${t("Favorites")}`,
+    `${t("Highlighted")}`,
+  ];
   return (
     <>
       <section className="mb-6">
         <Input
-          placeholder="Search Combos"
+          placeholder={t("searchPlaceholder")}
           className="w-full first-letter:border bg-white px-2 py-1.5 text-sm font-medium text-gray-900 placeholder-gray-400 focus:ring-0 dark:bg-[#212529] dark:text-white"
         />
         <div className="mt-[20px] flex flex-col gap-1">
           <div className="flex w-full tinymax:px-[10px] px-[40px] py-2 items-center border rounded-xl dark:border-none dark:bg-[#212529]">
             <div className="flex flex-wrap tinymax:gap-1 gap-4 items-center text-sm">
-              <p className="text-zinc-400">Filter by:</p>
+              <p className="text-zinc-400">{t("FilterBy")}</p>
               {FilterTypes.map((filterType) => (
                 <span
                   key={filterType}
@@ -55,7 +50,7 @@ export default function CombosDisplayFallback() {
           <DropdownMenu modal={false}>
             <DropdownMenuTrigger>
               <Button className="flex items-center gap-1">
-                Filter via references <ChevronDown />
+                {t("FilterViaReferences")} <ChevronDown />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="" align="start">

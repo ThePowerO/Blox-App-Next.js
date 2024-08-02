@@ -3,13 +3,16 @@ import React from 'react'
 import prisma from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions'
+import { redirect } from 'next/navigation'
+import { getLocale } from 'next-intl/server'
 
 export default async function page() {
   const session = await getServerSession(authOptions)
   const currentUser = session?.user;
+  const locale = await getLocale();
 
   if (!currentUser) {
-    return <p>Not signed in</p>
+    redirect(`/${locale}/sign-in`);
   }
 
   const user = await prisma.user.findUnique({

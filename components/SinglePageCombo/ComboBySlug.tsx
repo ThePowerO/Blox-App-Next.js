@@ -114,6 +114,8 @@ export default async function ComboBySlug({ combo }: Props) {
               authorCreatedAt={combo.user.createdAt}
               comboAuthor={combo.user.name || ""}
               authorImage={combo.user.image || ""}
+              authorDescription={combo.user.description || ""}
+              authorId={combo.user.id}
             />
           </div>
         </div>
@@ -150,11 +152,13 @@ export default async function ComboBySlug({ combo }: Props) {
         </div>
         <div className="flex items-center justify-between sm:justify-normal w-full gap-1">
           <div className="">
-            built by
+            {t("BuiltBy")}
             <HoverComboAuthor
               authorCreatedAt={combo.user.createdAt}
               comboAuthor={combo.user.name || ""}
               authorImage={combo.user.image || ""}
+              authorDescription={combo.user.description || ""}
+              authorId={combo.user.id}
             />
           </div>
           {currentUser ? (

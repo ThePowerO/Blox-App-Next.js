@@ -408,6 +408,7 @@ export async function getSlugCombo(slug: string) {
           name: true,
           image: true,
           createdAt: true,
+          description: true,
         },
       },
       favorites: {

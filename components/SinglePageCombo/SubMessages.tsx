@@ -30,6 +30,7 @@ import { zhCN } from 'date-fns/locale';
 import { ptBR } from 'date-fns/locale';
 import { enUS } from 'date-fns/locale';
 import { useLocale, useTranslations } from "next-intl";
+import { LikeReplyComponent } from "./CommentsDisplay";
 
 const locales = {
   en: enUS,
@@ -135,31 +136,7 @@ export default function SubMessages({ comment }: Props) {
                       {formatDistanceToNow(new Date(reply.createdAt), { addSuffix: true, locale: getLocale(locale) })}
                     </span>
                   </div>
-                  <div className="petit:order-first petit:items-center flex justify-end w-full">
-                    {!!reply.likes?.find(
-                      (like) => like.userId === currentUser?.id
-                    ) ? (
-                      <form action={UnlikeReply}>
-                        <input
-                          type="hidden"
-                          name="replyId"
-                          value={reply.id}
-                        />
-                        <input type="hidden" name="pathName" value={pathName} />
-                        <RemoveCommentLikeBtn {...reply} />
-                      </form>
-                    ) : (
-                      <form action={LikeReply}>
-                        <input
-                          type="hidden"
-                          name="replyId"
-                          value={reply.id}
-                        />
-                        <input type="hidden" name="pathName" value={pathName} />
-                        <AddCommentLkeBtn {...reply} />
-                      </form>
-                    )}
-                  </div>
+                  <LikeReplyComponent reply={reply} />
                 </div>
                 <div className="flex flex-col justify-between text-sm w-full">
                   <div className="flex items-center gap-1">

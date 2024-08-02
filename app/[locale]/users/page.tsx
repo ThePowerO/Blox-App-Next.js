@@ -20,6 +20,6 @@ export default async function page() {
   const session = await getServerSession(authOptions);
   const currentUser = session?.user;
   return (
-      <UsersPage users={users as any} currentUser={currentUser} />
+    <UsersPage users={users as any} currentUser={currentUser} />
   );
 }

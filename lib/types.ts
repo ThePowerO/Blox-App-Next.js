@@ -27,6 +27,7 @@ export type Combo = {
     name: string | null;
     image: string | null;
     createdAt: Date;
+    description: string | null;
   };
 };
 

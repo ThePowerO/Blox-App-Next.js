@@ -4,12 +4,12 @@ import { Comment, Replies } from "@/lib/types";
 import React, { useState } from "react";
 import CommentText from "./CommentText";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import {
   AddCommentLkeBtn,
   RemoveCommentLikeBtn,
 } from "../HtmlComponents/SubmitButtons";
-import { LikeComment, UnlikeComment } from "@/lib/actions/commentActions";
+import { LikeComment, LikeReply, UnlikeComment, UnlikeReply } from "@/lib/actions/commentActions";
 import SubMessages from "./SubMessages";
 import { HoverCommentAuthor } from "../HtmlComponents/HoverComboAuthor";
 import { formatDistanceToNow } from "date-fns";
@@ -21,7 +21,16 @@ import { it } from "date-fns/locale";
 import { zhCN } from "date-fns/locale";
 import { ptBR } from "date-fns/locale";
 import { enUS } from "date-fns/locale";
-import { useLocale } from "@/LocaleContext";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTrigger,
+} from "../ui/dialog";
+import { useLocale, useTranslations } from "next-intl";
+import { Button } from "../ui/button";
+import { FcGoogle } from "react-icons/fc";
+import { IoLogoDiscord } from "react-icons/io5";
 
 const locales = {
   en: enUS,
@@ -63,10 +72,19 @@ type Props = {
 };
 
 export default function CommentsDisplay({ comments, userId }: Props) {
+  const t = useTranslations("SignInPage");
+  const LoginWithGoogle = () => {
+    signIn("google", { callbackUrl: `/${locale}/` });
+  };
+
+  const LoginWithDIscord = () => {
+    signIn("discord", { callbackUrl: `/${locale}/` });
+  };
+
   const pathName = usePathname();
   const { data: session } = useSession();
   const currentUser = session?.user;
-  const { locale } = useLocale();
+  const locale = useLocale();
   const SearchParams = useSearchParams();
   const selectedFilter = SearchParams.get("filter");
 
@@ -112,31 +130,7 @@ export default function CommentsDisplay({ comments, userId }: Props) {
                     })}
                   </span>
                 </div>
-                <div className="petit:order-first customtiny:order-last petit:items-center flex justify-end w-full">
-                  {!!comment.likes?.find(
-                    (like) => like.userId === currentUser?.id
-                  ) ? (
-                    <form action={UnlikeComment}>
-                      <input
-                        type="hidden"
-                        name="commentId"
-                        value={comment.id}
-                      />
-                      <input type="hidden" name="pathName" value={pathName} />
-                      <RemoveCommentLikeBtn {...comment} />
-                    </form>
-                  ) : (
-                    <form action={LikeComment}>
-                      <input
-                        type="hidden"
-                        name="commentId"
-                        value={comment.id}
-                      />
-                      <input type="hidden" name="pathName" value={pathName} />
-                      <AddCommentLkeBtn {...comment} />
-                    </form>
-                  )}
-                </div>
+                <LikeCommentComponent comment={comment} />
               </div>
               <div className="flex flex-col justify-between text-sm w-full">
                 <div className="flex items-center gap-1">
@@ -156,6 +150,140 @@ export default function CommentsDisplay({ comments, userId }: Props) {
             <SubMessages comment={comment} />
           </div>
         ))
+      )}
+    </>
+  );
+}
+
+export function LikeCommentComponent({ comment }: { comment: Comment }) {
+  const t = useTranslations("SignInPage");
+  const LoginWithGoogle = () => {
+    signIn("google", { callbackUrl: `/${locale}/` });
+  };
+
+  const LoginWithDIscord = () => {
+    signIn("discord", { callbackUrl: `/${locale}/` });
+  };
+
+  const pathName = usePathname();
+  const { data: session } = useSession();
+  const currentUser = session?.user;
+  const locale = useLocale();
+  return (
+    <>
+      {currentUser ? (
+        <div className="petit:order-first customtiny:order-last petit:items-center flex justify-end w-full">
+          {!!comment.likes?.find((like) => like.userId === currentUser?.id) ? (
+            <form action={UnlikeComment}>
+              <input type="hidden" name="commentId" value={comment.id} />
+              <input type="hidden" name="pathName" value={pathName} />
+              <RemoveCommentLikeBtn {...comment} />
+            </form>
+          ) : (
+            <form action={LikeComment}>
+              <input type="hidden" name="commentId" value={comment.id} />
+              <input type="hidden" name="pathName" value={pathName} />
+              <AddCommentLkeBtn {...comment} />
+            </form>
+          )}
+        </div>
+      ) : (
+        <div className="petit:order-first customtiny:order-last petit:items-center flex justify-end w-full">
+          <Dialog>
+            <DialogTrigger>
+              <AddCommentLkeBtn {...comment} />
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>{t("h1")}</DialogHeader>
+              <Button
+                type="button"
+                onClick={LoginWithGoogle}
+                className="flex gap-[5px] text-black hover:text-black dark:bg-[#fff]
+                  border border-input dark:hover:bg-stone-200 transition-all"
+                variant="outline"
+              >
+                <FcGoogle className="text-2xl" />
+                {t("withgoogle")}
+              </Button>
+              <Button
+                type="button"
+                onClick={LoginWithDIscord}
+                className="flex gap-[5px] text-white hover:bg-[#2c396e] transition-all
+                  border border-[#42599f] bg-[#42599f]"
+              >
+                <IoLogoDiscord className="text-2xl" />
+                {t("withdiscord")}
+              </Button>
+            </DialogContent>
+          </Dialog>
+        </div>
+      )}
+    </>
+  );
+}
+
+export function LikeReplyComponent({ reply }: { reply: Replies }) {
+  const t = useTranslations("SignInPage");
+  const LoginWithGoogle = () => {
+    signIn("google", { callbackUrl: `/${locale}/` });
+  };
+
+  const LoginWithDIscord = () => {
+    signIn("discord", { callbackUrl: `/${locale}/` });
+  };
+
+  const pathName = usePathname();
+  const { data: session } = useSession();
+  const currentUser = session?.user;
+  const locale = useLocale();
+  return (
+    <>
+      {currentUser ? (
+        <div className="petit:order-first petit:items-center flex justify-end w-full">
+          {!!reply.likes?.find((like) => like.userId === currentUser?.id) ? (
+            <form action={UnlikeReply}>
+              <input type="hidden" name="replyId" value={reply.id} />
+              <input type="hidden" name="pathName" value={pathName} />
+              <RemoveCommentLikeBtn {...reply} />
+            </form>
+          ) : (
+            <form action={LikeReply}>
+              <input type="hidden" name="replyId" value={reply.id} />
+              <input type="hidden" name="pathName" value={pathName} />
+              <AddCommentLkeBtn {...reply} />
+            </form>
+          )}
+        </div>
+      ) : (
+        <div className="petit:order-first customtiny:order-last petit:items-center flex justify-end w-full">
+          <Dialog>
+            <DialogTrigger>
+              <AddCommentLkeBtn {...reply} />
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>{t("h1")}</DialogHeader>
+              <Button
+                type="button"
+                onClick={LoginWithGoogle}
+                className="flex gap-[5px] text-black hover:text-black dark:bg-[#fff]
+                  border border-input dark:hover:bg-stone-200 transition-all"
+                variant="outline"
+              >
+                <FcGoogle className="text-2xl" />
+                {t("withgoogle")}
+              </Button>
+              <Button
+                type="button"
+                onClick={LoginWithDIscord}
+                className="flex gap-[5px] text-white hover:bg-[#2c396e] transition-all
+                  border border-[#42599f] bg-[#42599f]"
+              >
+                <IoLogoDiscord className="text-2xl" />
+                {t("withdiscord")}
+              </Button>
+            </DialogContent>
+          </Dialog>
+        </div>
       )}
     </>
   );

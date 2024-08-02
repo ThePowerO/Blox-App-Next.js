@@ -22,6 +22,7 @@ import { useTranslations } from "next-intl";
 
 export default function MobileNavBar({ locale }: { locale: string }) {
   const t = useTranslations("NavBar");
+  const t2 = useTranslations("ALertDestructive");
   const pathName = usePathname();
   const links = [
     {
@@ -33,7 +34,7 @@ export default function MobileNavBar({ locale }: { locale: string }) {
       path: "/combos",
     },
     {
-      title: "Create Combo",
+      title: `${t2("CreateCombo")}`,
       path: "/create-combo",
     },
     {
@@ -48,7 +49,7 @@ export default function MobileNavBar({ locale }: { locale: string }) {
         <Button
           variant="ghost"
           size="icon"
-          className={`shrink-0 ${pathName === "/" ? "text-black dark:text-white" : "text-white"} md:hidden`}
+          className={`shrink-0 ${pathName !== `/${locale}` ? "text-white" : ""}  md:hidden`}
         >
           <Menu className="h-5 w-5" />
           <span className="sr-only">Toggle navigation menu</span>
@@ -61,7 +62,6 @@ export default function MobileNavBar({ locale }: { locale: string }) {
             className="flex items-center gap-2 text-lg font-semibold"
           >
             <Package2 className="h-6 w-6" />
-            <span className="sr-only">Acme Inc</span>
           </Link>
           {links.map((link) => (
             <MobileActiveLink key={link.title} item={link} locale={locale} />
