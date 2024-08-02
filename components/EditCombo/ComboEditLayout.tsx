@@ -30,6 +30,7 @@ import BloxImagesSelector from "./BloxImagesSelector";
 import BadgeSelector from "./BadgeSelector";
 import ChangeOrAddVideo from "./ChangeOrAddVideo";
 import { Combo } from "@/lib/types";
+import { useTranslations } from "next-intl";
 
 type Props = {
   combo: Combo | null;
@@ -47,6 +48,7 @@ const UpdateComboTitleSchema = z.object({
 type TitleType = z.infer<typeof UpdateComboTitleSchema>;
 
 export default function ComboEditLayout({ combo }: Props) {
+  const t = useTranslations("ComboBySlug");
   const { data: session } = useSession();
   const currentUser = session?.user as User;
   const pathName = usePathname();
@@ -193,7 +195,7 @@ export default function ComboEditLayout({ combo }: Props) {
         )}
 
         <div className="mb-4">
-          <h2 className="font-bold mb-2">Combo Properties:</h2>
+          <h2 className="font-bold mb-2">{t("ComboProperties")}</h2>
           <div className="flex items-center gap-2">
             <BadgeSelector combo={combo as Combo} />
           </div>
@@ -201,11 +203,13 @@ export default function ComboEditLayout({ combo }: Props) {
 
         <div className="flex items-center justify-between mb-4">
           <div>
-            Built by{" "}
+            {t("BuiltBy")}{" "}
             <HoverComboAuthor
               authorCreatedAt={combo?.user.createdAt as Date}
               comboAuthor={combo?.user.name || ""}
               authorImage={combo?.user.image || ""}
+              authorDescription={combo?.user.description as string}
+              authorId={combo?.user.id as string}
             />
           </div>
         </div>
@@ -291,11 +295,13 @@ export default function ComboEditLayout({ combo }: Props) {
         </div>
         <div className="flex items-center justify-between sm:justify-normal w-full gap-1">
           <div className="">
-            built by
+            {t("BuiltBy")}
             <HoverComboAuthor
               authorCreatedAt={combo?.user.createdAt as Date}
               comboAuthor={combo?.user.name || ""}
               authorImage={combo?.user.image || ""}
+              authorDescription={combo?.user.description as string}
+              authorId={combo?.user.id as string}
             />
           </div>
         </div>
