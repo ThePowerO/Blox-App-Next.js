@@ -11,9 +11,6 @@ export const POST = async (req: Request) => {
     case "checkout.session.completed": {
       const session = await stripe.checkout.sessions.retrieve(
         body.data.object.id,
-        {
-          expand: ["line_items"],
-        }
       );
       const user = await prisma.user.findFirst({
         where: {
