@@ -26,7 +26,7 @@ type PricingPack = {
   packname: string;
   description: string;
   link?: string;
-  priceId?: string;
+  priceId: string;
   price: string;
   features: string[];
   notIncluded?: string[];
