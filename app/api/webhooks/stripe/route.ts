@@ -4,6 +4,8 @@ import { stripe } from "@/lib/stripe";
 import prisma from "@/lib/prisma";
 import { add } from "date-fns";
 
+const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
 export const POST = async (req: Request) => {
   const body = (await req.json()) as Stripe.Event;
 

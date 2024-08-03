@@ -7,11 +7,29 @@ import { User } from '@prisma/client'
 import { getServerSession } from 'next-auth'
 import React from 'react'
 import prisma from '@/lib/prisma'
+import { Metadata } from "next";
 
 type Props = {
   params: {
     slug: string
   }
+}
+
+async function fetchData(slug: string) {
+  const combo: Combo | null = await getSlugCombo(slug);
+  const session = await getServerSession(authOptions);
+  const userSession = session?.user;
+  const userId = userSession?.id;
+
+  return { combo, userSession, userId };
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { combo } = await fetchData(params.slug);
+
+  return {
+    title: `${combo?.combotitle}`,
+  };
 }
 
 export default async function page({ params }: Props) {

@@ -1,16 +1,19 @@
 "use client";
 
-import { Gem, MessageCircleMore, TrendingUp, Trophy, User } from "lucide-react";
+import ManageSubscriptionBtn from "@/app/[locale]/profile/ManageSubscriptionBtn";
+import { User } from "@prisma/client";
+import { Gem, MessageCircleMore, TrendingUp, Trophy } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React from "react";
 
 type Props = {
+  user: User | null;
   isUsersPage: boolean;
 };
 
-export default function SideBarElements({ isUsersPage }: Props) {
+export default function SideBarElements({ isUsersPage, user }: Props) {
   const t = useTranslations("ProfilePage");
   const t2 = useTranslations("UsersPage");
   const locale = useLocale();

@@ -5,6 +5,11 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions'
 import { redirect } from 'next/navigation'
 import { getLocale } from 'next-intl/server'
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Create Combo",
+}
 
 export default async function page() {
   const session = await getServerSession(authOptions)

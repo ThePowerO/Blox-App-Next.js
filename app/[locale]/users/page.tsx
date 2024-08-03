@@ -3,6 +3,11 @@ import React from "react";
 import prisma from "@/lib/prisma";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Users"
+}
 
 export default async function page() {
   const users = await prisma.user.findMany({

@@ -4,6 +4,9 @@ import Link from "next/link";
 import React from "react";
 import SideBarElements from "./SideBarElements";
 import prisma from "@/lib/prisma";
+import ManageSubscriptionBtn from "@/app/[locale]/profile/ManageSubscriptionBtn";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { getServerSession } from "next-auth";
 
 type Props = {
   ParamsUserId: string;
@@ -16,6 +19,9 @@ export default async function ProfileSideBar({ ParamsUserId, isUsersPage }: Prop
       id: ParamsUserId,
     },
   });
+  
+  const session = await getServerSession(authOptions);
+  const currentUser = session?.user;
 
   return (
     <div>
@@ -27,7 +33,12 @@ export default async function ProfileSideBar({ ParamsUserId, isUsersPage }: Prop
             </span>
           </li>
         )}
-        <SideBarElements isUsersPage={isUsersPage} />
+        <SideBarElements user={user} isUsersPage={isUsersPage} />
+        {currentUser?.id === user?.id && isUsersPage === false && user?.isPlusPack === true && (
+          <li className="apperance-none">
+            <ManageSubscriptionBtn />
+          </li>
+        )}
       </ul>
     </div>
   );

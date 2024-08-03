@@ -8,7 +8,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { redirect } from "next/navigation";
 
-export default async function MangeSubscriptionBtn() {
+export default async function ManageSubscriptionBtn() {
   const locale = await getLocale();
   console.log("locale: ", locale);
   return (
