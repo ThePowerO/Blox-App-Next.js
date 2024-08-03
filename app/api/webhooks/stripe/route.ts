@@ -7,12 +7,16 @@ import { add } from "date-fns";
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
 export const POST = async (req: Request) => {
-  const body = (await req.json()) as Stripe.Event;
+  const body = await req.json()
 
-  switch (body.type) {
+  const signature = req.headers.get("Stripe-Signature")!
+
+  const event = stripe.webhooks.constructEvent(body, signature, webhookSecret!);
+
+  switch (event.type) {
     case "checkout.session.completed": {
       const session = await stripe.checkout.sessions.retrieve(
-        body.data.object.id,
+        event.data.object.id,
         {
           expand: ["line_items"],
         }
@@ -72,7 +76,7 @@ export const POST = async (req: Request) => {
 
     case "customer.subscription.deleted": {
       const subscription = await stripe.subscriptions.retrieve(
-        body.data.object.id
+        event.data.object.id
       );
 
       const user = await prisma.user.findFirst({
