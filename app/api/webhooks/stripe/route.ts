@@ -27,8 +27,6 @@ export const POST = async (req: Request) => {
       }
       const priceId = session?.line_items?.data[0].price?.id;
 
-      console.log("priceId (product): ", session.line_items?.data[0].price?.id);
-
       if (priceId === "price_1PZcT4BvVijJQ1WrylJ6DThC") {
         await prisma.user.update({
           where: {
@@ -68,6 +66,7 @@ export const POST = async (req: Request) => {
         });
       } else {
         console.log("priceId didn't match to any of the Products");
+        break;
       }
     }
 
