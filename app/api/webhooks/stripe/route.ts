@@ -4,19 +4,13 @@ import { stripe } from "@/lib/stripe";
 import prisma from "@/lib/prisma";
 import { add } from "date-fns";
 
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-
 export const POST = async (req: Request) => {
-  const body = await req.json()
+  const body = (await req.json()) as Stripe.Event;
 
-  const signature = req.headers.get("Stripe-Signature")!
-
-  const event = stripe.webhooks.constructEvent(body, signature, webhookSecret!);
-
-  switch (event.type) {
+  switch (body.type) {
     case "checkout.session.completed": {
       const session = await stripe.checkout.sessions.retrieve(
-        event.data.object.id,
+        body.data.object.id,
         {
           expand: ["line_items"],
         }
@@ -30,6 +24,8 @@ export const POST = async (req: Request) => {
         break;
       }
       const priceId = session?.line_items?.data[0].price?.id;
+
+      console.log("priceId (product): ", session.line_items?.data[0].price?.id);
 
       if (priceId === "price_1PZcT4BvVijJQ1WrylJ6DThC") {
         await prisma.user.update({
@@ -70,13 +66,12 @@ export const POST = async (req: Request) => {
         });
       } else {
         console.log("priceId didn't match to any of the Products");
-        break;
       }
     }
 
     case "customer.subscription.deleted": {
       const subscription = await stripe.subscriptions.retrieve(
-        event.data.object.id
+        body.data.object.id
       );
 
       const user = await prisma.user.findFirst({
