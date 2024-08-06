@@ -91,7 +91,7 @@ export default function NavBarContent({ locale, user }: { locale: string, user: 
           <Link href={`/${locale}`} className="hidden text-white md:block">
             <Image
               alt="Combofy Logo"
-              src={"/Site-Logo.png"}
+              src={"/Site-logo.png"}
               width={60}
               height={60}
               className="cursor-pointer rounded-lg"
