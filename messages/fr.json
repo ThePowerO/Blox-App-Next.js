@@ -4,7 +4,7 @@
     },
     "AuthErrorMessages": {
         "EmailRequired": "L'email est exigé",
-        "EmailMinimum": "Email ou Username est exigé",
+        "EmailMinimum": "Email est exigé",
         "InvalidEmail": "Adresse email invalide",
         "UsernameMinimum": "Username est exigé",
         "UsernameMaximum": "Username trop long",
@@ -12,7 +12,6 @@
         "PasswordMaximum": "Mot de passe trop long",
         "InvalidPassword": "Mot de passe invalide",
         "specialCharacters": "Le nom d'utilisateur ne doit contenir que des lettres et des chiffres",
-        "AcceptTerms": "Accepter les conditions d'utilisation",
         "UnknownError": "Erreur inconnue"
     },
     "AboutPage": {
@@ -66,14 +65,14 @@
         "PleaseEnterAValidURL": "Veuillez saisir une URL valide."
     },
     "LandingPage": {
-        "h1Build": "Faites",
+        "h1Build": "Faites ",
         "h1FavComboToday": "vos favorite combo aujourd'hui!",
-        "h1BecameA": "Devenez un",
+        "h1BecameA": "Devenez un ",
         "h1Hunter": "Hunter",
         "BuildAndShareTo": "Créez vos combo et partagez-le avec la communauté de vos ",
         "InJustFewClicks": "style dans quelques clics.",
         "GetStarted": "Commencer",
-        "LearnMore": "Learn More",
+        "LearnMore": "Savoir Plus",
         "TakeALookAtCombos": "jetez un oeil aux Combos de la communauté",
         "BuildAExquisiteFascinating": "Créez des unique et fascinant",
         "Combo": "Combo",

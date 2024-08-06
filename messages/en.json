@@ -4,7 +4,7 @@
     },
     "AuthErrorMessages": {
         "EmailRequired": "Email is required",
-        "EmailMinimum": "Email or Username is required",
+        "EmailMinimum": "Email is required",
         "InvalidEmail": "Invalid email address",
         "UsernameMinimum": "Username is required",
         "UsernameMaximum": "Username is too long",
@@ -12,7 +12,6 @@
         "PasswordMaximum": "Password is too long",
         "InvalidPassword": "Invalid password",
         "specialCharacters": "Username can only contain letters and numbers",
-        "AcceptTerms": "Accept the Terms",
         "UnknownError": "Unknown error"
     },
     "AboutPage": {
@@ -66,9 +65,9 @@
         "PleaseEnterAValidURL": "Please enter a valid URL."
     },
     "LandingPage": {
-        "h1Build": "Build",
+        "h1Build": "Build ",
         "h1FavComboToday": "your favorite Combo today!",
-        "h1BecameA": "Become a",
+        "h1BecameA": "Become a ",
         "h1Hunter": "Hunter",
         "BuildAndShareTo": "Build your favorite Combo and share it to the community of your ",
         "InJustFewClicks": "kinds in just a few clicks.",

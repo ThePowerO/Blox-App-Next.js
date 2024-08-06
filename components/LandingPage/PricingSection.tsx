@@ -125,14 +125,10 @@ export default function PricingSection({
           </form>
         ) : (
           <Dialog>
-            <DialogTrigger>
-              <button
-                className="mt-4 w-full block rounded border border-cyan-300 bg-cyan-300 px-12 py-3
+            <DialogTrigger className="mt-4 w-full block rounded border border-cyan-300 bg-cyan-300 px-12 py-3
                 text-center text-sm font-medium text-white hover:bg-transparent hover:text-cyan-300
-                focus:outline-none focus:ring active:text-cyan-300 sm:mt-6"
-              >
-                {isSubscription ? `${t("SubscribeNow")}` : `${t("BuyPack")}`}
-              </button>
+                focus:outline-none focus:ring active:text-cyan-300 sm:mt-6">
+              {isSubscription ? `${t("SubscribeNow")}` : `${t("BuyPack")}`}
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>{t2("h1")}</DialogHeader>

@@ -4,7 +4,7 @@
     },
     "AuthErrorMessages": {
         "EmailRequired": "É necessário um email",
-        "EmailMinimum": "Email ou Username é necessário",
+        "EmailMinimum": "Email é necessário",
         "InvalidEmail": "Email inválido",
         "UsernameMinimum": "Username necessário",
         "UsernameMaximum": "Username muito longo",
@@ -12,7 +12,6 @@
         "PasswordMaximum": "Senha muito longa",
         "InvalidPassword": "Senha inválida",
         "specialCharacters": "O nome de usuário deve conter apenas letras e números",
-        "AcceptTerms": "Aceitar os Termos",
         "UnknownError": "Erro desconhecido"
     },
     "AboutPage": {
@@ -65,9 +64,9 @@
         "PleaseEnterAValidURL": "Insira um URL válido."
     },
     "LandingPage": {
-        "h1Build": "Faça",
+        "h1Build": "Faça ",
         "h1FavComboToday": "seu combo favorito hoje!",
-        "h1BecameA": "Seja um",
+        "h1BecameA": "Seja um ",
         "h1Hunter": "Hunter",
         "BuildAndShareTo": "Crie seu combo favorito e compartilhe para a comunidade de seu ",
         "InJustFewClicks": "gosto em apenas alguns cliques.",

@@ -4,7 +4,7 @@
     },
     "AuthErrorMessages": {
         "EmailRequired": "이메일은 필수입니다",
-        "EmailMinimum": "이메일와 이름가 필수인 경우입니다",
+        "EmailMinimum": "이메일 필수인 경우입니다",
         "InvalidEmail": "이valid이지만 이메일입니다",
         "UsernameMinimum": "이사용자 이름가 필수인 경우입니다",
         "UsernameMaximum": "이사용자 이름가 긍금이다",
@@ -12,7 +12,6 @@
         "PasswordMaximum": "비밀번호가 긍금이다",
         "InvalidPassword": "비밀번호가 없음다",
         "specialCharacters": "이사용자 이름에 원하는 문자와 숫자이 포함됩니다",
-        "AcceptTerms": "이 셋하기",
         "UnknownError": "엑셀가 없음다"
     },
     "AboutPage": {
@@ -66,14 +65,14 @@
         "PleaseEnterAValidURL": "유효한 URL을 입력 해주세요"
     },
     "LandingPage": {
-        "h1Build": "오늘 날에서",
+        "h1Build": "오늘 날에서 ",
         "h1FavComboToday": "가장 좋아하는 콤보를 만들으세요!",
-        "h1BecameA": "헌터",
+        "h1BecameA": "헌터 ",
         "h1Hunter": "되어보세요",
         "BuildAndShareTo": "단 몇 번의 클릭만으로 좋아하는 콤보를 만들고 ",
         "InJustFewClicks": "같은 종류의 커뮤니티에 공유할 수 있습니다.",
         "GetStarted": "시작해보다",
-        "LearnMore": "Learn More",
+        "LearnMore": "더 알아보기",
         "TakeALookAtCombos": "커뮤니티 콤보를 확인해보세요",
         "독특하고흥미로운": "독특하고 흥미로운 ",
         "콤보": "콤보",

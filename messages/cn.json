@@ -4,7 +4,7 @@
     },
     "AuthErrorMessages": {
         "EmailRequired": "电子邮件为必填项",
-        "EmailMinimum": "电子邮件或用户名为必填项",
+        "EmailMinimum": "电子邮件为必填项",
         "InvalidEmail": "无效的电子邮件地址",
         "UsernameMinimum": "用户名为必填项",
         "UsernameMaximum": "用户名过长",
@@ -12,7 +12,6 @@
         "PasswordMaximum": "密码过长",
         "InvalidPassword": "无效的密码",
         "specialCharacters": "用户名只能包含字母和数字",
-        "AcceptTerms": "接受条款",
         "UnknownError": "未知错误"
     },
     "AboutPage": {
@@ -99,10 +98,10 @@
         "h1FavComboToday": "你今天最喜欢的组合！",
         "h1BecameA": "成为一名",
         "h1Hunter": "猎人",
-        "BuildAndShareTo": "只需点击几下即可构建你最喜欢的组合 并分享给你的社区。",
+        "BuildAndShareTo": "只需点击几下即可构建你最喜欢的组合并分享给你的社区。",
         "InJustFewClicks": "并分享给你的社区。",
-        "GetStarted": "Get Started",
-        "LearnMore": "Learn More",
+        "GetStarted": "立即开始",
+        "LearnMore": "了解更多",
         "TakeALookAtCombos": "看看社区组合",
         "BuildAExquisiteFascinating": "打造精致迷人的",
         "Combo": "组合",

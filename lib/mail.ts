@@ -33,14 +33,14 @@ export async function sendMail({to, subject, body}: {to:string, subject:string, 
     }
 }
 
-export function compileActivationTemplate(name: string, url: string) {
+export function compileActivationTemplate(activationtitle: string, activatebtn: string, description: string, hi: string, name: string, url: string) {
     const template = Handlebars.compile(ActivationTemplate);
-    const htmlBody = template({name, url});
+    const htmlBody = template({activationtitle, activatebtn, description, hi, name, url});
     return htmlBody;
 }
 
-export function compileResetPasswordTemplate(name: string, url: string) {
+export function compileResetPasswordTemplate(resetpasswordbtn: string, description: string, forgotpasswordtitle: string, welcome: string, name: string, url: string) {
     const template = Handlebars.compile(resetPasswordTemplate);
-    const htmlBody = template({name, url})
+    const htmlBody = template({resetpasswordbtn, description, forgotpasswordtitle, welcome, name, url})
     return htmlBody;
 }

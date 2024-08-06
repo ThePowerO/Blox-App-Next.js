@@ -4,7 +4,7 @@
     },
     "AuthErrorMessages": {
         "EmailRequired": "メールアドレスまたはユーザー名は必須です。",
-        "EmailMinimum": "メールアドレスまたはユーザー名は必須です。",
+        "EmailMinimum": "メールアドレスは必須です。",
         "InvalidEmail": "無効なメールアドレスです。",
         "UsernameMinimum": "ユーザー名は必須です。",
         "UsernameMaximum": "ユーザー名は長すぎます。",
@@ -12,7 +12,6 @@
         "PasswordMaximum": "パスワードは長すぎます。",
         "InvalidPassword": "無効なパスワードです。",
         "specialCharacters": "ユーザー名は文字と数字のみにしてください。",
-        "AcceptTerms": "利用規約に同意してください。",
         "UnknownError": "不明なエラーです。"
     },
     "AboutPage": {
@@ -105,7 +104,7 @@
         "BuildAndShareTo": "数回クリックするだけで、お気に入りのコンボを作って",
         "InJustFewClicks": "趣味のコミュニティを共有してください。",
         "GetStarted": "はじめぞ",
-        "LearnMore": "Learn More",
+        "LearnMore": "さらに詳しく",
         "TakeALookAtCombos": "コミュニティのコンボを見てみる",
         "BuildAExquisiteFascinating": "絶妙で魅力的な",
         "Combo": "コンボ",

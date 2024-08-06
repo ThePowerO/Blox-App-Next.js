@@ -112,7 +112,7 @@ export const ActivationTemplate = `
 														<tr>
 															<td class="pad">
 																<div style="color:#5c5c5c;direction:rtl;font-family:Georgia, Times, 'Times New Roman', serif;font-size:30px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:center;mso-line-height-alt:36px;">
-																	<p style="margin: 0;"><span style="color: #ffffff;">Hi, {{name}}</span></p>
+																	<p style="margin: 0;"><span style="color: #ffffff;">{{hi}} {{name}}</span></p>
 																</div>
 															</td>
 														</tr>
@@ -121,7 +121,7 @@ export const ActivationTemplate = `
 														<tr>
 															<td class="pad">
 																<div style="color:#4a4949;direction:ltr;font-family:Georgia, Times, 'Times New Roman', serif;font-size:50px;font-weight:700;letter-spacing:0px;line-height:150%;text-align:center;mso-line-height-alt:75px;">
-																	<p style="margin: 0;"><span style="color: #ffffff;"><strong>Account Activation</strong></span></p>
+																	<p style="margin: 0;"><span style="color: #ffffff;"><strong>{{activationtitle}}</strong></span></p>
 																</div>
 															</td>
 														</tr>
@@ -130,7 +130,7 @@ export const ActivationTemplate = `
 														<tr>
 															<td class="pad" style="padding-bottom:20px;padding-left:30px;padding-right:30px;">
 																<div style="color:#4a4949;direction:ltr;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;letter-spacing:0px;line-height:150%;text-align:center;mso-line-height-alt:21px;">
-																	<p style="margin: 0;"><span style="color: #ffffff;">You've successfully sent your email to activate your account, you can now click right </span><span style="color: #ffffff;">bellow in order to Activate Account.</span></p>
+																	<p style="margin: 0;"><span style="color: #ffffff;">{{description}}</span></p>
 																</div>
 															</td>
 														</tr>
@@ -143,7 +143,7 @@ export const ActivationTemplate = `
 <w:anchorlock/>
 <v:textbox inset="0px,0px,0px,0px">
 <center style="color:#ffffff; font-family:Arial, sans-serif; font-size:14px">
-<![endif]--><a href="{{url}}" target="_blank" style="text-decoration:none;display:inline-block;color:#ffffff;background-color:#4a4949;border-radius:30px;width:auto;border-top:0px solid transparent;font-weight:400;border-right:0px solid transparent;border-bottom:0px solid transparent;border-left:0px solid transparent;padding-top:5px;padding-bottom:5px;font-family:Arial, Helvetica Neue, Helvetica, sans-serif;font-size:14px;text-align:center;mso-border-alt:none;word-break:keep-all;"><span style="padding-left:20px;padding-right:20px;font-size:14px;display:inline-block;letter-spacing:normal;"><span style="word-break: break-word; line-height: 28px;">Activate Account</span></span></a><!--[if mso]></center></v:textbox></v:roundrect><![endif]--></div>
+<![endif]--><a href="{{url}}" target="_blank" style="text-decoration:none;display:inline-block;color:#ffffff;background-color:#4a4949;border-radius:30px;width:auto;border-top:0px solid transparent;font-weight:400;border-right:0px solid transparent;border-bottom:0px solid transparent;border-left:0px solid transparent;padding-top:5px;padding-bottom:5px;font-family:Arial, Helvetica Neue, Helvetica, sans-serif;font-size:14px;text-align:center;mso-border-alt:none;word-break:keep-all;"><span style="padding-left:20px;padding-right:20px;font-size:14px;display:inline-block;letter-spacing:normal;"><span style="word-break: break-word; line-height: 28px;">{{activatebtn}}</span></span></a><!--[if mso]></center></v:textbox></v:roundrect><![endif]--></div>
 															</td>
 														</tr>
 													</table>
@@ -163,21 +163,6 @@ export const ActivationTemplate = `
 										<tbody>
 											<tr>
 												<td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 15px; padding-top: 10px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
-													<table class="social_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
-														<tr>
-															<td class="pad" style="text-align:center;padding-right:0px;padding-left:0px;">
-																<div class="alignment" align="center">
-																	<table class="social-table" width="141px" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; display: inline-block;">
-																		<tr>
-																			<td style="padding:0 15px 0 0px;"><a href="https://www.facebook.com" target="_blank"><img src="https://app-rsrc.getbee.io/public/resources/social-networks-icon-sets/t-only-logo-white/facebook@2x.png" width="32" height="32" alt="Facebook" title="Facebook" style="display: block; height: auto; border: 0;"></a></td>
-																			<td style="padding:0 15px 0 0px;"><a href="https://www.twitter.com" target="_blank"><img src="https://app-rsrc.getbee.io/public/resources/social-networks-icon-sets/t-only-logo-white/twitter@2x.png" width="32" height="32" alt="Twitter" title="Twitter" style="display: block; height: auto; border: 0;"></a></td>
-																			<td style="padding:0 15px 0 0px;"><a href="https://www.instagram.com" target="_blank"><img src="https://app-rsrc.getbee.io/public/resources/social-networks-icon-sets/t-only-logo-white/instagram@2x.png" width="32" height="32" alt="Instagram" title="Instagram" style="display: block; height: auto; border: 0;"></a></td>
-																		</tr>
-																	</table>
-																</div>
-															</td>
-														</tr>
-													</table>
 													<table class="html_block block-2" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
 														<tr>
 															<td class="pad">
@@ -189,7 +174,7 @@ export const ActivationTemplate = `
 														<tr>
 															<td class="pad">
 																<div style="color:#fff;font-family:Arial, Helvetica Neue, Helvetica, sans-serif;font-size:12px;line-height:120%;text-align:center;mso-line-height-alt:14.399999999999999px;">
-																	<p style="margin: 0; word-break: break-word;"><span style="color: #ffffff;">Copyright © 2024, TestAppBlox. All rights reserved.<br><br>Where to find us:<br><br>Changed your mind? You can <a href="http://www.examplelink.com" target="_blank" style="text-decoration: none; color: #8a3c90;" rel="noopener">unsubscribe</a> at any time.</span></p>
+																	<p style="margin: 0; word-break: break-word;"><span style="color: #ffffff;">Copyright © 2024, Combosfy.com. All rights reserved.</span></p>
 																</div>
 															</td>
 														</tr>
@@ -209,4 +194,4 @@ export const ActivationTemplate = `
 </body>
 
 </html>
-`
+`;

@@ -17,7 +17,7 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: {
     absolute: '',
-    default: 'Became a Hunter | Combofy',
+    default: 'Blox Fruits | Combofy',
     template: '%s | Combofy'
   },
   description: 'Build your favorite Combo from Blox Fruits today! Become a Hunter',

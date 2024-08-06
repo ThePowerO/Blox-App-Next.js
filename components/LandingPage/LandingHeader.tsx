@@ -7,10 +7,12 @@ import Bomb from "../../public/BombFruit.webp";
 import Ope from "../../public/ControlFruit.webp";
 import gsap from 'gsap';
 import React, { useEffect, useRef } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function LandingHeader() {
+  const locale = useLocale();
   const learnMoreRef = useRef<HTMLDivElement>(null);
   const mammothRef = useRef(null);
   const leopardRef = useRef(null);
@@ -99,13 +101,11 @@ export default function LandingHeader() {
                 className="hidden sm:block sm:absolute sm:top-[260px] sm:left-[310px]"
                 alt="Ope"
               />
-            </span>{" "}
+            </span>
             {t("h1FavComboToday")}
             <strong className="landing-page-header block font-extrabold text-cyan-500">
-              {" "}
               {t("h1BecameA")}
               <span className="relative">
-                {" "}
                 {t("h1Hunter")}
                 <Image
                   ref={mobileOpeRef}
@@ -125,12 +125,12 @@ export default function LandingHeader() {
           </p>
 
           <div className="mt-8 flex flex-wrap gap-4 text-center">
-            <a
-              href="#"
+            <Link
+              href={`/${locale}/create-combo`}
               className="block w-full rounded bg-cyan-500 px-12 py-3 text-sm font-medium text-white shadow duration-150 ease-in-out hover:bg-cyan-600 focus:outline-none focus:ring active:bg-cyan-500 sm:w-auto"
             >
               {t("GetStarted")}
-            </a>
+            </Link>
 
             <a
               href="#learn-more-section"

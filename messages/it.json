@@ -4,7 +4,7 @@
     },
     "AuthErrorMessages": {
         "EmailRequired": "L'e-mail è obbligatoria",
-        "EmailMinimum": "L'e-mail o l'username è obbligatoria",
+        "EmailMinimum": "L'e-mail è obbligatoria",
         "InvalidEmail": "L'e-mail non è valido",
         "UsernameMinimum": "L'username è obbligatoria",
         "UsernameMaximum": "L'username è troppo lungo",
@@ -12,7 +12,6 @@
         "PasswordMaximum": "La password è troppo lunga",
         "InvalidPassword": "La password non è valida",
         "specialCharacters": "L'username deve contenere solo lettere e numeri",
-        "AcceptTerms": "Accettare i Termini",
         "UnknownError": "Errore sconosciuto"
     },
     "AboutPage": {
@@ -98,14 +97,14 @@
         "LoadMore": "Carica di più"
     },
     "LandingPage": {
-        "h1Build": "Crea",
+        "h1Build": "Crea ",
         "h1FavComboToday": "il tuo combo preferito oggi!",
-        "h1BecameA": "Sei un",
+        "h1BecameA": "Sei un ",
         "h1Hunter": "Hunter",
         "BuildAndShareTo": "Crea tuo combo preferito e condividi per la comunità di tuo ",
         "InJustFewClicks": "gusto in pochi cliqui.",
         "GetStarted": "Cominciare",
-        "LearnMore": "Learn More",
+        "LearnMore": "Scopri di più",
         "TakeALookAtCombos": "Dai un'occhiata alle combo della community",
         "CreareUn": "Crea un ",
         "ExquisiteFascinating": "squisita e affascinante",

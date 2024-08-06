@@ -4,7 +4,7 @@
     },
     "AuthErrorMessages": {
         "EmailRequired": "E-Mail ist erforderlich",
-        "EmailMinimum": "E-Mail oder Benutzername ist erforderlich",
+        "EmailMinimum": "E-Mail ist erforderlich",
         "InvalidEmail": "Ungültige E-Mail-Adresse",
         "UsernameMinimum": "Username ist erforderlich",
         "UsernameMaximum": "Das Username ist zu lang",
@@ -12,7 +12,6 @@
         "PasswordMaximum": "Das Passwort ist zu lang",
         "InvalidPassword": "Ungültiges Passwort",
         "specialCharacters": "Der Benutzername darf nur Buchstaben und Zahlen enthalten",
-        "AcceptTerms": "Die Nutzungsbedingungen sind nicht zutreffend",
         "UnknownError": "Unbekannter Fehler"
     },
     "AboutPage": {
@@ -66,14 +65,14 @@
         "PleaseEnterAValidURL": "Bitte geben Sie eine gültige URL ein."
     },
     "LandingPage": {
-        "h1Build": "Stellen",
+        "h1Build": "Stellen ",
         "h1FavComboToday": "heute Ihre Lieblings-Combo!",
-        "h1BecameA": "Wurde ein",
+        "h1BecameA": "Wurde ein ",
         "h1Hunter": "Hunter",
         "BuildAndShareTo": "Erstellen Sie Ihren Lieblings-Combo und teilen Sie ihn mit Ihrer Community ",
         "InJustFewClicks": "mit nur wenigen Klicks.",
-        "GetStarted": "Commencer",
-        "LearnMore": "Learn More",
+        "GetStarted": "Loslegen",
+        "LearnMore": "Mehr erfahren",
         "TakeALookAtCombos": "Schauen Sie sich die Community-Combo an",
         "BuildAExquisiteFascinating": "Erstellen Sie exquisite und faszinierende",
         "Combo": "Combo",
