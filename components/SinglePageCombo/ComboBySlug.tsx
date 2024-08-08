@@ -19,17 +19,22 @@ import NoSessionLikeFav from "../HtmlComponents/NoSessionLikeFav";
 import { useTranslations } from "next-intl";
 import FavortiteLikeBtn from "./FavortiteLikeBtn";
 
+type userSession = {
+  id: string;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+} | undefined
+
 type Props = {
   combo: Combo;
+  currentUser: userSession;
 };
 
 
-export default async function ComboBySlug({ combo }: Props) {
+export default async function ComboBySlug({ combo, currentUser }: Props) {
 
-  const t = useTranslations("ComboBySlug")
-  
-  const session = await getServerSession(authOptions);
-  const currentUser = session?.user as User;
+  const t = useTranslations("ComboBySlug");
 
   return (
     <>

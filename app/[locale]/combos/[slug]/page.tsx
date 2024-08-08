@@ -49,7 +49,7 @@ export default async function page({ params }: Props) {
     <>
       {userSession ? (
         <main>
-          <ComboBySlug combo={combo as Combo} />
+          <ComboBySlug currentUser={userSession} combo={combo as Combo} />
 
           <CommentSection
             user={user as User}
@@ -59,7 +59,7 @@ export default async function page({ params }: Props) {
         </main>
       ) : (
         <main>
-          <ComboBySlug combo={combo as Combo} />
+          <ComboBySlug currentUser={userSession} combo={combo as Combo} />
 
           <CommentSection
             user={{} as User}
