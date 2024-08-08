@@ -17,11 +17,8 @@ type Props = {
 
 async function fetchData(slug: string) {
   const combo: Combo | null = await getSlugCombo(slug);
-  const session = await getServerSession(authOptions);
-  const userSession = session?.user;
-  const userId = userSession?.id;
 
-  return { combo, userSession, userId };
+  return { combo };
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
