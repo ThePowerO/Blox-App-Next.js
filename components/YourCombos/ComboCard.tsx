@@ -167,7 +167,9 @@ export default function ComboCard({
           <p
             className={`${
               isCombosPage === true ? "line-clamp-4 medium:line-clamp-2" : ""
-            } ${isProfilePage === true ? "md:line-clamp-2" : ""} mt-2 
+            } ${isProfilePage === true ? "md:line-clamp-2" : ""}
+            ${isCombosPage === false && isProfilePage === false ? "line-clamp-4 medium:line-clamp-2" 
+            : ""} mt-2 
                
               text-sm/relaxed text-gray-700 dark:text-white`}
           >
@@ -291,7 +293,7 @@ export default function ComboCard({
               href={`/${locale}/combos/${combo.slug}`}
               className={`${
                 isProfilePage === true ? "lg:p-1" : ""
-              } hidden petit:block  bg-cyan-500 p-2 tiny:px-5 tiny:py-3 text-center text-xs
+              } hidden petit:block bg-cyan-500 p-2 tiny:px-5 tiny:py-3 text-center text-xs
                 font-bold uppercase text-gray-900 transition hover:bg-cyan-600`}
             >
               {t("ViewMore")}
