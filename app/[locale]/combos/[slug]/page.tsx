@@ -1,19 +1,19 @@
-import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions'
-import ComboBySlug from '@/components/SinglePageCombo/ComboBySlug' 
-import CommentSection from '@/components/SinglePageCombo/CommentSection'
-import { getSlugCombo } from '@/lib/actions/comboActions' 
-import { Combo } from '@/lib/types'
-import { User } from '@prisma/client'
-import { getServerSession } from 'next-auth'
-import React from 'react'
-import prisma from '@/lib/prisma'
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import ComboBySlug from "@/components/SinglePageCombo/ComboBySlug";
+import CommentSection from "@/components/SinglePageCombo/CommentSection";
+import { getSlugCombo } from "@/lib/actions/comboActions";
+import { Combo } from "@/lib/types";
+import { User } from "@prisma/client";
+import { getServerSession } from "next-auth";
+import React from "react";
+import prisma from "@/lib/prisma";
 import { Metadata } from "next";
 
 type Props = {
   params: {
-    slug: string
-  }
-}
+    slug: string;
+  };
+};
 
 async function fetchData(slug: string) {
   const combo: Combo | null = await getSlugCombo(slug);
@@ -33,34 +33,41 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function page({ params }: Props) {
-
-  const slug = params.slug
-  const combo: Combo | null = await getSlugCombo(slug)
-  const session = await getServerSession(authOptions)
-  const userSession = session?.user
-  const userId = userSession?.id
-
-  if (!userSession) {
-    return (
-      <main>
-        <ComboBySlug combo={combo as Combo} />
-
-        <CommentSection user={{} as User} userId={userId as string} combo={combo as Combo} />
-      </main>
-    )
-  }
+  const slug = params.slug;
+  const combo: Combo | null = await getSlugCombo(slug);
+  const session = await getServerSession(authOptions);
+  const userSession = session?.user;
+  const userId = userSession?.id;
 
   const user = await prisma.user.findUnique({
     where: {
-      id: userId
-    }
-  })
+      id: userId,
+    },
+  });
 
   return (
-    <main>
-      <ComboBySlug combo={combo as Combo} />
+    <>
+      {userSession ? (
+        <main>
+          <ComboBySlug combo={combo as Combo} />
 
-      <CommentSection user={user as User} userId={userId as string} combo={combo as Combo} />
-    </main>
-  )
+          <CommentSection
+            user={user as User}
+            userId={userId as string}
+            combo={combo as Combo}
+          />
+        </main>
+      ) : (
+        <main>
+          <ComboBySlug combo={combo as Combo} />
+
+          <CommentSection
+            user={{} as User}
+            userId={userId as string}
+            combo={combo as Combo}
+          />
+        </main>
+      )}
+    </>
+  );
 }

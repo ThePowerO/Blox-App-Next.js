@@ -173,7 +173,7 @@ export function DeleteComboBtn() {
           <Loader className="animate-spin" width={18} height={18} />
         </Button>
       ) : (
-        <Button type="submit" className="w-full flex gap-1" variant="destructive">
+        <Button type="button" className="w-full flex gap-1" variant="destructive">
           <Trash2 width={18} height={18} />
         </Button>
       )}
