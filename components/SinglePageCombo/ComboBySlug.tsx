@@ -31,8 +31,7 @@ type Props = {
   currentUser: userSession;
 };
 
-
-export default async function ComboBySlug({ combo, currentUser }: Props) {
+export default function ComboBySlug({ combo, currentUser }: Props) {
 
   const t = useTranslations("ComboBySlug");
 
