@@ -16,6 +16,19 @@ const UpdateUserImgFormSchema = z.object({
   pathName: z.string()
 });
 
+export async function UserAlreadyExists(username: string) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        name: username
+      }
+    })
+    return user
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export async function UpdateUserImgAction(FormData: unknown) {
   const validatedFields = UpdateUserImgFormSchema.safeParse(FormData)
   if (!validatedFields.success) {
@@ -129,7 +142,6 @@ export async function UserDescriptionAction(FormData: unknown) {
       }
     })
     revalidatePath(pathName)
-    console.log("Description Updated DB")
   } catch (error) {
     console.log(error)
   }

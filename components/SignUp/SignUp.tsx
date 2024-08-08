@@ -23,6 +23,7 @@ const SignUp = () => {
   const t = useTranslations("SignUpPage");
   const router = useRouter();
   const t2 = useTranslations("AuthErrorMessages");
+  const t3 = useTranslations("RegisterMessages");
 
   const FormSchema = z.object({
     name: z
@@ -53,14 +54,14 @@ const SignUp = () => {
     const { ...user } = data;
     try {
       const result = await registerUser(user)       
-      toast.success('User created. Check your Email Box to activate your account')
+      toast.success(`${t3("UserCreated")}`);
       router.push(`/${locale}/sign-in`);
     } catch (error) {
       const emailExists = await checkEmailExists(user.email);
       if (emailExists) {
-        toast.error('User already exists');
+        toast.error(`${t3("UserExists")}`);
       } else {
-      toast.error('Error creating user')
+      toast.error(`${t3("UserErro")}`);
       }
       console.log(error)
     }

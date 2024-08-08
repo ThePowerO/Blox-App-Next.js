@@ -233,5 +233,11 @@
     "CreateComboLayout": {
         "ComboCountReached": "最大コンボ数に到達しました",
         "DiscoverPacks": "ウェブサイトを楽しんでいて、もっと多くのコンボを作りたいですか？ より充実した体験のために、私たちの素晴らしいパックをご覧ください。"
+    },
+    "RegisterMessages": {
+        "FreeTrialMessage": "無料トライアルのコンボの最大数に達しました。",
+        "UserExists": "ユーザーは既に登録されています",
+        "UserErro": "ユーザーの作成中にエラーが発生しました",
+        "UserCreated": "ユーザーが作成されました。アカ​​ウントを有効にするには、メールボックスを確認してください"
     }
 }

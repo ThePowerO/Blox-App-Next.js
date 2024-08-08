@@ -39,6 +39,7 @@ import { Button } from "../ui/button";
 import {
   UpdateUserImgAction,
   UpdateUserNameAction,
+  UserAlreadyExists,
   UserDescriptionAction,
 } from "@/lib/actions/userProfileActions";
 import { useTranslations } from "next-intl";
@@ -55,6 +56,8 @@ const MIN_DIMENSION = 150;
 export default function UserContent({ user, combo }: Props) {
   const t = useTranslations("ProfilePage");
   const t2 = useTranslations("CommentSection");
+  const t3 = useTranslations("RegisterMessages");
+
   const { data: session } = useSession();
   const currentUser = session?.user;
   const pathName = usePathname();
@@ -190,6 +193,12 @@ export default function UserContent({ user, combo }: Props) {
     data
   ) => {
     try {
+      const userAlreadyExists = await UserAlreadyExists(data.username);
+      if (userAlreadyExists) {
+        return UserNameForm.setError("username", {
+          message: t3("FreeTrialMessage"),	
+        })
+      }
       await UpdateUserNameAction(data);
       UserNameForm.setValue("username", "");
       setOpenUserNameModal(false);

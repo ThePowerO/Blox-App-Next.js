@@ -232,5 +232,11 @@
     "CreateComboLayout": {
         "ComboCountReached": "최대 콤보 수에 도달했습니다",
         "DiscoverPacks": "사이트에서 즐거운 시간을 보내고 더 많은 콤보를 만들고 싶으신가요? 더 향상된 경험을 위해 우리의 놀라운 팩을 확인해보세요."
+    },
+    "RegisterMessages": {
+        "FreeTrialMessage": "무료 체험판의 최대 콤보 수에 도달했습니다.",
+        "UserExists": "사용자가 이미 등록되었습니다",
+        "UserErro": "사용자 생성 오류",
+        "UserCreated": "사용자가 생성되었습니다. 이메일 상자를 확인하여 계정을 활성화하세요"
     }
 }

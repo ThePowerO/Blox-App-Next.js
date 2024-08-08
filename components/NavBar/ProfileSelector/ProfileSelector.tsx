@@ -99,7 +99,7 @@ const ProfileSelector = ({
                       className="w-full flex items-center justify-start gap-2 dark:hover:bg-gray-500 dark:text-white"
                     >
                       <SquareUser size={18} />
-                      {user.name}
+                      {user?.name}
                     </Button>
                   </li>
                   <li className="w-full">

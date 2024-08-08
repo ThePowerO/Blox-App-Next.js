@@ -232,5 +232,11 @@
     "CreateComboLayout": {
         "ComboCountReached": "Maximale Combo-Anzahl erreicht",
         "DiscoverPacks": "Genießen Sie Ihre Zeit auf der Website und möchten mehr Kombos erstellen? Entdecken Sie unsere unglaublichen Pakete für verbesserte Erlebnisse."
+    },
+    "RegisterMessages": {
+        "FreeTrialMessage": "Die maximale Anzahl an Combos für die kostenlose Testversion wurde erreicht.",
+        "UserExists": "Benutzer bereits registriert",
+        "UserErro": "Fehler beim Erstellen des Benutzers",
+        "UserCreated": "Benutzer erstellt. Überprüfen Sie Ihr E-Mail-Postfach, um Ihr Konto zu aktivieren"
     }
 }

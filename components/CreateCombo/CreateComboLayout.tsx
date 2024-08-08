@@ -82,6 +82,7 @@ export default function CreateComboLayout({
   user,
 }: Props) {
   const t = useTranslations("CreateComboPage");
+  const t3 = useTranslations("RegisterMessages");
 
   const [selectedFightingStyle, setSelectedFightingStyle] = useState("");
   const [selectedWeapon, setSelectedWeapon] = useState("");
@@ -203,7 +204,7 @@ export default function CreateComboLayout({
       setVideoUrl(url);
     } else {
       setIsValidUrl(false);
-      return; // Don't proceed if URL is invalid
+      return;
     }
   };
 
@@ -215,7 +216,7 @@ export default function CreateComboLayout({
       UserMaxComboCountReached >= 5
     ) {
       toast.error(
-        "You have reached the maximum number of combos of Free Trial."
+        `${t3("FreeTrialMessage")}`,
       );
       return;
     } else if (user.proPack >= 1 || UserMaxComboCountReached >= 0) {
@@ -802,7 +803,7 @@ export default function CreateComboLayout({
                     <LimitComboReachedDialog />
                   ) : (
                     <>
-                      {user.proPack >= 1 || UserMaxComboCountReached >= 0 && (
+                      {UserMaxComboCountReached >= 0 || user.proPack >= 1 ? (
                         <Button
                           disabled={!form.formState.isValid || form.formState.isSubmitting}
                           type="submit"
@@ -812,6 +813,12 @@ export default function CreateComboLayout({
                         >
                           {form.formState.isSubmitting ? <Loader size={16} className="animate-spin" /> : `${t("CreateCombo")}`}
                         </Button>
+                      ) : (
+                        <>
+                          {user.isPlusPack === false && user.proPack === 0 && user.starterPack >= 0 && UserMaxComboCountReached >= 5 ? (
+                            <LimitComboReachedDialog />
+                          ) : null}
+                        </>
                       )}
                     </>
                   )}

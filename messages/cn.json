@@ -229,5 +229,11 @@
     "CreateComboLayout": {
         "ComboCountReached": "已达到最大组合数",
         "DiscoverPacks": "在网站上玩得开心，想要制作更多组合？看看我们令人难以置信的套餐，享受更多体验。"
+    },
+    "RegisterMessages": {
+        "FreeTrialMessage": "免费试用组合数已达到上限。",
+        "UserExists": "用户已注册",
+        "UserErro": "创建用户时出错",
+        "UserCreated": "用户已创建。检查您的邮箱以激活您的帐户"
     }
 }
