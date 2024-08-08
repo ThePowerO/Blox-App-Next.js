@@ -95,7 +95,7 @@ export default function CombosDisplay({
       }
     })
     .filter((combo) => {
-      if (selectedFilter === "Highlighted") {
+      if (selectedFilter === t("Highlighted")) {
         return combo.highlight === "HIGHLIGHTED"; // Only display highlighted combos
       } else if (selectedFilter === "Relevant") {
         return combo.highlight === "HIGHLIGHTED";
@@ -104,19 +104,19 @@ export default function CombosDisplay({
       }
     })
     .sort((a, b) => {
-      if (selectedFilter === "Recent") {
+      if (selectedFilter === t("Recent")) {
         return (
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         );
-      } else if (selectedFilter === "Old") {
+      } else if (selectedFilter === t("Old")) {
         return (
           new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
         );
-      } else if (selectedFilter === "Likes") {
+      } else if (selectedFilter === t("Likes")) {
         return b.likes.length - a.likes.length;
       } else if (selectedFilter === "TopCombos") {
         return b.likes.length - a.likes.length;
-      } else if (selectedFilter === "Favorite") {
+      } else if (selectedFilter === t("Favorites")) {
         return b.favorites.length - a.favorites.length;
       } else {
         return 0; // No sorting for default case
