@@ -23,8 +23,13 @@ import { useTranslations } from "next-intl";
 export default function MobileNavBar({ locale }: { locale: string }) {
   const t = useTranslations("NavBar");
   const t2 = useTranslations("ALertDestructive");
+  const t3 = useTranslations("Home");
   const pathName = usePathname();
   const links = [
+    {
+      title: `${t3("h1")}`,
+      path: "/",
+    },
     {
       title: `${t("Users")}`,
       path: "/users",

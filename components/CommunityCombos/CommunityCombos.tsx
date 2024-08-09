@@ -15,7 +15,8 @@ export default async function CommunityCombos() {
       favorites: true,
       likes: true,
       user: true,
-    }
+    },
+    orderBy: { createdAt: "desc" },
   });
 
   if (!currentUser) {
