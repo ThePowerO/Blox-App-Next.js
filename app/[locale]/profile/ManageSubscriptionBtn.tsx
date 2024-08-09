@@ -10,7 +10,6 @@ import { redirect } from "next/navigation";
 
 export default async function ManageSubscriptionBtn() {
   const locale = await getLocale();
-  console.log("locale: ", locale);
   return (
     <form>
       <Button
@@ -39,7 +38,7 @@ export default async function ManageSubscriptionBtn() {
 
           const stripeSession = await stripe.billingPortal.sessions.create({
             customer: stripeCustomerId,
-            return_url: `http://localhost:3000/${locale}/profile`,
+            return_url: `http://localhost:3000/${locale}/profile/${user.id}`,
           });
 
           if (!stripeSession.url) {
