@@ -205,7 +205,8 @@
         "PlusMember": "이 사용자는 Plus Member이므로 추가 보상을 받을 수 있습니다.",
         "Combos": "콤보:",
         "TotalLikes": "좋아요 총 개수:",
-        "TotalFavorites": "즐겨찾기 총 개수:"
+        "TotalFavorites": "즐겨찾기 총 개수:",
+        "Update": "업데이트"
     },
     "NavBar": {
         "SignOut": "로그 아웃",
