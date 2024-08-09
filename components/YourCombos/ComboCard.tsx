@@ -166,9 +166,9 @@ export default function ComboCard({
           </Link>
           <p
             className={` ${
-              isCombosPage === true ? `line-clamp-4  ${combo.user.name?.length! > 10 ? "medium:line-clamp-1" : "medium:line-clamp-2"} ` : ""
-            } ${isProfilePage === true ? ` ${combo.user.name?.length! > 10 ? "md:line-clamp-1" : "md:line-clamp-2"}` : ""}
-            ${isCombosPage === false && isProfilePage === false ? `line-clamp-4 ${combo.user.name?.length! > 10 ? "medium:line-clamp-1" : "medium:line-clamp-2"}` 
+              isCombosPage === true ? `line-clamp-4  ${combo.user?.name?.length! > 10 ? "medium:line-clamp-1" : "medium:line-clamp-2"} ` : ""
+            } ${isProfilePage === true ? ` ${combo.user?.name?.length! > 10 ? "md:line-clamp-1" : "md:line-clamp-2"}` : ""}
+            ${isCombosPage === false && isProfilePage === false ? `line-clamp-4 ${combo.user?.name?.length! > 10 ? "medium:line-clamp-1" : "medium:line-clamp-2"}` 
             : ""} mt-2 
                
               text-sm/relaxed text-gray-700 dark:text-white`}
