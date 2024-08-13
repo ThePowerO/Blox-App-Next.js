@@ -14,8 +14,13 @@
         "specialCharacters": "用户名只能包含字母和数字",
         "UnknownError": "未知错误"
     },
-    "AboutPage": {
-        "h1": "关于我们"
+    "Footer": {
+        "Disclaimer": "免责声明",
+        "DisclaimerText": "Combosfy.com 独立运营，与 Blox Fruits 没有关联。",
+        "NotAssiciatedWith": "我们与 Gamer Robot Inc. 没有官方关系。",
+        "TermsOfService": "使用条款",
+        "PrivacyPolicy": "隐私政策",
+        "Extra": "附加信息"
     },
     "SignInPage": {
         "h1": "登录",

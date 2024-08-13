@@ -14,8 +14,14 @@
         "specialCharacters": "ユーザー名は文字と数字のみにしてください。",
         "UnknownError": "不明なエラーです。"
     },
-    "AboutPage": {
-        "h1": "このページについて"
+    "Footer": {
+        "Disclaimer": "免責事項",
+        "DisclaimerText": "Combosfy.comは独立して運営されており、",
+        "NotAssiciatedWith": "Blox Fruitsとは関連していません。",
+        "NotOfficiallyAffiliatedWith": "Gamer Robot Inc.とは公式に提携していません。",
+        "TermsOfService": "利用規約",
+        "PrivacyPolicy": "プライバシーポリシー",
+        "Extra": "追加"
     },
     "SignInPage": {
         "h1": "サインイン",

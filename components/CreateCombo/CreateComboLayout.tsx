@@ -65,6 +65,7 @@ import {
 } from "../ui/dialog";
 import { useLocale } from "@/LocaleContext";
 import { useTranslations } from "next-intl";
+import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 
 type SerializedUser = {
   proPack: number;
@@ -115,7 +116,7 @@ export default function CreateComboLayout({
     comboVideo: z.string(),
     difficulty: z.string(),
   });
-  
+
   type InputForm = z.infer<typeof FormSchema>;
 
   const form = useForm<InputForm>({
@@ -215,9 +216,7 @@ export default function CreateComboLayout({
       user.isPlusPack === false &&
       UserMaxComboCountReached >= 5
     ) {
-      toast.error(
-        `${t3("FreeTrialMessage")}`,
-      );
+      toast.error(`${t3("FreeTrialMessage")}`);
       return;
     } else if (user.proPack >= 1 || UserMaxComboCountReached >= 0) {
       try {
@@ -272,34 +271,37 @@ export default function CreateComboLayout({
                       </div>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent side="bottom" align="start">
-                      <div className="grid petitmax:grid-cols-4 petit:grid-cols-5 tiny:grid-cols-6 tiny420px:grid-cols-7 gap-2">
-                        {BloxFruitImages["Fighting Styles"] &&
-                          Object.entries(
-                            BloxFruitImages["Fighting Styles"]
-                          ).map(([style, image]) => (
-                            <div
-                              key={style}
-                              className={`relative rounded-md cursor-pointer ${
-                                image.src === selectedFightingStyle
-                                  ? "gradient-border animate-in"
-                                  : ""
-                              }
-                                  border dark:hover:bg-white/20 hover:bg-slate-200 ease-in-out duration-150`}
-                              onClick={() => {
-                                setSelectedFightingStyle(image.src);
-                                form.setValue("fightingstyle", image.src);
-                              }}
-                            >
-                              <Image
-                                src={image}
-                                alt={style}
-                                width={50}
-                                height={50}
-                                className="rounded-md"
-                              />
-                            </div>
-                          ))}
-                      </div>
+                      <ScrollArea>
+                        <div className="grid petitmax:grid-cols-4 petit:grid-cols tiny:grid-cols-6 tiny420px:grid-cols-7 gap-2">
+                          {BloxFruitImages["Fighting Styles"] &&
+                            Object.entries(
+                              BloxFruitImages["Fighting Styles"]
+                            ).map(([style, image]) => (
+                              <div
+                                key={style}
+                                className={`relative rounded-md cursor-pointer ${
+                                  image.src === selectedFightingStyle
+                                    ? "gradient-border animate-in"
+                                    : ""
+                                }
+                                    border dark:hover:bg-white/20 hover:bg-slate-200 ease-in-out duration-150`}
+                                onClick={() => {
+                                  setSelectedFightingStyle(image.src);
+                                  form.setValue("fightingstyle", image.src);
+                                }}
+                              >
+                                <Image
+                                  src={image}
+                                  alt={style}
+                                  width={50}
+                                  height={50}
+                                  className="rounded-md"
+                                />
+                              </div>
+                            ))}
+                        </div>
+                        <ScrollBar orientation="horizontal" />
+                      </ScrollArea>
                     </DropdownMenuContent>
                   </DropdownMenu>
                   {/* Fruits */}
@@ -340,7 +342,7 @@ export default function CreateComboLayout({
                                     ? "gradient-border animate-in"
                                     : ""
                                 }
-                                  border dark:hover:bg-white/20 hover:bg-slate-200 ease-in-out duration-150`}
+                                    border dark:hover:bg-white/20 hover:bg-slate-200 ease-in-out duration-150`}
                                 onClick={() => {
                                   setSelectedFruit(image.src);
                                   form.setValue("fruit", image.src);
@@ -799,23 +801,38 @@ export default function CreateComboLayout({
                       )}
                     </>
                   )}
-                  {user.isPlusPack === false && user.proPack === 0 && user.starterPack >= 0 && UserMaxComboCountReached >= 5 ? (
+                  {user.isPlusPack === false &&
+                  user.proPack === 0 &&
+                  user.starterPack >= 0 &&
+                  UserMaxComboCountReached >= 5 ? (
                     <LimitComboReachedDialog />
                   ) : (
                     <>
                       {UserMaxComboCountReached >= 0 || user.proPack >= 1 ? (
                         <Button
-                          disabled={!form.formState.isValid || form.formState.isSubmitting}
+                          disabled={
+                            !form.formState.isValid ||
+                            form.formState.isSubmitting
+                          }
                           type="submit"
                           className={`w-full bg-[#3d95ec] text-white hover:bg-[#5994cf] ${
-                            form.formState.isSubmitting ? "cursor-not-allowed" : ""
+                            form.formState.isSubmitting
+                              ? "cursor-not-allowed"
+                              : ""
                           }`}
                         >
-                          {form.formState.isSubmitting ? <Loader size={16} className="animate-spin" /> : `${t("CreateCombo")}`}
+                          {form.formState.isSubmitting ? (
+                            <Loader size={16} className="animate-spin" />
+                          ) : (
+                            `${t("CreateCombo")}`
+                          )}
                         </Button>
                       ) : (
                         <>
-                          {user.isPlusPack === false && user.proPack === 0 && user.starterPack >= 0 && UserMaxComboCountReached >= 5 ? (
+                          {user.isPlusPack === false &&
+                          user.proPack === 0 &&
+                          user.starterPack >= 0 &&
+                          UserMaxComboCountReached >= 5 ? (
                             <LimitComboReachedDialog />
                           ) : null}
                         </>
@@ -852,9 +869,7 @@ const LimitComboReachedDialog = () => {
         <DialogHeader>
           <span className="font-bold text-xl">{t2("ComboCountReached")}</span>
         </DialogHeader>
-        <DialogDescription>
-          {t2("DiscoverPacks")}
-        </DialogDescription>
+        <DialogDescription>{t2("DiscoverPacks")}</DialogDescription>
         <DialogFooter>
           <Button
             onClick={() => {

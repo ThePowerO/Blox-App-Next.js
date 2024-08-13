@@ -14,8 +14,14 @@
         "specialCharacters": "Username can only contain letters and numbers",
         "UnknownError": "Unknown error"
     },
-    "AboutPage": {
-        "h1": "About Page"
+    "Footer": {
+        "Disclaimer": "Disclaimer",
+        "DisclaimerText": "Combosfy.com operates independently and is not",
+        "NotAssiciatedWith": "associated with Blox Fruits. We are ",
+        "NotOfficiallyAffiliatedWith": "not officially affiliated with Gamer Robot Inc.",
+        "TermsOfService": "Terms of Service",
+        "PrivacyPolicy": "Privacy Policy",
+        "Extra": "Extra"
     },
     "SignInPage": {
         "h1": "Sign In",

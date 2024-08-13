@@ -14,8 +14,14 @@
         "specialCharacters": "이사용자 이름에 원하는 문자와 숫자이 포함됩니다",
         "UnknownError": "엑셀가 없음다"
     },
-    "AboutPage": {
-        "h1": "애플리케이션에 대한 한글"
+    "Footer": {
+        "Disclaimer": "면책 조항",
+        "DisclaimerText": "Combosfy.com은 독립적으로 운영되며 Blox Fruits와",
+        "NotAssiciatedWith": "관련이 없습니다. 우리는 Gamer Robot Inc.와",
+        "NotOfficiallyAffiliatedWith": "공식적으로 제휴하지 않았습니다.",
+        "TermsOfService": "이용 약관",
+        "PrivacyPolicy": "개인정보 처리방침",
+        "Extra": "추가"
     },
     "SignInPage": {
         "h1": "로그인",

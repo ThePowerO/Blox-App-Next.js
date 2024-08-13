@@ -34,6 +34,7 @@ import Bomb from "@/public/BombFruit.webp"
 import Diamond from "@/public/DiamondFruit.webp"
 import Dragon from "@/public/DragonFruit.webp"
 import Chop from "@/public/ChopFruit.webp"
+import Sand from "@/public/SandFruit.webp"
 // Fighting Styles
 import Super_Human from "@/public/Superhuman.png"
 import Sharkman_Karate from "@/public/Sharkman_Karate.png"
@@ -145,14 +146,15 @@ export const BloxFruitImages = {
         "Quake": Quake,
         "Ghost": Ghost,
         "Rubber": Rubber,
-        "Barrier": Barrier,
+        "Sand": Sand,
         "Falcon": Falcon,
         "Spike": Spike,
         "Smoke": Smoke,
         "Bomb": Bomb,
         "Diamond": Diamond,
         "Dragon": Dragon,
-        "Chop": Chop
+        "Chop": Chop,
+        "Barrier": Barrier
     },
     "Swords": {
         "Bisento": Bisento,

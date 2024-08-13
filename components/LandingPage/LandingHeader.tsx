@@ -112,7 +112,7 @@ export default function LandingHeader() {
                   src={Ope}
                   width={40}
                   height={40}
-                  className="hidden petit:block petit:absolute petit:top-0 petit:left-[112px] sm:hidden"
+                  className="hidden tiny:block tiny:absolute tiny:top-0 tiny:left-[112px] sm:hidden"
                   alt="Ope"
                 />
               </span>

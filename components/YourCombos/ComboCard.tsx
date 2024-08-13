@@ -116,7 +116,7 @@ export default function ComboCard({
       </div>
       <Link
         href={`/${locale}/combos/${combo.slug}`}
-        className="petitmax:flex customtiny:flex customtiny:flex-col size-fit medium:hidden"
+        className="petitmax:flex-wrap petitmax:flex customtiny:flex customtiny:flex-col size-fit medium:hidden"
       >
         {[combo.fightingstyle, combo.fruit, combo.sword, combo.weapon].map(
           (src, index) => (
