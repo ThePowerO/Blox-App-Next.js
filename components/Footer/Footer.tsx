@@ -12,7 +12,7 @@ const Footer = () => {
       <div>
         <Link className="size-fit" href={"/"}>
           <Image
-            src="/Site-Logo.png"
+            src="/Site-logo.png"
             alt="Combosfy"
             width={100}
             height={100}
