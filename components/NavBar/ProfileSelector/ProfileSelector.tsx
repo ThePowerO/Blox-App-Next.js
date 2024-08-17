@@ -54,7 +54,9 @@ const ProfileSelector = ({ locale }: { locale: string }) => {
 
   const getUser = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/api/getUser`, {
+      const response = await fetch(
+        `${process.env.NODE_ENV === 'development' ? 
+          `${process.env.NEXTAUTH_URL2}` : 'http://localhost:3000'}/api/getUser`, {
         method: 'GET', // Specify the HTTP method
         headers: {
           'Content-Type': 'application/json', // Specify content type
