@@ -115,7 +115,7 @@ export default function LandingPageContent() {
               />
               <Image
                 className={`imagem opacity-0 translate-x-[-400px] rounded-lg dark:hidden`}
-                src="/Create-Combo-GUIDE-IMG.png"
+                src="/Create-Combo-GUIDE-CN-IMG.png"
                 width={700}
                 height={700}
                 alt="combo guide"
