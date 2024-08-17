@@ -70,6 +70,7 @@ const ProfileSelector = ({ locale }: { locale: string }) => {
       }
   
       const data = await response.json();
+      console.log("User data fetched:", data); // Add this line to log the data
       return data;
   
     } catch (error) {

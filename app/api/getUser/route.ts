@@ -20,6 +20,7 @@ export const GET = async (req: Request) => {
       return new NextResponse("User not found", { status: 404 });
     }
 
+    console.log("[USER]", user);
     return NextResponse.json({ user }, { status: 200 });
   } catch (error) {
     console.log("[GET_USER_ERROR]", error);
