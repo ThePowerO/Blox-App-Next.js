@@ -8,12 +8,32 @@ import { getServerSession } from "next-auth";
 import React from "react";
 import prisma from "@/lib/prisma";
 import { Metadata } from "next";
+import { unstable_setRequestLocale } from "next-intl/server";
 
 type Props = {
   params: {
     slug: string;
+    locale: string;
   };
 };
+
+export async function generateStaticParams() {
+  // Fetch all combos from the database
+  const combos = await prisma.combo.findMany();
+
+  // List of locales that are supported
+  const locales = ["en", "fr", "de", "it", "jp", "kr", "cn", "pt"];
+
+  // Generate paths for each combination of slug and locale
+  const paths = combos.flatMap((combo) =>
+    locales.map((locale) => ({
+      slug: combo.slug,
+      locale: locale,
+    }))
+  );
+
+  return paths;
+}
 
 async function fetchData(slug: string) {
   const combo: Combo | null = await getSlugCombo(slug);
@@ -30,6 +50,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function page({ params }: Props) {
+  unstable_setRequestLocale(params.locale);
   const slug = params.slug;
   const combo: Combo | null = await getSlugCombo(slug);
   const session = await getServerSession(authOptions);
@@ -38,7 +59,7 @@ export default async function page({ params }: Props) {
 
   const user = await prisma.user.findUnique({
     where: {
-      id: userId,
+      id: userId || "",
     },
   });
 

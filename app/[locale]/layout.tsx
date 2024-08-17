@@ -17,8 +17,8 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: {
     absolute: '',
-    default: 'Blox Fruits | Combofy',
-    template: '%s | Combofy'
+    default: 'Blox Fruits | Combosfy',
+    template: '%s | Combosfy'
   },
   description: 'Build your favorite Combo from Blox Fruits today! Become a Hunter',
 }
@@ -47,10 +47,10 @@ export default function RootLayout({
             <NextIntlClientProvider locale={locale} messages={messages}>
               <ThemeProvider attribute='class' defaultTheme='Light' enableSystem disableTransitionOnChange>
                 <NavBar locale={locale} />
-                <div className={`layout-container`}>
+                <main className={`layout-container`}>
                   {children}
                   <ToastContainer />
-                </div>
+                </main>
                 <Footer />
               </ThemeProvider>
             </NextIntlClientProvider>

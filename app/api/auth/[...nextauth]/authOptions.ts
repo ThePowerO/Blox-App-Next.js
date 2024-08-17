@@ -1,9 +1,38 @@
-import { AuthOptions, getServerSession } from "next-auth";
+import { AuthOptions, DefaultSession, getServerSession } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import DiscordProvider from 'next-auth/providers/discord';
 import prisma from "@/lib/prisma";
 import CredentialsProvider from "next-auth/providers/credentials";
 import * as bcrypt from 'bcrypt';
+
+declare module "next-auth" {
+  interface Session {
+    user: {
+      id: string
+      highlights: number
+    } & DefaultSession["user"]
+  }
+
+  interface User {
+    id: string
+    highlights: number
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    id: string
+    highlights: number
+    name: string | null | undefined
+    email: string | null | undefined
+    image: string | null | undefined
+  }
+
+  interface User {
+    id: string
+    highlights: number
+  }
+}
 
 export const authOptions: AuthOptions = {
   pages: {
@@ -55,6 +84,7 @@ export const authOptions: AuthOptions = {
         token.email = user.email;
         token.image = user.image;
         token.name = user.name;
+        token.highlights = user.highlights;
       }
       if (user) {
         // saving user if not there yet
@@ -67,22 +97,23 @@ export const authOptions: AuthOptions = {
             data: {
               ...user,
               name: user.name!,
+              highlights: 0,
             },
           });
         }
       }
       return token;
     },
-
     async session({ token, session, user }) {
       if (token) {
         session.user.id = token.id;
         session.user.email = token.email;
         session.user.image = token.image;
         session.user.name = token.name;
+        session.user.highlights = token.highlights;
       }
 
       return session;
-    }
+    },
   },
 };

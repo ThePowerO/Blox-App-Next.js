@@ -11,16 +11,10 @@ import { Button } from "@/components/ui/button";
 import { User } from "@prisma/client";
 import { useTranslations } from "next-intl";
 
-const ProfileSelector = ({
-  locale,
-  user,
-}: {
-  locale: string;
-  user: User;
-}) => {
+const ProfileSelector = ({ locale }: { locale: string }) => {
   const t = useTranslations("NavBar");
   const { data: session } = useSession();
-  const currentUser = session?.user as User;
+  const currentUser = session?.user;
 
   const [openMenu, setOpenMenu] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -67,7 +61,7 @@ const ProfileSelector = ({
         >
           <Image
             alt=""
-            src={user?.image || NoAvatar}
+            src={currentUser?.image || NoAvatar}
             width={40}
             height={40}
             className="w-[40px] h-[40px] rounded-full border-[2px] hover:border-gray-500 border-cyan-300 cursor-pointer"
@@ -89,17 +83,19 @@ const ProfileSelector = ({
                       className="w-full flex items-center justify-start gap-2 dark:hover:bg-gray-500 dark:text-white"
                     >
                       <Award color="yellow" size={18} />
-                      <span>{user?.highlights}</span>
+                      <span>{currentUser?.highlights}</span>
                     </Button>
                   </li>
                   <li className="w-full">
                     <Button
                       variant="ghost"
-                      onClick={() => router.push(`/${locale}/profile/${user.id}`)}
+                      onClick={() =>
+                        router.push(`/${locale}/profile/${currentUser.id}`)
+                      }
                       className="w-full flex items-center justify-start gap-2 dark:hover:bg-gray-500 dark:text-white"
                     >
                       <SquareUser size={18} />
-                      {user?.name}
+                      {currentUser?.name}
                     </Button>
                   </li>
                   <li className="w-full">

@@ -1,12 +1,14 @@
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { useTranslations } from "next-intl";
+import { getLocale } from "next-intl/server";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { SiRoblox } from "react-icons/si";
 
-const Footer = () => {
+export default async function Footer() {
   const t = useTranslations("Footer");
+  const locale = await getLocale()
   return (
     <footer className="p-5 sm:p-12 justify-center flex-col sm:flex-row flex sm:items-center gap-5 mt-[50px] bg-[#212529] text-white">
       <div>
@@ -32,10 +34,10 @@ const Footer = () => {
         <span className="font-bold text-gray-400">{t("Extra")}</span>
         <ul>
           <li>
-            <Link className="hover:text-gray-400" href={"/"}>{t("TermsOfService")}</Link>
+            <Link className="hover:text-gray-400" href={`/${locale}/terms-of-service`}>{t("TermsOfService")}</Link>
           </li>
           <li>
-            <Link className="hover:text-gray-400" href={"/"}>{t("PrivacyPolicy")}</Link>
+            <Link className="hover:text-gray-400" href={`/${locale}/privacy-policy`}>{t("PrivacyPolicy")}</Link>
           </li>
         </ul>
       </div>
@@ -63,4 +65,3 @@ const Footer = () => {
   );
 };
 
-export default Footer;
