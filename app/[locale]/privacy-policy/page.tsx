@@ -43,7 +43,7 @@ export default function page({ params }: paramsProps) {
         <li>
           <span className='text-xl underline'>Cookies and Web Beacons</span>
           <p>
-            Like any other website, Blox Fruits Values uses 'cookies'. These cookies are used to store information including
+            Combosfy uses 'cookies'. These cookies are used to store information including
             visitor's preferences, and the pages on the website that the visitor accessed or visited. The information is used
             to optimize the user's experience by customizing our web page content based on visitor's browser type and/or
             other information.
@@ -53,7 +53,7 @@ export default function page({ params }: paramsProps) {
           <span className='text-xl underline'>Online Privacy Policy Only</span>
           <p>
             This Privacy Policy applies only to our online activities and is valid for visitors to our website with regards
-            to the information that they shared and/or collect in Blox Fruits Values. This policy is not applicable to any
+            to the information that they shared and/or collect in Combosfy. This policy is not applicable to any
             information collected offline or via channels other than this website.
           </p>
         </li>
@@ -64,7 +64,7 @@ export default function page({ params }: paramsProps) {
             guardians to observe, participate in, and/or monitor and guide their online activity.
             <br />
             <br />
-            Blox Fruits Values does not knowingly collect any Personal Identifiable Information from children under the age
+            Combosfy does not knowingly collect any Personal Identifiable Information from children under the age
             of 13. If you think that your child provided this kind of information on our website, we strongly encourage you
             to contact us immediately and we will do our best efforts to promptly remove such information from our records.
           </p>
