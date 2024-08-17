@@ -17,6 +17,7 @@ const ProfileSelector = ({ locale }: { locale: string }) => {
   const currentUser = session?.user;
 
   const [openMenu, setOpenMenu] = useState(false);
+  const [userData, setUserData] = useState<User | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLButtonElement | null>(null);
 
@@ -51,6 +52,43 @@ const ProfileSelector = ({ locale }: { locale: string }) => {
 
   const router = useRouter();
 
+  const getUser = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/getUser`, {
+        method: 'GET', // Specify the HTTP method
+        headers: {
+          'Content-Type': 'application/json', // Specify content type
+          // You may need additional headers depending on your API setup
+        },
+        next: { revalidate: 60 }, // Next.js revalidation configuration
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Error fetching user: ${response.statusText}`);
+      }
+  
+      const data = await response.json();
+      return data;
+  
+    } catch (error) {
+      console.error(error);
+      return null; // Return null or handle the error as needed
+    }
+  };
+
+  useEffect(() => {
+    if (currentUser?.id) {
+      const fetchUserData = async () => {
+        const data = await getUser();
+        setUserData(data.user);
+      };
+
+      fetchUserData();
+    }
+  }, [currentUser?.id]);
+
+  console.log("user: ", userData);
+
   return (
     <div className="justify-center">
       <div className="relative">
@@ -61,7 +99,7 @@ const ProfileSelector = ({ locale }: { locale: string }) => {
         >
           <Image
             alt=""
-            src={currentUser?.image || NoAvatar}
+            src={userData?.image || NoAvatar}
             width={40}
             height={40}
             className="w-[40px] h-[40px] rounded-full border-[2px] hover:border-gray-500 border-cyan-300 cursor-pointer"
@@ -83,7 +121,7 @@ const ProfileSelector = ({ locale }: { locale: string }) => {
                       className="w-full flex items-center justify-start gap-2 dark:hover:bg-gray-500 dark:text-white"
                     >
                       <Award color="yellow" size={18} />
-                      <span>{currentUser?.highlights}</span>
+                      <span>{userData?.highlights}</span>
                     </Button>
                   </li>
                   <li className="w-full">
@@ -95,7 +133,7 @@ const ProfileSelector = ({ locale }: { locale: string }) => {
                       className="w-full flex items-center justify-start gap-2 dark:hover:bg-gray-500 dark:text-white"
                     >
                       <SquareUser size={18} />
-                      {currentUser?.name}
+                      {userData?.name}
                     </Button>
                   </li>
                   <li className="w-full">

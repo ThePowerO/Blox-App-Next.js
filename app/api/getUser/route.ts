@@ -14,17 +14,6 @@ export const GET = async (req: Request) => {
       where: {
         id: session?.user.id,
       },
-      select: {
-        proPack: true,
-        starterPack: true,
-        isPlusPack: true,
-        id: true,
-        ComboCountLimit: {
-          select: {
-            count: true,
-          }
-        }
-      }
     });
 
     if (!user) {
