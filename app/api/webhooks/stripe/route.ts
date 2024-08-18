@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
 import prisma from "@/lib/prisma";
@@ -6,16 +6,19 @@ import { add } from "date-fns";
 
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET as string;
 
-export const POST = async (req: Request) => {
-  const body = req.body ?? {};
+export const POST = async (req: NextRequest) => {
+  const payload = await req.text();
+  const response = JSON.parse(payload);
+
   const sig = req.headers.get("Stripe-Signature") as string;
 
   let event;
 
   try {
-    event = stripe.webhooks.constructEvent(body as string, sig, endpointSecret);
+    event = stripe.webhooks.constructEvent(response, sig, endpointSecret);
+
   } catch (err) {
-    return NextResponse.json({ error: (err as Error).message }, { status: 400 });
+    return NextResponse.json({ status: "failed", err });
   }
 
   switch (event.type) {
@@ -126,5 +129,6 @@ export const POST = async (req: Request) => {
 
       break;
     }
+    
   }
 };
