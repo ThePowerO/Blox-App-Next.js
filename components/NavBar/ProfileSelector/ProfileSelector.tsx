@@ -101,7 +101,7 @@ const ProfileSelector = ({ locale }: { locale: string }) => {
         >
           <Image
             alt=""
-            src={userData?.image || NoAvatar}
+            src={currentUser?.image || NoAvatar}
             width={40}
             height={40}
             className="w-[40px] h-[40px] rounded-full border-[2px] hover:border-gray-500 border-cyan-300 cursor-pointer"
@@ -123,7 +123,7 @@ const ProfileSelector = ({ locale }: { locale: string }) => {
                       className="w-full flex items-center justify-start gap-2 dark:hover:bg-gray-500 dark:text-white"
                     >
                       <Award color="yellow" size={18} />
-                      <span>{userData?.highlights}</span>
+                      <span>{currentUser?.highlights}</span>
                     </Button>
                   </li>
                   <li className="w-full">
@@ -135,7 +135,7 @@ const ProfileSelector = ({ locale }: { locale: string }) => {
                       className="w-full flex items-center justify-start gap-2 dark:hover:bg-gray-500 dark:text-white"
                     >
                       <SquareUser size={18} />
-                      {userData?.name}
+                      {currentUser?.name}
                     </Button>
                   </li>
                   <li className="w-full">

@@ -178,8 +178,16 @@ export default function UserContent({ user, combo }: Props) {
   };
 
   const UpdateUserImgSubmit: SubmitHandler<ImgFormType> = async (data) => {
+    const { data: session, update } = useSession()
     try {
       await UpdateUserImgAction(data);
+      await update({
+        ...session,
+        user: {
+          ...session?.user,
+          image: data.img
+        }
+      })
       setUserImage("");
       ImgForm.setValue("img", "");
       setOpenPCModal(false);
