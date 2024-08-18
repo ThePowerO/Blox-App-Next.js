@@ -29,8 +29,8 @@ export const POST = async (req: Request) => {
 
       if (priceId === "price_1PZcT4BvVijJQ1WrylJ6DThC" || 
         priceId === "price_1PiLSCBvVijJQ1Wr1k4CY4on" ||
-        priceId === "price_1PiLBzBvVijJQ1WrVuTPkcT1" ||
-        priceId === "price_1PiKdtBvVijJQ1WrIxWto4Dq" ||
+        priceId === "price_1PpD7IBvVijJQ1Wr2IDalWho" || // 中文
+        priceId === "price_1PpDKlBvVijJQ1Wr7EtIfljm" || // português
         priceId === "price_1PiLdxBvVijJQ1Wromqo7mX8" ||
         priceId === "price_1PiLtcBvVijJQ1Wr8B3n8wBo" ||
         priceId === "price_1PiM37BvVijJQ1WrD94xTLSB" ||
@@ -50,8 +50,8 @@ export const POST = async (req: Request) => {
         });
       } else if (priceId === "price_1PaNzMBvVijJQ1Wr6dLNC1Dm" || 
         priceId === "price_1PiLVlBvVijJQ1WrOe6JXatz" ||
-        priceId === "price_1PiLGTBvVijJQ1WrtIEqTBNd" ||
-        priceId === "price_1PiKflBvVijJQ1WrnNrruWRk" ||
+        priceId === "price_1PpDEgBvVijJQ1WrkneCkBVD" || // 中文
+        priceId === "price_1PiKflBvVijJQ1WrnNrruWRk" || // português
         priceId === "price_1PiLivBvVijJQ1WrUKQb3yi8" ||
         priceId === "price_1PiLvSBvVijJQ1WrmMpD2Jcn" ||
         priceId === "price_1PiM4OBvVijJQ1WrHNPbrNit" ||
@@ -69,8 +69,8 @@ export const POST = async (req: Request) => {
         });
       } else if (priceId === "price_1PaOJnBvVijJQ1WrXqLRbQBK" || 
         priceId === "price_1PiLYwBvVijJQ1WrGynnsBGU" ||
-        priceId === "price_1PiLKdBvVijJQ1WrqcaGe8zj" ||
-        priceId === "price_1PiKx2BvVijJQ1Wr8nSuQPVr" ||
+        priceId === "price_1PiLKdBvVijJQ1WrqcaGe8zj" || // 中文
+        priceId === "price_1PpDWqBvVijJQ1WrptSUNj9c" || // português
         priceId === "price_1PiLnDBvVijJQ1WrmhXBykEn" ||
         priceId === "price_1PiLzfBvVijJQ1WrR3wrcvxn" ||
         priceId === "price_1PiM6VBvVijJQ1WrOFk4COFx" ||
