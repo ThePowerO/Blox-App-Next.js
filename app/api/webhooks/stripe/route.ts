@@ -4,12 +4,6 @@ import { stripe } from "@/lib/stripe";
 import prisma from "@/lib/prisma";
 import { add } from "date-fns";
 
-export const config = {
-  api: {
-    bodyParser: false, // Disable Next.js body parsing to handle the raw body
-  },
-};
-
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET as string;
 
 export const POST = async (req: NextRequest) => {
@@ -134,7 +128,7 @@ export const POST = async (req: NextRequest) => {
 
       break;
     }
-    
+
     default:
       console.log(`Unhandled event type ${event.type}`);
   }
