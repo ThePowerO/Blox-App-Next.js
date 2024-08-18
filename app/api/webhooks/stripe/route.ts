@@ -13,14 +13,13 @@ export const config = {
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET as string;
 
 export const POST = async (req: NextRequest) => {
-  const payload = await req.text();
-  const response = JSON.parse(payload);
-
   const sig = req.headers.get("Stripe-Signature");
 
   let event;
 
   try {
+    const payload = await req.text();
+
     event = stripe.webhooks.constructEvent(payload, sig as string, endpointSecret);
 
   } catch (err) {
@@ -136,5 +135,8 @@ export const POST = async (req: NextRequest) => {
       break;
     }
     
+    default:
+      console.log(`Unhandled event type ${event.type}`);
   }
+  return NextResponse.json({ received: true });
 };
