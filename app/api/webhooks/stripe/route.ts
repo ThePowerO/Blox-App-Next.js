@@ -4,13 +4,24 @@ import { stripe } from "@/lib/stripe";
 import prisma from "@/lib/prisma";
 import { add } from "date-fns";
 
-export const POST = async (req: Request) => {
-  const body = (await req.json()) as Stripe.Event;
+const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET as string;
 
-  switch (body.type) {
+export const POST = async (req: Request) => {
+  const body = req.body ?? {};
+  const sig = req.headers.get("Stripe-Signature") as string;
+
+  let event;
+
+  try {
+    event = stripe.webhooks.constructEvent(body as string, sig, endpointSecret);
+  } catch (err) {
+    return NextResponse.json({ error: (err as Error).message }, { status: 400 });
+  }
+
+  switch (event.type) {
     case "checkout.session.completed": {
       const session = await stripe.checkout.sessions.retrieve(
-        body.data.object.id,
+        event.data.object.id,
         {
           expand: ["line_items"],
         }
@@ -95,7 +106,7 @@ export const POST = async (req: Request) => {
 
     case "customer.subscription.deleted": {
       const subscription = await stripe.subscriptions.retrieve(
-        body.data.object.id
+        event.data.object.id
       );
 
       const user = await prisma.user.findFirst({
