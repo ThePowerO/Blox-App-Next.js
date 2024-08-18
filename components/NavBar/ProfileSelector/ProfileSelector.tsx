@@ -82,7 +82,7 @@ const ProfileSelector = ({ locale }: { locale: string }) => {
     if (currentUser?.id) {
       const fetchUserData = async () => {
         const data = await getUser();
-        setUserData(data.user);
+        setUserData(data);
       };
 
       fetchUserData();
