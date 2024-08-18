@@ -15,7 +15,7 @@ export const POST = async (req: NextRequest) => {
   let event;
 
   try {
-    event = stripe.webhooks.constructEvent(response, sig, endpointSecret);
+    event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
 
   } catch (err) {
     return NextResponse.json({ status: "failed", err });
