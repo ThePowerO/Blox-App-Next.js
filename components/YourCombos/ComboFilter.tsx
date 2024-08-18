@@ -117,6 +117,7 @@ export const ReferencesSearchItems = {
     Trident: "Trident",
     "Triple Dark Blade": "Triple_Dark_Blade",
     "True Triple Katana": "True_Triple_Katana",
+    "Triple Katana": "Triple_Katana",
     Tushita: "Tushita",
     "Twin Hooks": "Twin_Hooks",
     Wando: "Wando",
