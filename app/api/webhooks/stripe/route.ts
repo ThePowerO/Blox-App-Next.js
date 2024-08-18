@@ -3,18 +3,25 @@ import Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
 import prisma from "@/lib/prisma";
 import { add } from "date-fns";
-import { NextApiRequest } from "next";
+
+export const config = {
+  api: {
+    bodyParser: false, // Disable Next.js body parsing to handle the raw body
+  },
+};
 
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET as string;
 
-export const POST = async (req: NextApiRequest) => {
-  const sig = req.headers['stripe-signature'];
+export const POST = async (req: NextRequest) => {
+  const payload = await req.text();
+  const response = JSON.parse(payload);
+
+  const sig = req.headers.get("Stripe-Signature");
 
   let event;
 
   try {
-    const body = await buffer(req);
-    event = stripe.webhooks.constructEvent(body, sig as string, endpointSecret);
+    event = stripe.webhooks.constructEvent(payload, sig as string, endpointSecret);
 
   } catch (err) {
     return NextResponse.json({ status: "failed", err });
@@ -130,20 +137,4 @@ export const POST = async (req: NextApiRequest) => {
     }
     
   }
-};
-
-const buffer = (req: NextApiRequest) => {
-  return new Promise<Buffer>((resolve, reject) => {
-    const chunks: Buffer[] = [];
-
-    req.on('data', (chunk: Buffer) => {
-      chunks.push(chunk);
-    });
-
-    req.on('end', () => {
-      resolve(Buffer.concat(chunks));
-    });
-
-    req.on('error', reject);
-  });
 };
