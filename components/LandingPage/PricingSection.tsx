@@ -103,8 +103,8 @@ export default function PricingSection({
                       quantity: 1,
                     },
                   ],
-                  success_url: "http://localhost:3000/",
-                  cancel_url: "http://localhost:3000/",
+                  success_url: `${process.env.NODE_ENV === "production" ? `${process.env.NEXTAUTH_URL2}` : "http://localhost:3000"},`,
+                  cancel_url: `${process.env.NODE_ENV === "production" ? `${process.env.NEXTAUTH_URL2}` : "http://localhost:3000"},`,
                   metadata: {
                     userId: authSession.user.id,
                   },

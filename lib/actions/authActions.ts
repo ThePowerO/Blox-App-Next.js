@@ -114,7 +114,7 @@ export async function forgotPassword(email: string) {
     id: user.id
   })
   const resetPassUrl =
-  `${process.env.NODE_ENV === "production" ? process.env.NEXTAUTH_URL : process.env.NEXTAUTH_URL2}/reset-password/${jwtUserId}`;
+  `${process.env.NODE_ENV === "production" ? process.env.NEXTAUTH_URL2 : process.env.NEXTAUTH_URL}/reset-password/${jwtUserId}`;
   
   const description = locale === 'en' ? "You've successfully sent your email to reset your password, you can now click right bellow in order to Reset Password." : "" ||
   locale === 'pt' ? "Você enviou com sucesso seu e-mail para redefinir sua senha, agora você pode clicar logo abaixo para Redefinir a senha." : "" ||
