@@ -24,7 +24,7 @@ export async function registerUser( user: Omit<User, "id" | "image" | "emailVeri
   const locale = await getLocale();
   const jwtUserId = signJwt({id: result.id})
   const activationUrl = 
-  `${process.env.NODE_ENV === "production" ? process.env.NEXTAUTH_URL : process.env.NEXTAUTH_URL2}/activation/${jwtUserId}`;
+  `${process.env.NODE_ENV === "production" ? process.env.NEXTAUTH_URL2 : process.env.NEXTAUTH_URL}/activation/${jwtUserId}`;
   
   const description = locale === 'en' ? "You've successfully sent your email to activate your account, you can now click right bellow in order to Activate Account." : "" ||
   locale === 'pt' ? "Você enviou com sucesso seu e-mail para ativar sua conta, agora você pode clicar logo abaixo para Ativar conta." : "" ||
