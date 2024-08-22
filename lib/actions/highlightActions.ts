@@ -122,13 +122,13 @@ cron.schedule("* * * * * *", async () => {
           return null;
         } else {
           let UserHighlightExpirationTime
-          if (user.proPack >= 1) {
-            UserHighlightExpirationTime = 2
+          if (user.isPlusPack !== false && user.proPack >= 1) {
+            UserHighlightExpirationTime = 3
           } else if (user.isPlusPack === true) {
             UserHighlightExpirationTime = 3
-          } else if (user.isPlusPack !== false && user.proPack >= 1) {
-            UserHighlightExpirationTime = 3
-          } else {
+          } else if (user.proPack >= 1) {
+            UserHighlightExpirationTime = 2
+          } else if (user.proPack === 0 && user.isPlusPack === false) {
             UserHighlightExpirationTime = 1
           }
 
