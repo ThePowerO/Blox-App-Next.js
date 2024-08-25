@@ -53,13 +53,24 @@ export default async function HighlightCombo(FormData: unknown) {
   }
 
   try {
+    let UserHighlightExpirationTime;
+    if (user.isPlusPack !== false && user.proPack >= 1) {
+      UserHighlightExpirationTime = 3;
+    } else if (user.isPlusPack === true) {
+      UserHighlightExpirationTime = 3;
+    } else if (user.proPack >= 1) {
+      UserHighlightExpirationTime = 2;
+    } else if (user.proPack === 0 && user.isPlusPack === false) {
+      UserHighlightExpirationTime = 1;
+    }
+
     const data = await prisma.combo.update({
       where: {
         id: comboId,
       },
       data: {
         highlight: "HIGHLIGHTED",
-        highlightExpiration: add(new Date(), { days: 1 }),
+        highlightExpiration: add(new Date(), { days: UserHighlightExpirationTime }),
       },
     });
 
@@ -121,15 +132,15 @@ cron.schedule("* * * * * *", async () => {
           });
           return null;
         } else {
-          let UserHighlightExpirationTime
+          let UserHighlightExpirationTime;
           if (user.isPlusPack !== false && user.proPack >= 1) {
-            UserHighlightExpirationTime = 3
+            UserHighlightExpirationTime = 3;
           } else if (user.isPlusPack === true) {
-            UserHighlightExpirationTime = 3
+            UserHighlightExpirationTime = 3;
           } else if (user.proPack >= 1) {
-            UserHighlightExpirationTime = 2
+            UserHighlightExpirationTime = 2;
           } else if (user.proPack === 0 && user.isPlusPack === false) {
-            UserHighlightExpirationTime = 1
+            UserHighlightExpirationTime = 1;
           }
 
           console.log("Renovating combo!:", combo.id);
@@ -140,7 +151,9 @@ cron.schedule("* * * * * *", async () => {
             },
             data: {
               highlight: "HIGHLIGHTED",
-              highlightExpiration: add(now, { days: UserHighlightExpirationTime }),
+              highlightExpiration: add(now, {
+                days: UserHighlightExpirationTime,
+              }),
             },
           });
 
@@ -252,7 +265,7 @@ cron.schedule("* * * * * *", async () => {
         plusPackWeeklyTime: {
           lte: now,
         },
-      }
+      },
     });
 
     for (const user of expiredPlusPackWeeklyTime) {
@@ -267,9 +280,7 @@ cron.schedule("* * * * * *", async () => {
         },
       });
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 
   revalidatePath("/");
 });
