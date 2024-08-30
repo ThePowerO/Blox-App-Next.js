@@ -26,10 +26,11 @@ export default async function page({ params }: { params: Params }) {
   const comboId = params.comboId
   const combo = await getComboById(comboId) as Combo | null
   const session = await getServerSession(authOptions)
-  const currentUser = session?.user as User
+  const currentUser = session?.user
 
-  if (combo?.user.id !==  currentUser.id) {
-    return null
+  if (!combo || !session || combo.user.id !== session.user.id || !currentUser?.id) {
+    // Handle unauthorized access or non-existent combo
+    return { notFound: true }; // Return a 404 if the user is not authorized
   }
 
   return (

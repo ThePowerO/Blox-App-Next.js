@@ -50,7 +50,7 @@ type TitleType = z.infer<typeof UpdateComboTitleSchema>;
 export default function ComboEditLayout({ combo }: Props) {
   const t = useTranslations("ComboBySlug");
   const { data: session } = useSession();
-  const currentUser = session?.user as User;
+  const currentUser = session?.user;
   const pathName = usePathname();
 
   const [editingTitle, setEditingTitle] = useState(false);
@@ -69,7 +69,7 @@ export default function ComboEditLayout({ combo }: Props) {
   });
 
   const UpdateComboTitleAction: SubmitHandler<TitleType> = async (FormData) => {
-    if (combo?.user.id !== currentUser.id) {
+    if (combo?.user.id !== currentUser?.id) {
       return null;
     }
     await UpdateComboTitle(FormData);
@@ -161,7 +161,7 @@ export default function ComboEditLayout({ combo }: Props) {
         {editingDescription && (
           <form
             action={async (FormData) => {
-              if (combo?.user.id !== currentUser.id) {
+              if (combo?.user.id !== currentUser?.id) {
                 return null;
               }
               await UpdateComboDescription(FormData);
@@ -314,7 +314,7 @@ export default function ComboEditLayout({ combo }: Props) {
         {editingDescription && (
           <form
             action={async (FormData) => {
-              if (combo?.user.id !== currentUser.id) {
+              if (combo?.user.id !== currentUser?.id) {
                 return null;
               }
               await UpdateComboDescription(FormData);
