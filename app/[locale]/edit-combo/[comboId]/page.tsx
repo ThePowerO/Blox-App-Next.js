@@ -6,6 +6,7 @@ import { User } from '@prisma/client'
 import { getServerSession } from 'next-auth'
 import React from 'react'
 import { unstable_setRequestLocale } from "next-intl/server";
+import prisma from '@/lib/prisma'
 
 type Params = {
   comboId: string
@@ -15,8 +16,19 @@ type Params = {
 
 const locales = ['en', 'de', 'fr', 'it', 'jp', 'kr', 'cn', 'pt'];
  
-export function generateStaticParams() {
-  return locales.map((locale) => ({locale}));
+export async function generateStaticParams() {
+  // Fetch all combos from the database
+  const combos = await prisma.combo.findMany();
+
+  // Generate paths for each combination of comboId and locale
+  const paths = combos.flatMap((combo) =>
+    locales.map((locale) => ({
+      comboId: combo.id,
+      locale: locale,
+    }))
+  );
+
+  return paths;
 }
 
 
