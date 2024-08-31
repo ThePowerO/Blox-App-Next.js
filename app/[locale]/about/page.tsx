@@ -1,4 +1,4 @@
-import React from 'react'
+simport React from 'react'
 import { useTranslations } from 'next-intl'
 import { GetStaticPaths } from 'next';
 import { unstable_setRequestLocale } from 'next-intl/server';
