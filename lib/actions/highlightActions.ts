@@ -6,7 +6,6 @@ import { getServerSession } from "next-auth";
 import prisma from "../prisma";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import cron from "node-cron";
 import { add } from "date-fns";
 
 const HighlightComboFormSchema = z.object({
