@@ -10,18 +10,11 @@ const ComboVideo = ({ comboVideo }: { comboVideo: string }) => {
       {comboVideo ? (
         <div suppressHydrationWarning>
           <h2 className="font-bold mb-2">Video:</h2>
-          <ReactPlayer
-            playsinline
-            playing={true}
-            controls={true}
-            url={comboVideo}
-            width="100%"
-            height="200px"
-          />
+          <video controls className="w-full h-auto">
+            <source src={comboVideo} type="video/x-ms-wmv" />
+          </video>
         </div>
-      ) : (
-        null
-      )}
+      ) : null}
     </div>
   );
 };

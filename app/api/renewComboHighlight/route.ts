@@ -1,0 +1,111 @@
+import { NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { add } from "date-fns";
+
+export const POST = async (req: Request) => {
+  if (req.method !== "POST") {
+    return NextResponse.json(
+      { message: "Method Not Allowed" },
+      { status: 405 }
+    );
+  }
+
+  try {
+    const now = new Date();
+
+    const expiredCombos = await prisma.combo.findMany({
+      where: {
+        highlight: "HIGHLIGHTED",
+        highlightExpiration: {
+          lte: now,
+        },
+      },
+    });
+
+    console.log("Expired combos:", expiredCombos);
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: expiredCombos[0].userId,
+      },
+    });
+
+    if (!user) {
+      return;
+    }
+
+    for (const combo of expiredCombos) {
+      if (combo.isAutoRenovate === true) {
+        if (user.highlights === 0) {
+          console.log("User does not have any highlights");
+          await prisma.combo.update({
+            where: {
+              id: combo.id,
+              isAutoRenovate: true,
+            },
+            data: {
+              highlight: "NONE",
+              highlightExpiration: null,
+              isAutoRenovate: false,
+            },
+          });
+          return null;
+        } else {
+          let UserHighlightExpirationTime;
+          if (user.isPlusPack !== false && user.proPack >= 1) {
+            UserHighlightExpirationTime = 3;
+          } else if (user.isPlusPack === true) {
+            UserHighlightExpirationTime = 3;
+          } else if (user.proPack >= 1) {
+            UserHighlightExpirationTime = 2;
+          } else if (user.proPack === 0 && user.isPlusPack === false) {
+            UserHighlightExpirationTime = 1;
+          }
+
+          console.log("Renovating combo!:", combo.id);
+          await prisma.combo.update({
+            where: {
+              id: combo.id,
+              isAutoRenovate: true,
+            },
+            data: {
+              highlight: "HIGHLIGHTED",
+              highlightExpiration: add(now, {
+                days: UserHighlightExpirationTime,
+              }),
+            },
+          });
+
+          await prisma.user.update({
+            where: {
+              id: combo?.userId!,
+            },
+            data: {
+              highlights: user.highlights - 1,
+            },
+          });
+        }
+      } else {
+        console.log("Resetting combo!:", combo.id);
+        await prisma.combo.updateMany({
+          where: {
+            highlight: "HIGHLIGHTED",
+            highlightExpiration: {
+              lte: now,
+            },
+          },
+          data: {
+            highlight: "NONE",
+            highlightExpiration: null,
+          },
+        });
+      }
+    }
+  } catch (error) {
+    console.error("Error resetting expired highlights:", error);
+  }
+
+  return NextResponse.json({ success: true }, { status: 200 });
+};

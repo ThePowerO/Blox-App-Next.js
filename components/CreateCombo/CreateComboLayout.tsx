@@ -37,7 +37,6 @@ import {
   ArrowRight,
   Loader,
 } from "lucide-react";
-import { UploadButton } from "@/lib/uploadthing";
 import { Separator } from "../ui/separator";
 import {
   Form,
@@ -66,6 +65,7 @@ import {
 import { useLocale } from "@/LocaleContext";
 import { useTranslations } from "next-intl";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
+import { UploadButton } from "@/lib/uploadthing";
 
 type SerializedUser = {
   proPack: number;
@@ -629,10 +629,7 @@ export default function CreateComboLayout({
                             onClientUploadComplete={(res) => {
                               // Do something with the response
                               console.log("Files: ", res);
-                              if (res[0].url.endsWith(".wmv")) {
-                                setIsWMV(true);
-                                return;
-                              }
+
                               setComboVideo(res[0].url);
                               toggleEditting();
                               form.setValue("comboVideo", res[0].url);

@@ -1,0 +1,12 @@
+{
+  "crons": [
+    {
+      "path": "/api/renewComboHighlight",
+      "schedule": "5 * * * *"
+    },
+    {
+      "path": "/api/grantPlusPackFeatures",
+      "schedule": "5 * * * *"
+    }
+  ]
+}
