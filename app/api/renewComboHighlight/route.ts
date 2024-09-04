@@ -51,7 +51,7 @@ export const POST = async (req: NextRequest) => {
               isAutoRenovate: false,
             },
           });
-          return null;
+          return new Error("User does not have any highlights");
         } else {
           let UserHighlightExpirationTime;
           if (user.isPlusPack !== false && user.proPack >= 1) {
