@@ -1,0 +1,17 @@
+name: hourly-cron-job
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"  # Every 30 minutes
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Renews of Combo's Highlight
+        run: |
+          curl -X POST https://blox-app-next-js.vercel.app/api/renewComboHighlight
+
+      - name: Grants of Plus Pack Features
+        run: |
+          curl -X POST https://blox-app-next-js.vercel.app/api/grantPlusPackFeatures
