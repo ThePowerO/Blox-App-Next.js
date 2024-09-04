@@ -40,5 +40,5 @@ export const POST = async (req: Request) => {
     console.error("Error resetting expired highlights:", error);
   }
 
-  return NextResponse.json({ success: true }, { status: 200 });
+  return NextResponse.json({ message: "Success" }, { status: 200 });
 };
