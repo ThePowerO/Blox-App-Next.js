@@ -1,15 +1,11 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { add } from "date-fns";
 
 export const POST = async (req: Request) => {
+  
   if (req.method !== "POST") {
-    return NextResponse.json(
-      { message: "Method Not Allowed" },
-      { status: 405 }
-    );
+    return new Response("Method Not Allowed", { status: 405 });
   }
 
   try {
@@ -23,6 +19,10 @@ export const POST = async (req: Request) => {
         },
       },
     });
+
+    if (expiredPlusPackWeeklyTime.length === 0) {
+      return NextResponse.json({ message: "No expired plus pack weekly time found" }, { status: 200 });
+    }
 
     for (const user of expiredPlusPackWeeklyTime) {
       await prisma.user.update({

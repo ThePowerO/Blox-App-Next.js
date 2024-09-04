@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { add } from "date-fns";
 
 export const POST = async (req: Request) => {
+
   if (req.method !== "POST") {
     return new Response("Method Not Allowed", { status: 405 });
   }
@@ -22,6 +21,10 @@ export const POST = async (req: Request) => {
     });
 
     console.log("Expired combos:", expiredCombos);
+
+    if (expiredCombos.length === 0) {
+      return NextResponse.json({ message: "No expired combos found" }, { status: 200 });
+    }
 
     const user = await prisma.user.findUnique({
       where: {
