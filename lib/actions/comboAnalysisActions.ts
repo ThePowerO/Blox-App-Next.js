@@ -1,7 +1,6 @@
 "use server";
 
 import prisma from "../prisma";
-import { revalidatePath } from "next/cache";
 import OpenAI from "openai";
 
 const openai = new OpenAI({
