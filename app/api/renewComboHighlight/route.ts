@@ -6,10 +6,7 @@ import { add } from "date-fns";
 
 export const POST = async (req: Request) => {
   if (req.method !== "POST") {
-    return NextResponse.json(
-      { message: "Method Not Allowed" },
-      { status: 405 }
-    );
+    return new Response("Method Not Allowed", { status: 405 });
   }
 
   try {
@@ -33,7 +30,7 @@ export const POST = async (req: Request) => {
     });
 
     if (!user) {
-      return;
+      return new Response("User not found", { status: 404 });
     }
 
     for (const combo of expiredCombos) {
@@ -103,9 +100,10 @@ export const POST = async (req: Request) => {
         });
       }
     }
+
+    return NextResponse.json({ message: "Success" }, { status: 200 });
   } catch (error) {
     console.error("Error resetting expired highlights:", error);
+    return NextResponse.json({ message: "Error resetting expired highlights" }, { status: 500 });
   }
-
-  return NextResponse.json({ message: "Success" }, { status: 200 });
 };
