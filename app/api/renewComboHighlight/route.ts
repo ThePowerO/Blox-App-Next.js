@@ -26,17 +26,26 @@ export const POST = async (req: NextRequest) => {
       return NextResponse.json({ message: "No expired combos found" }, { status: 404 });
     }
 
-    const user = await prisma.user.findUnique({
+    const users = await prisma.user.findMany({
       where: {
-        id: expiredCombos[0].userId,
+        id: { in: expiredCombos.map((combo) => combo.userId) },
       },
     });
 
-    if (!user) {
-      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    const userMap = new Map(users.map(user => [user.id, user]));
+
+    if (userMap.size === 0) {
+      return NextResponse.json({ message: "Users not found" }, { status: 404 });
     }
 
     for (const combo of expiredCombos) {
+      const user = userMap.get(combo.userId);
+
+      if (!user) {
+        console.error(`User with ID ${combo.userId} not found`);
+        continue;
+      }
+
       if (combo.isAutoRenovate === true) {
         if (user.highlights === 0) {
           console.log("User does not have any highlights");
