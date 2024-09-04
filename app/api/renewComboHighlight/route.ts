@@ -23,7 +23,7 @@ export const POST = async (req: NextRequest) => {
     console.log("Expired combos:", expiredCombos);
 
     if (expiredCombos.length === 0) {
-      return NextResponse.json({ message: "No expired combos found" }, { status: 200 });
+      return NextResponse.json({ message: "No expired combos found" }, { status: 404 });
     }
 
     const user = await prisma.user.findUnique({
@@ -33,7 +33,7 @@ export const POST = async (req: NextRequest) => {
     });
 
     if (!user) {
-      return new Error("User not found");
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
     for (const combo of expiredCombos) {
@@ -51,7 +51,7 @@ export const POST = async (req: NextRequest) => {
               isAutoRenovate: false,
             },
           });
-          return new Error("User does not have any highlights");
+          return NextResponse.json({ message: "User does not have any highlights" }, { status: 404 });
         } else {
           let UserHighlightExpirationTime;
           if (user.isPlusPack !== false && user.proPack >= 1) {
