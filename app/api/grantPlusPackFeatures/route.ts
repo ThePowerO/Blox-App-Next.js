@@ -1,11 +1,11 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { add } from "date-fns";
 
-export const POST = async (req: Request) => {
-  
+export const POST = async (req: NextRequest) => {
+
   if (req.method !== "POST") {
-    return new Response("Method Not Allowed", { status: 405 });
+    return NextResponse.json({ message: 'Method Not Allowed' }, { status: 405 });
   }
 
   try {
