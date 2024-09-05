@@ -17,14 +17,8 @@ type paramsProps = {
 }
 
 const locales = ['en', 'de', 'fr', 'it', 'jp', 'kr', 'cn', 'pt'];
- 
-export function generateStaticParams() {
-  return locales.map((locale) => ({locale}));
-}
-
 
 export default async function page({ params }: paramsProps) {
-  unstable_setRequestLocale(params.locale);
 
   const users = await prisma.user.findMany({
     include: {

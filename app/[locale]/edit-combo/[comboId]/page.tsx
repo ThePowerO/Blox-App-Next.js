@@ -15,26 +15,9 @@ type Params = {
 
 
 const locales = ['en', 'de', 'fr', 'it', 'jp', 'kr', 'cn', 'pt'];
- 
-export async function generateStaticParams() {
-  // Fetch all combos from the database
-  const combos = await prisma.combo.findMany();
-
-  // Generate paths for each combination of comboId and locale
-  const paths = combos.flatMap((combo) =>
-    locales.map((locale) => ({
-      comboId: combo.id,
-      locale: locale,
-    }))
-  );
-
-  return paths;
-}
-
 
 export default async function page({ params }: { params: Params }) {
-  unstable_setRequestLocale(params.locale);
-  
+    
   const comboId = params.comboId
   const combo = await getComboById(comboId) as Combo | null
   const session = await getServerSession(authOptions)

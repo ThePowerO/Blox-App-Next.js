@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { LocaleProvider } from '@/LocaleContext'
 import { NextIntlClientProvider } from 'next-intl'
 import { ThemeProvider } from '@/components/ThemeProvider'
-import { getMessages, unstable_setRequestLocale } from 'next-intl/server'
+import { getMessages } from 'next-intl/server'
 import { Suspense } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -34,7 +34,6 @@ export default async function RootLayout({
   children: React.ReactNode,
   params: { locale: string }
 }) {
-  unstable_setRequestLocale(locale);
 
   if (!locales || !locales.includes(locale)) {
     NotFound();
