@@ -6,23 +6,9 @@ import { redirect } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import TextGradient from "../HtmlComponents/TextGradient";
 import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "../ui/dialog";
-import { Button } from "../ui/button";
-import { FcGoogle } from "react-icons/fc";
-import { IoLogoDiscord } from "react-icons/io5";
-import { signIn } from "next-auth/react";
 import { LoginGoogleDiscord } from "../HtmlComponents/NoSessionLikeFav";
 
-type currentUser =
-  | {
-      id: string;
-      name?: string | null;
-      email?: string | null;
-      image?: string | null;
-    }
-  | undefined;
-
 type PricingPack = {
-  currentUser: currentUser;
   packname: string;
   description: string;
   link: string;
@@ -35,8 +21,7 @@ type PricingPack = {
   relevant?: boolean;
 };
 
-export default function PricingSection({
-  currentUser,
+export default async function PricingSection({
   packname,
   description,
   price,
@@ -50,6 +35,9 @@ export default function PricingSection({
 }: PricingPack) {
   const t = useTranslations("LandingPage");
   const t2 = useTranslations("SignInPage");
+  
+  const session = await getServerSession(authOptions);
+  const currentUser = session?.user;
 
   return (
     <div

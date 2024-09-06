@@ -48,14 +48,12 @@ export default async function RootLayout({
           <LocaleProvider locale={locale}>
             <NextIntlClientProvider locale={locale} messages={messages}>
               <ThemeProvider attribute='class' defaultTheme='Light' enableSystem disableTransitionOnChange>
-                <Suspense fallback={null}>
-                  <NavBar locale={locale} />
-                  <main className={`layout-container`}>
-                    {children}
-                    <ToastContainer />
-                  </main>
-                  <Footer />
-                </Suspense>
+                <NavBar locale={locale} />
+                <main className={`layout-container`}>
+                  {children}
+                  <ToastContainer />
+                </main>
+                <Footer />
               </ThemeProvider>
             </NextIntlClientProvider>
           </LocaleProvider>

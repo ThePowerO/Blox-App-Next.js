@@ -1,15 +1,7 @@
 import React from "react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { ChevronDown, Heart, Star } from "lucide-react";
 import { Button } from "../ui/button";
 
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import TextGradient from "../HtmlComponents/TextGradient";
-import { ReferencesSearchItems } from "./ComboFilter";
 import { Input } from "../ui/input";
 import { Skeleton } from "../ui/skeleton";
 import { useTranslations } from "next-intl";
@@ -47,90 +39,9 @@ export default function CombosDisplayFallback() {
           </div>
         </div>
         <div className="mt-6">
-          <DropdownMenu modal={false}>
-            <DropdownMenuTrigger>
-              <Button className="flex items-center gap-1">
-                {t("FilterViaReferences")} <ChevronDown />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="" align="start">
-              <ScrollArea className="w-[290px] petit:w-[360px] tiny:w-[400px] medium:w-[500px] sm:w-[650px] md:w-[780px] lg:w-[1024px] whitespace-nowrap rounded-md border">
-                <div className="flex w-max space-x-2 p-2">
-                  <div className="p-2 border flex flex-col gap-1 flex-wrap rounded-lg max-h-[460px]">
-                    <TextGradient
-                      text="Fighting Styles"
-                      from="from-sky-500 font-bold"
-                      via="via-cyan-800"
-                      to="to-blue-800"
-                    />
-                    {Object.entries(ReferencesSearchItems.FightingStyles).map(
-                      ([key, FightingStyles]) => (
-                        <div key={FightingStyles}>
-                          <input
-                            value={FightingStyles}
-                            type="checkbox"
-                            id={FightingStyles}
-                          />
-                          <label htmlFor={FightingStyles}>
-                            {FightingStyles}
-                          </label>
-                        </div>
-                      )
-                    )}
-                  </div>
-                  <div className="p-2 border flex flex-col gap-1 flex-wrap rounded-lg max-h-[460px]">
-                    <TextGradient
-                      text="Fruits"
-                      from="from-yellow-500 font-bold"
-                      via="via-brown-500"
-                      to="to-pink-800"
-                    />
-                    {Object.entries(ReferencesSearchItems.Fruits).map(
-                      ([key, Fruits]) => (
-                        <div key={Fruits}>
-                          <input type="checkbox" value={Fruits} id={Fruits} />
-                          <label htmlFor={Fruits}>{Fruits}</label>
-                        </div>
-                      )
-                    )}
-                  </div>
-                  <div className="p-2 border flex flex-col gap-1 flex-wrap rounded-lg max-h-[460px]">
-                    <TextGradient
-                      text="Swords"
-                      from="from-purple-500 font-bold"
-                      via="via-stone-500"
-                      to="to-stone-900"
-                    />
-                    {Object.entries(ReferencesSearchItems.Swords).map(
-                      ([key, Swords]) => (
-                        <div key={Swords}>
-                          <input type="checkbox" value={Swords} id={Swords} />
-                          <label htmlFor={Swords}>{Swords}</label>
-                        </div>
-                      )
-                    )}
-                  </div>
-                  <div className="p-2 border flex flex-col gap-1 flex-wrap rounded-lg max-h-[460px]">
-                    <TextGradient
-                      text="Weapons"
-                      from="from-green-500 font-bold"
-                      via="via-green-700"
-                      to="to-green-800"
-                    />
-                    {Object.entries(ReferencesSearchItems.Weapons).map(
-                      ([key, Weapons]) => (
-                        <div key={Weapons}>
-                          <input type="checkbox" value={Weapons} id={Weapons} />
-                          <label htmlFor={Weapons}>{Weapons}</label>
-                        </div>
-                      )
-                    )}
-                  </div>
-                </div>
-                <ScrollBar orientation="horizontal" />
-              </ScrollArea>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <Button className="flex items-center gap-1">
+            {t("FilterViaReferences")} <ChevronDown />
+          </Button>
         </div>
       </section>
       <section className="flex flex-col gap-x-2 850px:grid 850px:grid-cols-2 gap-y-4">

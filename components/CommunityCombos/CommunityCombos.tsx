@@ -21,7 +21,13 @@ export default async function CommunityCombos() {
 
   if (!currentUser) {
     return (
-        <CombosDisplay isCombosPage={true} ParamsUserId="" isProfilePage={false} user={{} as any} comboData={comboData as any} />
+      <div className="p-4">
+        {comboData.length === 0 ? (
+          <AlertDestructive />
+        ) : (
+          <CombosDisplay isCombosPage={true} ParamsUserId="" isProfilePage={false} user={{} as any} comboData={comboData as any} />
+        )}
+      </div>
     )
   }
 

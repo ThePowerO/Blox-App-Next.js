@@ -1,5 +1,4 @@
 import ForgotPassword from '@/components/ForgotPassword/ForgotPassword'
-import React from 'react'
 import { unstable_setRequestLocale } from "next-intl/server";
 
 type paramsProps = {
@@ -11,8 +10,11 @@ type paramsProps = {
 const locales = ['en', 'de', 'fr', 'it', 'jp', 'kr', 'cn', 'pt'];
 
 export default function page({ params }: paramsProps) {
+  unstable_setRequestLocale(params.locale);
 
   return (
-    <ForgotPassword />
+    <>
+      <ForgotPassword />
+    </>
   )
 }

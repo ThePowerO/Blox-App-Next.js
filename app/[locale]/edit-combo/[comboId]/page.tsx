@@ -16,7 +16,12 @@ type Params = {
 
 const locales = ['en', 'de', 'fr', 'it', 'jp', 'kr', 'cn', 'pt'];
 
+export async function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
+
 export default async function page({ params }: { params: Params }) {
+  unstable_setRequestLocale(params.locale);
     
   const comboId = params.comboId
   const combo = await getComboById(comboId) as Combo | null
