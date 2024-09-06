@@ -218,11 +218,11 @@ export default function CreateComboLayout({
     ) {
       toast.error(`${t3("FreeTrialMessage")}`);
       return;
-
     } else if (user.proPack >= 1 || UserMaxComboCountReached >= 0) {
       try {
         const result = await createComboAction(FormData, pathName);
         console.log("Form submission ended with result:", result);
+        window.location.reload();
       } catch (error) {
         console.error("Form submission error:", error);
         // Optionally display an error message to the user

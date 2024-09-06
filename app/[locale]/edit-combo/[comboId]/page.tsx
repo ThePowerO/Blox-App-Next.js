@@ -13,11 +13,22 @@ type Params = {
   locale: string
 }
 
-
-const locales = ['en', 'de', 'fr', 'it', 'jp', 'kr', 'cn', 'pt'];
-
 export async function generateStaticParams() {
-  return locales.map((locale) => ({ locale }));
+  // Fetch all combos from the database
+  const combos = await prisma.combo.findMany();
+
+  // List of locales that are supported
+  const locales = ["en", "fr", "de", "it", "jp", "kr", "cn", "pt"];
+
+  // Generate paths for each combination of slug and locale
+  const paths = combos.flatMap((combo) =>
+    locales.map((locale) => ({
+      comboId: combo.id,
+      locale: locale,
+    }))
+  );
+
+  return paths;
 }
 
 export default async function page({ params }: { params: Params }) {

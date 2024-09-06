@@ -9,10 +9,8 @@ import { Providers } from './providers'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { LocaleProvider } from '@/LocaleContext'
-import { NextIntlClientProvider } from 'next-intl'
+import { NextIntlClientProvider, useMessages } from 'next-intl'
 import { ThemeProvider } from '@/components/ThemeProvider'
-import { getMessages } from 'next-intl/server'
-import { Suspense } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -27,7 +25,7 @@ export const metadata: Metadata = {
 
 const locales = ['en', 'pt', 'fr', 'de', 'it', 'jp', 'kr', 'cn'];
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
   params: { locale },
 }: {
@@ -39,7 +37,7 @@ export default async function RootLayout({
     NotFound();
   }
 
-  const messages = await getMessages();
+  const messages = useMessages();
 
   return (
     <html lang={locale}>

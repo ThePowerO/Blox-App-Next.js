@@ -16,7 +16,13 @@ type paramsProps = {
 
 const locales = ['en', 'de', 'fr', 'it', 'jp', 'kr', 'cn', 'pt'];
 
+export async function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
+
 export default function page({ params }: paramsProps) {
+  unstable_setRequestLocale(params.locale);
+  
   return (
     <Suspense fallback={<CombosDisplayFallback />}>
       <YourCombos />
