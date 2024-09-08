@@ -16,8 +16,8 @@ export default function LandingPage() {
       description: `${t("TryOutNewFeatures")}`,
       link:
         process.env.NODE_ENV === "development" 
-          ? locale === "it" ? "https://buy.stripe.com/test_dR66pJahb8B57WUbJf" : "" || // Italiano
-            locale === "en" ? "https://buy.stripe.com/test_6oEbK30GBg3x6SQ28B" : "" || // English
+          ? locale === "it" ? "https://buy.stripe.com/test_4gw3dxcpjdVp1yw5lm" : "" || // Italiano
+            locale === "en" ? "https://buy.stripe.com/test_7sI7tNfBv6sXdhe8xn" : "" || // English
             locale === "fr" ? "https://buy.stripe.com/test_00g9BVblf3gL4KI28q" : "" || // Français
             locale === "de" ? "https://buy.stripe.com/test_5kAg0j60VaJddhe14j" : "" || // Deutsch
             locale === "kr" ? "https://buy.stripe.com/test_00g9BV3SNdVp90Y6oA" : "" || // 한국어
@@ -25,8 +25,8 @@ export default function LandingPage() {
             locale === "cn" ? "https://buy.stripe.com/test_aEU5lFblf6sXfpmcNH" : "" || // 中文
             locale === "pt" ? "https://buy.stripe.com/test_aEU15pcpj6sX6SQeVR" : ""    // Português
           : 
-            locale === "it" ? "https://buy.stripe.com/test_dR66pJahb8B57WUbJf" : "" || // Italiano
-            locale === "en" ? "https://buy.stripe.com/test_6oEbK30GBg3x6SQ28B" : "" || // English
+            locale === "it" ? "https://buy.stripe.com/test_4gw3dxcpjdVp1yw5lm" : "" || // Italiano
+            locale === "en" ? "https://buy.stripe.com/test_7sI7tNfBv6sXdhe8xn" : "" || // English
             locale === "fr" ? "https://buy.stripe.com/test_00g9BVblf3gL4KI28q" : "" || // Français
             locale === "de" ? "https://buy.stripe.com/test_5kAg0j60VaJddhe14j" : "" || // Deutsch
             locale === "kr" ? "https://buy.stripe.com/test_00g9BV3SNdVp90Y6oA" : "" || // 한국어

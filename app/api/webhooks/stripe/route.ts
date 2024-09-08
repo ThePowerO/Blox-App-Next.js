@@ -40,14 +40,14 @@ export const POST = async (req: NextRequest) => {
 
       console.log("priceId (product): ", session.line_items?.data[0].price?.id);
 
-      if (priceId === "price_1PZcT4BvVijJQ1WrylJ6DThC" || 
-        priceId === "price_1PiLSCBvVijJQ1Wr1k4CY4on" ||
+      if (priceId === "price_1PZcT4BvVijJQ1WrylJ6DThC" || // English
+        priceId === "price_1PiLSCBvVijJQ1Wr1k4CY4on" || // 日本語
         priceId === "price_1PpD7IBvVijJQ1Wr2IDalWho" || // 中文
         priceId === "price_1PpDKlBvVijJQ1Wr7EtIfljm" || // português
-        priceId === "price_1PiLdxBvVijJQ1Wromqo7mX8" ||
-        priceId === "price_1PiLtcBvVijJQ1Wr8B3n8wBo" ||
-        priceId === "price_1PiM37BvVijJQ1WrD94xTLSB" ||
-        priceId === "price_1PiM7SBvVijJQ1Wro883Ek7B"
+        priceId === "price_1PiLdxBvVijJQ1Wromqo7mX8" || // 한국어
+        priceId === "price_1PiLtcBvVijJQ1Wr8B3n8wBo" || // Deutsch ?
+        priceId === "price_1PiM37BvVijJQ1WrD94xTLSB" || // Français
+        priceId === "price_1PiM7SBvVijJQ1Wro883Ek7B"    // Italiano ?
       ) { // Starter Pack
         await prisma.user.update({
           where: {
