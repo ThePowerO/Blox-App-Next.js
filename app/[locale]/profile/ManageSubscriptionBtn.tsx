@@ -15,6 +15,7 @@ export default async function ManageSubscriptionBtn() {
       <Button
         formAction={async () => {
           "use server";
+          console.log("Start of stripe billing portal");
           const session = await getServerSession(authOptions);
           if (!session) {
             return;
