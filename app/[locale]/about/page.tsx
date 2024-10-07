@@ -1,5 +1,4 @@
-s
-import React from "react";
+simport React from "react";
 import { unstable_setRequestLocale } from "next-intl/server";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
