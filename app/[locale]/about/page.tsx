@@ -1,3 +1,4 @@
+s
 import React from "react";
 import { unstable_setRequestLocale } from "next-intl/server";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
